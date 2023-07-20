@@ -16,8 +16,9 @@ const Drawer = createDrawerNavigator();
   const Stack = createNativeStackNavigator();
   const SlideDraw=()=>{
     return(
-      <Drawer.Navigator >
-      <Drawer.Screen name="Main" component={MainStack} />
+      <Drawer.Navigator>
+      <Drawer.Screen name="Home"  component={MainStack} />
+     
       {/* <Drawer.Screen name="Notifications" component={SettingsScreen} /> */}
     </Drawer.Navigator>
     )
