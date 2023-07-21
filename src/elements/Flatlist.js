@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, FlatList, Image, StyleSheet,Text,Dimensions } from 'react-native';
-
+import Blog from '../screens/TopPage/items/Blog';
 
 const data = [
-  { id: '1',name: 'Học phí',imageUrl: 'https://example.com/image1.jpg' },
+  { id: '1',name: 'Tài chính',imageUrl: './money-bag.png'},
   { id: '2',name: 'Lịch học',imageUrl: 'https://example.com/image2.jpg' },
   { id: '3',name: 'Hoạt động',imageUrl: 'https://example.com/image3.jpg' },
   { id: '4',name: 'Dịch vụ',imageUrl: 'https://example.com/image3.jpg' },
@@ -12,12 +12,12 @@ const data = [
 
 const MyFlatList = () => {
     const columns = 2;
-    const itemWidth = Dimensions.get('window').width / columns;
+    const itemWidth = Dimensions.get('window').width / 2.2;
   
   const renderItem = ({ item }) => (
    
      <View style={[styles.itemContainer,{ width: itemWidth }]} >
-      <Image source={{ uri: item.imageUrl }} style={styles.image} />
+      <Image source={require('./money-bag.png')} style={styles.image} />
       <Text>{item.name}</Text>
      </View>
    
@@ -35,14 +35,14 @@ const MyFlatList = () => {
 
 const styles = StyleSheet.create({
     itemContainer: {
-        width:'45%',
+       
         alignItems: 'center',
         justifyContent: 'center',
-        margin: 5,
-        borderRadius: 8,
+        margin: 9,
+        borderRadius: 10,
         backgroundColor: '#f0f0f0',
-        padding: 10,
-        backgroundColor:'pink'
+        padding: 5,
+        backgroundColor:'white'
       },
       image: {
         width: '100%', // Adjust the width of the image as needed
