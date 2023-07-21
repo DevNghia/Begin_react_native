@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, FlatList, Image, StyleSheet,Text,Dimensions } from 'react-native';
-import Blog from '../screens/TopPage/items/Blog';
+
 import { TouchableOpacity } from 'react-native-ui-lib';
 
 
@@ -9,11 +9,12 @@ const data = [
   { id: '2',name: 'Dịch vụ',imageUrl: require('../../assets/images/customer-service.png'),BGColor: '#efae24a1',Comp:'Service', },
   { id: '3',name: 'Hoạt động',imageUrl: require('../../assets/images/extracurricular.png'),BGColor: '#4dcfefb5',Comp:'Hoatdong', },
   { id: '4',name: 'Thực đơn',imageUrl: require('../../assets/images/thucdon.png') ,BGColor: '#ef2424a8',Comp:'Thucdon',},
-  // Add more data objects as needed
+
 ];
 
 const MyFlatList = () => {
     const columns = 2;
+
     const itemWidth = Dimensions.get('window').width / 2.2;
   
   const renderItem = ({ item }) => (
@@ -23,6 +24,7 @@ const MyFlatList = () => {
       <Text>{item.name}</Text>
      </View>
    </TouchableOpacity>
+
    
   );
 
@@ -38,6 +40,7 @@ const MyFlatList = () => {
 
 const styles = StyleSheet.create({
     itemContainer: {
+<<<<<<< HEAD
        
         alignItems: 'center',
         justifyContent: 'center',
@@ -49,6 +52,19 @@ const styles = StyleSheet.create({
       },
       image: {
         width: 100, // Adjust the width of the image as needed
+=======
+        width:'45%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 5,
+        borderRadius: 8,
+        backgroundColor: '#f0f0f0',
+        padding: 10,
+        backgroundColor:'pink'
+      },
+      image: {
+        width: '100%', // Adjust the width of the image as needed
+>>>>>>> 9ff7ece15def56839a5c6800c4d1ae04654d7ec3
         height: 100, // Adjust the height of the image as needed
         borderRadius: 8,
       },

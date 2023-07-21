@@ -16,9 +16,14 @@ const Drawer = createDrawerNavigator();
   const Stack = createNativeStackNavigator();
   const SlideDraw=()=>{
     return(
-      <Drawer.Navigator>
-      <Drawer.Screen name="Home"  component={MainStack} />
-     
+
+      <Drawer.Navigator 
+      screenOptions={{
+        headerShown: false
+      }}
+      >
+      <Drawer.Screen name="Mains" component={MainStack} />
+
       {/* <Drawer.Screen name="Notifications" component={SettingsScreen} /> */}
     </Drawer.Navigator>
     )
@@ -62,7 +67,7 @@ const AppContent = () => {
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-          {/* <Stack.Screen name="SlideDraw" component={SlideDraw} /> */}
+          
         </Stack.Navigator>
         
       </NavigationContainer>

@@ -12,7 +12,8 @@ const host = {
   api2: "http://222.252.25.188:8080",
   api_user: "https://caron.newwaytech.vn",
   api_tracking: "http://150.95.115.93:8082/api",
-  api_bss: "http://apicaron.cibos.vn/api/bss"
+  api_bss: "http://apicaron.cibos.vn/api/bss",
+  api_mamnon:"http://api.nvoting.com"
 }; //dev
 
 // const host = {

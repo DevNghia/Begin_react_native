@@ -141,11 +141,12 @@ const CommonCallWithoutUseQuery = async (api, header) => {
     }
   };
   const FetchApi = {
-    login: async ({username, password}) => {
+    login: async ({username, password, appcode}) => {
       try {
         const info = {
           password,
           username,
+          appcode
         };
         const request = JSON.stringify(info);
         const header = {
