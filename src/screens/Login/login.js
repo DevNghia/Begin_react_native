@@ -8,29 +8,23 @@ import { AppButton } from '../../elements';
 import { AccountService } from '../../utils/Account';
 import { ResetFunction } from '../../utils/modules';
 const Login = ({ navigation }) =>{
-  const { navigate } = useNavigation();
-
-  const onTopPage = () => {
-    navigate('TopPage');
-  };
-  
  
 const {handleSubmit, control} = useForm();
 const [submiting, setSubmiting] = useState(false);
 const onSubmit = async data => {
   try {
     setSubmiting(true);
-    const {password, phone} = data;
+    const {password, username, appcode} = data;
     const result = await FetchApi.login({
-      username: phone,
+      username: username,
       password: password,
+      appcode: "R"
     });
-    if (result._msg_code === 1) {
+    console.log('result: ',result);
+    if (result._msg_code === 3) {
       const data_account = {...result._data, ...{"password" : password}}
       AccountService.set(data_account);
-      // onTopPage();
       ResetFunction.resetToHome();
-      console.log("Late");
     } 
   } catch (err) {
     console.log('err', err); 
@@ -65,7 +59,7 @@ return (
       <SafeAreaView>
       <Controller
   control={control}
-  name="phone"
+  name="username"
   defaultValue=""
   rules={{ required: true }}
   render={({ field: { onChange, value }, fieldState: { error } }) => (
@@ -73,7 +67,7 @@ return (
       style={styles.input}
       underlineColorAndroid="transparent"
       value={value}
-      placeholder="Phone"
+      placeholder="Tên đăng nhập"
       placeholderTextColor="#9a73ef"
       autoCapitalize="none"
       onChangeText={onChange}
@@ -92,7 +86,7 @@ return (
       style={styles.input}
       underlineColorAndroid="transparent"
       value={value}
-      placeholder="Password"
+      placeholder="Mật khẩu"
       placeholderTextColor="#9a73ef"
       autoCapitalize="none"
       secureTextEntry={hidePass ? true : false}

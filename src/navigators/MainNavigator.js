@@ -18,7 +18,7 @@ const MainNavigator = () =>{
             tabBarIcon: ({focused, color, size}) => {
               let iconName;
     
-              if (route.name === 'Home') {
+              if (route.name === 'TabHome') {
                 iconName = focused
                   ? 'ios-information-circle'
                   : 'ios-information-circle-outline';
@@ -35,7 +35,14 @@ const MainNavigator = () =>{
             tabBarActiveTintColor: 'tomato',
             tabBarInactiveTintColor: 'gray',
           })}>
-          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="TabHome" component={AllStackNavigator}
+          options={{
+            tabBarLabel: "Home",
+          }}
+          initialParams={{
+            initialRouteName: "Home"
+          }}
+          />
           <Tab.Screen name="TabBlog" component={AllStackNavigator}
           options={{
             tabBarLabel: "Blog",

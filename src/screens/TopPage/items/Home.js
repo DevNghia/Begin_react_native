@@ -1,13 +1,19 @@
 import * as React from 'react';
-import { View, Text,StyleSheet} from 'react-native';
+import { View, Text,StyleSheet, TouchableOpacity} from 'react-native';
 import MyFlatList from '../../../elements/Flatlist';
 
 
-const  HomeScreen = () => {
+
+const  HomeScreen = ({navigation}) => {
     return (
+      
       <View  style={styles.container}>
-        {/* <Text>AAAAAAAAAAA</Text> */}
+        <TouchableOpacity 
+         onPress={() => navigation.navigate('HocPhi')}>
         <MyFlatList/>
+        </TouchableOpacity>
+        {/* <Text>AAAAAAAAAAA</Text> */}
+        
       </View>
     );
   }
