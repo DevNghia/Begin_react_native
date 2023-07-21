@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, FlatList, Image, StyleSheet,Text,Dimensions } from 'react-native';
 import Blog from '../screens/TopPage/items/Blog';
+import { TouchableOpacity } from 'react-native-ui-lib';
+
 
 const data = [
-  { id: '1',name: 'Tài chính',imageUrl: './money-bag.png'},
-  { id: '2',name: 'Lịch học',imageUrl: 'https://example.com/image2.jpg' },
-  { id: '3',name: 'Hoạt động',imageUrl: 'https://example.com/image3.jpg' },
-  { id: '4',name: 'Dịch vụ',imageUrl: 'https://example.com/image3.jpg' },
+  { id: '1',name: 'Tài chính',imageUrl: require('../../assets/images/hand.png'),BGColor: '#5ad39b',Comp:'Hocphi',},
+  { id: '2',name: 'Dịch vụ',imageUrl: require('../../assets/images/customer-service.png'),BGColor: '#efae24a1',Comp:'Service', },
+  { id: '3',name: 'Hoạt động',imageUrl: require('../../assets/images/extracurricular.png'),BGColor: '#4dcfefb5',Comp:'Hoatdong', },
+  { id: '4',name: 'Thực đơn',imageUrl: require('../../assets/images/thucdon.png') ,BGColor: '#ef2424a8',Comp:'Thucdon',},
   // Add more data objects as needed
 ];
 
@@ -15,11 +17,12 @@ const MyFlatList = () => {
     const itemWidth = Dimensions.get('window').width / 2.2;
   
   const renderItem = ({ item }) => (
-   
-     <View style={[styles.itemContainer,{ width: itemWidth }]} >
-      <Image source={require('./money-bag.png')} style={styles.image} />
+    <TouchableOpacity onPress={() => navigation.navigate(item.Comp)}>
+     <View style={[styles.itemContainer,{ width: itemWidth,backgroundColor:item.BGColor }]} >
+      <Image source={item.imageUrl} style={styles.image} />
       <Text>{item.name}</Text>
      </View>
+   </TouchableOpacity>
    
   );
 
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
         backgroundColor:'white'
       },
       image: {
-        width: '100%', // Adjust the width of the image as needed
+        width: 100, // Adjust the width of the image as needed
         height: 100, // Adjust the height of the image as needed
         borderRadius: 8,
       },

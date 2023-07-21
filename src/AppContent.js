@@ -57,7 +57,7 @@ const AppContent = () => {
       <NavigationContainer ref={navigationRef}>
        
         <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="SlideDraw" component={SlideDraw} />
+          <Stack.Screen name="SlideDraw" component={SlideDraw} />
           <Stack.Screen name="Main" component={Main} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
