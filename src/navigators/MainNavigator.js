@@ -7,12 +7,17 @@ import Scan from '../screens/TopPage/items/Scan';
 import HomeScreen from '../screens/TopPage/items/Home';
 import SettingsScreen from '../screens/TopPage/items/setting';
 import AllStackNavigator from './AllStackNavigator';
+import HoatDong from '../screens/HoatDong/HoatDong';
+import SucKhoe from '../screens/SucKhoe/SucKhoe';
+import ThucDon from '../screens/ThucDon/ThucDon';
+import LoiNhan from '../screens/LoiNhan/LoiNhan';
 
 const MainNavigator = () =>{
 
     const Tab = createBottomTabNavigator();
     return (
         <Tab.Navigator
+        initialRouteName="TabHome"
           screenOptions={({route}) => ({
             headerShown: false,
             tabBarIcon: ({focused, color, size}) => {
@@ -38,8 +43,8 @@ const MainNavigator = () =>{
             tabBarActiveTintColor: 'black',
             tabBarInactiveTintColor: 'gray',
           })}>
-              <Tab.Screen name="Hoạt động" component={Scan} />
-              <Tab.Screen name="Sức khỏe" component={Scan} />
+              <Tab.Screen name="Hoạt động" component={HoatDong} />
+              <Tab.Screen name="Sức khỏe" component={SucKhoe} />
               <Tab.Screen name="TabHome" component={AllStackNavigator}
           options={{
             tabBarLabel: "Home",
@@ -48,8 +53,8 @@ const MainNavigator = () =>{
             initialRouteName: "Home"
           }}
           />
-              <Tab.Screen name="Thực đơn" component={Scan} />
-              <Tab.Screen name="Lời nhắn" component={Scan} />
+              <Tab.Screen name="Thực đơn" component={ThucDon} />
+              <Tab.Screen name="Lời nhắn" component={LoiNhan} />
           
         </Tab.Navigator>
     

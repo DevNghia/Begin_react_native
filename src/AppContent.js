@@ -41,48 +41,48 @@ const Drawer = createDrawerNavigator();
   //   console.log("nghĩabeossssssss", data),
     
   // );
-  const profile = async (api, headers) => {
-    try {
-      // Tạo các options cho fetch
-      const options = {
-        method: 'GET',
-        headers: {
-          ...headers.reduce((acc, header) => {
-            acc[header.key] = header.value;
-            return acc;
-          }, {}),
-        },
-      };
+  // const profile = async (api, headers) => {
+  //   try {
+  //     // Tạo các options cho fetch
+  //     const options = {
+  //       method: 'GET',
+  //       headers: {
+  //         ...headers.reduce((acc, header) => {
+  //           acc[header.key] = header.value;
+  //           return acc;
+  //         }, {}),
+  //       },
+  //     };
   
-      const response = await fetch(api, options);
-      const responseData = await response.json();
-      return responseData;
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  };
+  //     const response = await fetch(api, options);
+  //     const responseData = await response.json();
+  //     return responseData;
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     throw error;
+  //   }
+  // };
   
-  // Ví dụ sử dụng hàm profile để lấy thông tin người dùng
-  const apiUrl = 'http://api.nvoting.com/ps_user/profile'; // Địa chỉ URL API lấy thông tin người dùng
-  const headers = [
-    { key: 'deviceid', value: 'ffffffff-d336-0bb2-ffff-ffffe5332189', type: 'text' },
-    { key: 'Authorization', value: 'Bearer 1df87052482606b2b09f0bb4335180b9899a3c5c3a59e1633c9d0e73097908f1', type: 'text' },
-  ];
+  // // Ví dụ sử dụng hàm profile để lấy thông tin người dùng
+  // const apiUrl = 'http://api.nvoting.com/ps_user/profile'; // Địa chỉ URL API lấy thông tin người dùng
+  // const headers = [
+  //   { key: 'deviceid', value: 'ffffffff-d336-0bb2-ffff-ffffe5332189', type: 'text' },
+  //   { key: 'Authorization', value: 'Bearer 1df87052482606b2b09f0bb4335180b9899a3c5c3a59e1633c9d0e73097908f1', type: 'text' },
+  // ];
   
-  profile(apiUrl, headers)
-    .then((data) => {
-      // Xử lý dữ liệu nhận được từ API
-      // Ví dụ: log ra console
-      console.log('Data:', data);
-    })
-    .catch((error) => {
-      // Xử lý lỗi nếu có
-      console.error(error);
-    });
-  const ids = DeviceInfo.getUniqueId();
-  const account = AccountService.get();
-  console.log('idddddđđ', ids)
+  // profile(apiUrl, headers)
+  //   .then((data) => {
+  //     // Xử lý dữ liệu nhận được từ API
+  //     // Ví dụ: log ra console
+  //     console.log('Data:', data);
+  //   })
+  //   .catch((error) => {
+  //     // Xử lý lỗi nếu có
+  //     console.error(error);
+  //   });
+  // const ids = DeviceInfo.getUniqueId();
+  // const account = AccountService.get();
+  // console.log('idddddđđ', ids)
     return(
       <View style={{
         height: Sizes.device_width < Sizes.device_height ? 50 : 70,
