@@ -20,22 +20,27 @@ const MainNavigator = () =>{
     
               if (route.name === 'TabHome') {
                 iconName = focused
-                  ? 'ios-information-circle'
-                  : 'ios-information-circle-outline';
-              } else if (route.name === 'Settings') {
-                iconName = focused ? 'ios-list' : 'ios-list-outline';
-              }else if (route.name === 'TabBlog'){
-                iconName = focused ? 'md-book' : 'md-book-outline';
-              }else if (route.name === 'Scan'){
-                iconName = focused ? 'qr-code' : 'qr-code-outline';
+                  ? 'home-sharp'
+                  : 'home-outline';
+              } else if (route.name === 'Hoạt động') {
+                iconName = focused ? 'calendar-sharp' : 'calendar-outline';
+              }else if (route.name === 'Sức khỏe'){
+                iconName = focused ? 'shield' : 'shield-outline';
+              }else if (route.name === 'Thực đơn'){
+                iconName = focused ? 'restaurant' : 'restaurant-outline';
+              }else if (route.name === 'Lời nhắn'){
+                iconName = focused ? 'newspaper-sharp' : 'newspaper-outline';
               }
+              
               // You can return any component that you like here!
               return <Ionicons name={iconName} size={size} color={color} />;
             },
-            tabBarActiveTintColor: 'tomato',
+            tabBarActiveTintColor: 'black',
             tabBarInactiveTintColor: 'gray',
           })}>
-          <Tab.Screen name="TabHome" component={AllStackNavigator}
+              <Tab.Screen name="Hoạt động" component={Scan} />
+              <Tab.Screen name="Sức khỏe" component={Scan} />
+              <Tab.Screen name="TabHome" component={AllStackNavigator}
           options={{
             tabBarLabel: "Home",
           }}
@@ -43,16 +48,9 @@ const MainNavigator = () =>{
             initialRouteName: "Home"
           }}
           />
-          <Tab.Screen name="TabBlog" component={AllStackNavigator}
-          options={{
-            tabBarLabel: "Blog",
-          }}
-          initialParams={{
-            initialRouteName: "Blog"
-          }}
-          />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
-          <Tab.Screen name="Scan" component={Scan} />
+              <Tab.Screen name="Thực đơn" component={Scan} />
+              <Tab.Screen name="Lời nhắn" component={Scan} />
+          
         </Tab.Navigator>
     
       );

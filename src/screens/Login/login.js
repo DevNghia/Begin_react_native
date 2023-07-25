@@ -52,7 +52,7 @@ const renderSecure = () => {
 return (
   <View style={styles.container}>
     <View style={styles.header}>
-      <Image style={styles.tinyLogo} source={require('../Main/logo1.png')} />
+      <Image style={styles.tinyLogo} source={require('../Main/banner_kidsschool.png')} />
     </View>
     <View style={styles.content}>
       <Text style={styles.text1} >Welcome back.</Text>
@@ -139,7 +139,7 @@ return (
       fontWeight: 'bold',
     },
     tinyLogo: {
-      width: 100,
+      width: 200,
       height: 100,
     
     },

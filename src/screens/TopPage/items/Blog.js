@@ -8,7 +8,6 @@ import { FetchApi } from '../../../utils/modules';
 const  Blog = ({navigation}) => {
     const {data, isLoading} = useQuery('useGetNewsType', () =>
     FetchApi.getNewsType(1),
-    console.log('ngh')
   );
 
 //   if (isLoading) {

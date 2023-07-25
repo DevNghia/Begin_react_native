@@ -83,8 +83,9 @@ const CommonCallWithoutUseQuery = async (api, header) => {
     try {
       let headers = {
         'Content-Type': 'application/json',
-        deviceid: getUniqueId(),
+        deviceid: 'ffffffff-d336-0bb2-ffff-ffffe5332189',
       };
+      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',headers);
       if (header) {
         //overide Content-type
         headers = {
@@ -195,6 +196,33 @@ const CommonCallWithoutUseQuery = async (api, header) => {
           };
           const api = Apis.getNewsDetail(id);
           const result = await CommonCall(api, header);
+          return result;
+        } catch (error) {
+          return {message: error.message};
+        }
+      },
+      getNewsType: async is_type => {
+        try {
+          const header = {
+            method: 'GET',
+          };
+          const api = Apis.getNewsType(is_type);
+          const result = await CommonCall(api, header);
+          if (result._msg_code === 1) {
+            return result._data?.dsTin || [];
+          }
+          return result;
+        } catch (error) {
+          return {message: error.message};
+        }
+      },
+      profile: async id => {
+        try {
+          const header = {
+            method: 'GET',
+          };
+          const api = Apis.profile;
+          const result = await CommonCallWithoutUseQuery(api, header);
           return result;
         } catch (error) {
           return {message: error.message};

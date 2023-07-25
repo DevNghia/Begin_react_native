@@ -13,7 +13,7 @@ const AllStackNavigator = ({ navigation, route }) => {
   const { initialRouteName } = route.params;
   return (
     <Stack.Navigator
-    //   screenOptions={{ headerShown: false }}
+      screenOptions={{ headerShown: false }}
       initialRouteName={initialRouteName}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
