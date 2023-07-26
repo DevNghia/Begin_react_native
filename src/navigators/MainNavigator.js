@@ -12,52 +12,58 @@ import SucKhoe from '../screens/SucKhoe/SucKhoe';
 import ThucDon from '../screens/ThucDon/ThucDon';
 import LoiNhan from '../screens/LoiNhan/LoiNhan';
 
-const MainNavigator = () =>{
+const MainNavigator = () => {
+  const Tab = createBottomTabNavigator();
+  return (
+    <Tab.Navigator
+      initialRouteName="TabHome"
+      screenOptions={({route}) => ({
+        headerShown: false,
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
 
-    const Tab = createBottomTabNavigator();
-    return (
-        <Tab.Navigator
-        initialRouteName="TabHome"
-          screenOptions={({route}) => ({
-            headerShown: false,
-            tabBarIcon: ({focused, color, size}) => {
-              let iconName;
-    
-              if (route.name === 'TabHome') {
-                iconName = focused
-                  ? 'home-sharp'
-                  : 'home-outline';
-              } else if (route.name === 'Hoạt động') {
-                iconName = focused ? 'calendar-sharp' : 'calendar-outline';
-              }else if (route.name === 'Sức khỏe'){
-                iconName = focused ? 'shield' : 'shield-outline';
-              }else if (route.name === 'Thực đơn'){
-                iconName = focused ? 'restaurant' : 'restaurant-outline';
-              }else if (route.name === 'Lời nhắn'){
-                iconName = focused ? 'newspaper-sharp' : 'newspaper-outline';
-              }
-              
-              // You can return any component that you like here!
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-            tabBarActiveTintColor: 'black',
-            tabBarInactiveTintColor: 'gray',
-          })}>
-              <Tab.Screen name="Hoạt động" component={HoatDong} />
-              <Tab.Screen name="Sức khỏe" component={SucKhoe} />
-              <Tab.Screen name="TabHome" component={AllStackNavigator}
-          options={{
-            tabBarLabel: "Home",
-          }}
-          initialParams={{
-            initialRouteName: "Home"
-          }}
-          />
-              <Tab.Screen name="Thực đơn" component={ThucDon} />
-              <Tab.Screen name="Lời nhắn" component={LoiNhan} />
-          
-        </Tab.Navigator>
-    
-      );
-    };
-    export default MainNavigator;
+          if (route.name === 'TabHome') {
+            iconName = focused ? 'home-sharp' : 'home-outline';
+          } else if (route.name === 'Hoạt động') {
+            iconName = focused ? 'calendar-sharp' : 'calendar-outline';
+          } else if (route.name === 'Sức khỏe') {
+            iconName = focused ? 'shield' : 'shield-outline';
+          } else if (route.name === 'Thực đơn') {
+            iconName = focused ? 'restaurant' : 'restaurant-outline';
+          } else if (route.name === 'TabLoiNhan') {
+            iconName = focused ? 'newspaper-sharp' : 'newspaper-outline';
+          }
+
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'black',
+        tabBarInactiveTintColor: 'gray',
+      })}>
+      <Tab.Screen name="Hoạt động" component={HoatDong} />
+      <Tab.Screen name="Sức khỏe" component={SucKhoe} />
+      <Tab.Screen
+        name="TabHome"
+        component={AllStackNavigator}
+        options={{
+          tabBarLabel: 'Home',
+        }}
+        initialParams={{
+          initialRouteName: 'Home',
+        }}
+      />
+      <Tab.Screen name="Thực đơn" component={ThucDon} />
+      <Tab.Screen
+        name="TabLoiNhan"
+        component={AllStackNavigator}
+        options={{
+          tabBarLabel: 'Lời nhắn',
+        }}
+        initialParams={{
+          initialRouteName: 'LoiNhan',
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+export default MainNavigator;
