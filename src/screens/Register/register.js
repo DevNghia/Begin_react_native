@@ -69,7 +69,7 @@ const Register = ({navigation}) => {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView enableOnAndroid={true}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image
