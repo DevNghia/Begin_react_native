@@ -2,7 +2,7 @@ import * as React from 'react';
 import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
 import {Sizes} from '../../utils/resource';
 
-const TinTuc = ({navigation}) => {
+const Notification = ({navigation}) => {
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -17,14 +17,14 @@ const TinTuc = ({navigation}) => {
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>Tin Tức </Text>
+          <Text style={{color: 'black', fontSize: 20}}>Thông báo </Text>
         </View>
         <View style={styles.blockList}>
           <Image
-            style={{width: 130, height: 70}}
+            style={{width: 80, height: 35}}
             source={require('../Main/banner_kidsschool.png')}
           />
-          <Text style={{color: 'black'}}>Bản tin tháng 7</Text>
+          <Text style={{color: 'black'}}>Có tin mới: Thông báo về lịch</Text>
         </View>
       </ScrollView>
     </View>
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
-export default TinTuc;
+export default Notification;
