@@ -30,8 +30,7 @@ const  SucKhoe = () => {
 
        }}>
         <View style={styles.image}>
-        <Image source={require('../../utils/Icons/payments.png')}
-        style={styles.avatar}/>
+        <Icon name="baby-face-outline" size={45} color="#22A249"  style={styles.image} />
         </View>
       
       <Text style={{color:'black',fontSize:14,marginHorizontal:20,}}>Đang xem thông tin của bé Giang </Text>
@@ -99,8 +98,7 @@ const  SucKhoe = () => {
         backgroundColor: 'white',
     },
     image: {
-      width: 50, // Kích thước của avatar
-      height: 50,
+ 
       borderRadius: 50, // Đặt borderRadius thành nửa kích thước để làm hình ảnh tròn
       overflow: 'hidden', // Giữ cho hình ảnh không bị tràn ra khỏi khung
     },
