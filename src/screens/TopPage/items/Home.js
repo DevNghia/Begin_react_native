@@ -115,7 +115,12 @@ const HomeScreen = ({navigation}) => {
           justifyContent: 'space-between',
         }}>
         <Image
-          style={{width: 38, height: 30, borderColor: 'black'}}
+          style={{
+            width: 38,
+            height: 30,
+            borderColor: 'black',
+            tintColor: 'white',
+          }}
           source={require('../../../utils/Icons/child_care.png')}
         />
         <Text style={{color: 'white'}}>Thứ hai,24/07/2023</Text>

@@ -46,7 +46,7 @@ const Login = ({navigation}) => {
     return (
       <Icon
         size={20}
-        color="#9a73ef"
+        color="green"
         style={{
           position: 'absolute',
           right: 20,
@@ -66,7 +66,7 @@ const Login = ({navigation}) => {
         />
       </View>
       <View style={styles.content}>
-        <Text style={styles.text1}>Welcome back</Text>
+        {/* <Text style={styles.text1}>Ki</Text> */}
         <SafeAreaView>
           <Controller
             control={control}
@@ -79,7 +79,7 @@ const Login = ({navigation}) => {
                 underlineColorAndroid="transparent"
                 value={value}
                 placeholder="Tên đăng nhập"
-                placeholderTextColor="#9a73ef"
+                placeholderTextColor="green"
                 autoCapitalize="none"
                 onChangeText={onChange}
               />
@@ -98,7 +98,7 @@ const Login = ({navigation}) => {
                   underlineColorAndroid="transparent"
                   value={value}
                   placeholder="Mật khẩu"
-                  placeholderTextColor="#9a73ef"
+                  placeholderTextColor="green"
                   autoCapitalize="none"
                   secureTextEntry={hidePass ? true : false}
                   onChangeText={onChange}
@@ -116,7 +116,7 @@ const Login = ({navigation}) => {
         <AppButton
           onPress={handleSubmit(onSubmit)}
           disabled={submiting}
-          title="Login"
+          title="Đăng nhập"
           size="sm"
         />
       </View>

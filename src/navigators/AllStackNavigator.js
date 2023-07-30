@@ -13,6 +13,7 @@ import TinTuc from '../screens/TinTuc/TinTuc';
 import TaoDonXinNghi from '../screens/TaoDonXinNghi/TaoDonXinNghi';
 import LoiNhan from '../screens/LoiNhan/LoiNhan';
 import TaoLoiNhanMoi from '../screens/TaoLoiNhanMoi/TaoLoiNhanMoi';
+import Notification from '../screens/Notification/Notification';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ const AllStackNavigator = ({navigation, route}) => {
       <Stack.Screen name="DanhGia" component={DanhGia} />
       <Stack.Screen name="HocPhi" component={HocPhi} />
       <Stack.Screen name="Blog" component={Blog} />
+      <Stack.Screen name="Notification" component={Notification} />
       <Stack.Screen name="NewAndBlogDetail" component={NewAndBlogDetail} />
     </Stack.Navigator>
   );

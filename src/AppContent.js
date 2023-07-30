@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import 'react-native-gesture-handler';
-import {View, Text, Button, Image} from 'react-native';
+import {View, Text, Button, Image, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Main from './screens/Main/main';
@@ -14,26 +14,84 @@ import MainNavigator from './navigators/MainNavigator';
 import {Sizes} from './utils/resource';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {FetchApi} from './utils/modules';
-import {useQuery} from 'react-query';
-import {AccountService} from './utils/Account';
-import {getUniqueId} from 'react-native-device-info';
-import DeviceInfo from 'react-native-device-info';
+import {TouchableCo} from './elements';
+import {useNavigation} from '@react-navigation/core';
+
+// import {MenuFunction} from './navigators/Items';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+const MenuFunctionItem = ({data}) => {
+  return (
+    <TouchableCo onPress={data.onPress}>
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingVertical: Sizes.padding * 1.2,
+          marginHorizontal: Sizes.padding,
+          borderBottomColor: 'gray',
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          justifyContent: 'space-between',
+        }}>
+        <Text style={{fontSize: Sizes.h4, color: 'black'}}>{data.label}</Text>
+        <Ionicons color={'black'} name={'arrow-forward'} size={20} />
+      </View>
+    </TouchableCo>
+  );
+};
+const MenuFunction = () => {
+  const navigation = useNavigation();
+  const menuList = [
+    {
+      label: 'Tin Tức',
+      onPress: () => navigation.navigate('TinTuc'),
+    },
+    {
+      label: 'Đăng xuất',
+      onPress: () => {
+        try {
+          // FetchApi.logout();
+          NavigationService.ResetFunction.resetToLogin();
+          //   AccountService.set({});
+          //   const tag = 'fcmToken';
+
+          //   const mmkvId = `mmkv-${tag}`;
+          //   const mmkvKey = `key-${tag}`;
+
+          //   const MMKVwithID = new MMKVStorage.Loader()
+          //     .withInstanceID(mmkvId)
+          //     .initialize();
+
+          //   MMKVwithID.setMap(mmkvKey, {});
+        } catch (error) {}
+      },
+    },
+  ];
+
+  return (
+    <View>
+      {menuList.map(item => {
+        return <MenuFunctionItem data={item} key={item.label} />;
+      })}
+    </View>
+  );
+};
+const menu2 = ({navigation}) => {
+  return <MenuFunction />;
+};
 const SlideDraw = () => {
   return (
     <Drawer.Navigator
+      drawerType={'back'}
+      drawerContent={menu2}
       screenOptions={{
         headerShown: false,
       }}>
       <Drawer.Screen name="Mains" component={MainStack} />
-      {/* <Drawer.Screen name="Notifications" component={SettingsScreen} /> */}
     </Drawer.Navigator>
   );
 };
-const HeaderApp = () => {
+const HeaderApp = ({navigation}) => {
   const insets = useSafeAreaInsets();
   //   const {data, isLoading} = useQuery('useGetProfile', () =>
   //   FetchApi.profile(),
@@ -93,21 +151,22 @@ const HeaderApp = () => {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        // borderWidth: 1,
       }}>
-      {/* <Ionicons  name={'person-circle'} size={30} color={'pink'}/> */}
-      <Image
-        style={{width: 25, height: 17, borderColor: 'black'}}
-        source={require('./utils/Icons/menu.png')}
-      />
-      <Image
-        style={{width: 100, height: 45, borderColor: 'black'}}
-        source={require('./utils/Images/banner_kidsschool.png')}
-      />
-      <Image
-        style={{width: 17, height: 21, borderColor: 'black'}}
-        source={require('./utils/Icons/notifications.png')}
-      />
+      <TouchableCo
+        onPress={() => {
+          navigation.toggleDrawer();
+        }}>
+        <Ionicons name={'menu'} size={33} color={'black'} />
+      </TouchableCo>
+      <TouchableCo onPress={() => navigation.navigate('Home')}>
+        <Image
+          style={{width: 100, height: 45, borderColor: 'black'}}
+          source={require('./utils/Images/banner_kidsschool.png')}
+        />
+      </TouchableCo>
+      <TouchableCo onPress={() => navigation.navigate('Notification')}>
+        <Ionicons name={'notifications'} size={30} color={'black'} />
+      </TouchableCo>
     </View>
   );
 };
@@ -142,9 +201,15 @@ const AppContent = () => {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="SlideDraw" component={SlideDraw} />
+<<<<<<< HEAD
         <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
+=======
+        {/* <Stack.Screen name="Main" component={Main} /> */}
+        <Stack.Screen name="Login" component={Login} />
+        {/* <Stack.Screen name="Register" component={Register} /> */}
+>>>>>>> 13c6f8624c9004c23ccedc695d25f3dc907aff6d
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         {/* <Stack.Screen name="SlideDraw" component={SlideDraw} /> */}
       </Stack.Navigator>
