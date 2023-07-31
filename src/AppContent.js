@@ -16,9 +16,11 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TouchableCo} from './elements';
 import {useNavigation} from '@react-navigation/core';
-
+import {useQuery} from 'react-query';
 // import {MenuFunction} from './navigators/Items';
-
+import {AccountService} from './utils/Account';
+import {FetchApi} from './utils/modules';
+import {ResetFunction} from './utils/modules';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const MenuFunctionItem = ({data}) => {
@@ -50,19 +52,19 @@ const MenuFunction = () => {
       label: 'Đăng xuất',
       onPress: () => {
         try {
-          // FetchApi.logout();
-          NavigationService.ResetFunction.resetToLogin();
-          //   AccountService.set({});
-          //   const tag = 'fcmToken';
+          FetchApi.logout();
+          ResetFunction.resetToLogin();
+          // AccountService.set({});
+          // const tag = 'fcmToken';
 
-          //   const mmkvId = `mmkv-${tag}`;
-          //   const mmkvKey = `key-${tag}`;
+          // const mmkvId = `mmkv-${tag}`;
+          // const mmkvKey = `key-${tag}`;
 
-          //   const MMKVwithID = new MMKVStorage.Loader()
-          //     .withInstanceID(mmkvId)
-          //     .initialize();
+          // const MMKVwithID = new MMKVStorage.Loader()
+          //   .withInstanceID(mmkvId)
+          //   .initialize();
 
-          //   MMKVwithID.setMap(mmkvKey, {});
+          // MMKVwithID.setMap(mmkvKey, {});
         } catch (error) {}
       },
     },
@@ -93,53 +95,59 @@ const SlideDraw = () => {
 };
 const HeaderApp = ({navigation}) => {
   const insets = useSafeAreaInsets();
-  //   const {data, isLoading} = useQuery('useGetProfile', () =>
-  //   FetchApi.profile(),
-  //   console.log("nghĩabeossssssss", data),
-
+  const account = AccountService.get();
+  // const {data, isLoading} = useQuery(
+  //   'useGetProfile',
+  //   () => FetchApi.profile(),
+  //   console.log('nghĩabeossssssss', data),
   // );
-  // const profile = async (api, headers) => {
-  //   try {
-  //     // Tạo các options cho fetch
-  //     const options = {
-  //       method: 'GET',
-  //       headers: {
-  //         ...headers.reduce((acc, header) => {
-  //           acc[header.key] = header.value;
-  //           return acc;
-  //         }, {}),
-  //       },
-  //     };
+  const profile = async (api, headers) => {
+    try {
+      // Tạo các options cho fetch
+      const options = {
+        method: 'GET',
+        headers: {
+          ...headers.reduce((acc, header) => {
+            acc[header.key] = header.value;
+            return acc;
+          }, {}),
+        },
+      };
 
-  //     const response = await fetch(api, options);
-  //     const responseData = await response.json();
-  //     return responseData;
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //     throw error;
-  //   }
-  // };
+      const response = await fetch(api, options);
+      const responseData = await response.json();
+      return responseData;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  };
 
-  // // Ví dụ sử dụng hàm profile để lấy thông tin người dùng
-  // const apiUrl = 'http://api.nvoting.com/ps_user/profile'; // Địa chỉ URL API lấy thông tin người dùng
-  // const headers = [
-  //   { key: 'deviceid', value: 'ffffffff-d336-0bb2-ffff-ffffe5332189', type: 'text' },
-  //   { key: 'Authorization', value: 'Bearer 1df87052482606b2b09f0bb4335180b9899a3c5c3a59e1633c9d0e73097908f1', type: 'text' },
-  // ];
+  // Ví dụ sử dụng hàm profile để lấy thông tin người dùng
+  const apiUrl = 'http://api.nvoting.com/ps_user/profile'; // Địa chỉ URL API lấy thông tin người dùng
+  const headers = [
+    {
+      key: 'deviceid',
+      value: '2D92C8D4-942D-455D-85A2-4B22AB84BE3F',
+      type: 'text',
+    },
+    {
+      key: 'Authorization',
+      value: 'Bearer ' + account.api_token,
+      type: 'text',
+    },
+  ];
 
   // profile(apiUrl, headers)
-  //   .then((data) => {
+  //   .then(data => {
   //     // Xử lý dữ liệu nhận được từ API
   //     // Ví dụ: log ra console
   //     console.log('Data:', data);
   //   })
-  //   .catch((error) => {
+  //   .catch(error => {
   //     // Xử lý lỗi nếu có
   //     console.error(error);
   //   });
-  // const ids = DeviceInfo.getUniqueId();
-  // const account = AccountService.get();
-  // console.log('idddddđđ', ids)
   return (
     <View
       style={{
@@ -200,12 +208,12 @@ const AppContent = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="SlideDraw" component={SlideDraw} />
+        {/* <Stack.Screen name="SlideDraw" component={SlideDraw} /> */}
         {/* <Stack.Screen name="Main" component={Main} /> */}
         <Stack.Screen name="Login" component={Login} />
         {/* <Stack.Screen name="Register" component={Register} /> */}
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        {/* <Stack.Screen name="SlideDraw" component={SlideDraw} /> */}
+        <Stack.Screen name="SlideDraw" component={SlideDraw} />
       </Stack.Navigator>
     </NavigationContainer>
   );

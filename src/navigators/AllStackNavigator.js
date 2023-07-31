@@ -14,6 +14,9 @@ import TaoDonXinNghi from '../screens/TaoDonXinNghi/TaoDonXinNghi';
 import LoiNhan from '../screens/LoiNhan/LoiNhan';
 import TaoLoiNhanMoi from '../screens/TaoLoiNhanMoi/TaoLoiNhanMoi';
 import Notification from '../screens/Notification/Notification';
+import SucKhoe from '../screens/SucKhoe/SucKhoe';
+import TableHeight from '../screens/TableHeight/TableHeight';
+import TableWeight from '../screens/TableWeight/TableWeight';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +39,9 @@ const AllStackNavigator = ({navigation, route}) => {
       <Stack.Screen name="Blog" component={Blog} />
       <Stack.Screen name="Notification" component={Notification} />
       <Stack.Screen name="NewAndBlogDetail" component={NewAndBlogDetail} />
+      <Stack.Screen name="SucKhoe" component={SucKhoe} />
+      <Stack.Screen name="TableHeight" component={TableHeight} />
+      <Stack.Screen name="TableWeight" component={TableWeight} />
     </Stack.Navigator>
   );
 };

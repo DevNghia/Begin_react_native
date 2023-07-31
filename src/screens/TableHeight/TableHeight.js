@@ -1,22 +1,19 @@
-import React from 'react';
-import {ScrollView, Text, Image, useWindowDimensions} from 'react-native';
-import {useQuery} from 'react-query';
-import {FetchApi} from '../../utils/modules';
+import * as React from 'react';
+import {View, Text, ScrollView, useWindowDimensions} from 'react-native';
 import {Sizes} from '../../utils/resource';
 import HTML from 'react-native-render-html';
 import {Loading} from '../../elements';
-const NewAndBlogDetail = ({navigation, route}) => {
+import {useQuery} from 'react-query';
+import {FetchApi} from '../../utils/modules';
+const TableHeight = () => {
   const contentWidth = useWindowDimensions().width;
-  const datas = route.params?.dataProps;
-  const {data, isError, refetch, error, isLoading} = useQuery(
-    ['NewAndBlogDetail'],
-    () => FetchApi.getNewsDetail(datas.id, 11),
+  const {data, isLoading} = useQuery(['NewTableHeight'], () =>
+    FetchApi.getTableHeight(11),
   );
 
   if (isLoading) {
     return <Loading />;
   }
-  // const isDarkMode = code === 'dark';
   return (
     <ScrollView
       style={{padding: Sizes.padding}}
@@ -25,7 +22,7 @@ const NewAndBlogDetail = ({navigation, route}) => {
         containerStyle={{flex: 1, width: '100%'}}
         ignoredStyles={['height', 'display', 'width']}
         contentWidth={contentWidth}
-        source={{html: data?._data?.data_info?.content}}
+        source={{html: data?._data?.content}}
         baseStyle={{color: 'black'}}
         // tagsStyles={{
         //   p: {color: 'black'},
@@ -37,5 +34,4 @@ const NewAndBlogDetail = ({navigation, route}) => {
     </ScrollView>
   );
 };
-
-export default NewAndBlogDetail;
+export default TableHeight;

@@ -1,10 +1,8 @@
 import * as React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import MyFlatList from '../../../elements/Flatlist';
 import {Sizes} from '../../../utils/resource';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 const HomeScreen = ({navigation}) => {
   const insets = useSafeAreaInsets();
   return (

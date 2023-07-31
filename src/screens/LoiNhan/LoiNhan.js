@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FCEEEE',
     justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   blockList: {
     height: Sizes.device_width < Sizes.device_height,
