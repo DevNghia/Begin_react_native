@@ -37,6 +37,27 @@ const ResetFunction = {
       ]
     });
   },
+  resetToChoose: navigation => {
+    if (navigation) {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "ChonCon",
+          }
+        ]
+      });
+      return;
+    }
+    NavigationService.reset({
+      index: 0,
+      routes: [
+        {
+          name: "ChonCon",
+        }
+      ]
+    });
+  },
   resetToLogin: navigation => {
     // AccountService.set();
 

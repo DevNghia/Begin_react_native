@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Main from './screens/Main/main';
 import Login from './screens/Login/login';
+import ChonCon from './screens/Choose/Choose';
 import ForgotPassword from './screens/ForgotPassword/fogotpassword';
 import Register from './screens/Register/register';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -200,18 +201,13 @@ const AppContent = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="SlideDraw" component={SlideDraw} />
-<<<<<<< HEAD
-        <Stack.Screen name="Main" component={Main} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-=======
+        {/* <Stack.Screen name="SlideDraw" component={SlideDraw} /> */}
         {/* <Stack.Screen name="Main" component={Main} /> */}
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="ChonCon" component={ChonCon} />
         {/* <Stack.Screen name="Register" component={Register} /> */}
->>>>>>> 13c6f8624c9004c23ccedc695d25f3dc907aff6d
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        {/* <Stack.Screen name="SlideDraw" component={SlideDraw} /> */}
+        <Stack.Screen name="SlideDraw" component={SlideDraw} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -33,7 +33,7 @@ const Login = ({navigation}) => {
       if (result._msg_code === 3) {
         const data_account = {...result._data, ...{password: password}};
         AccountService.set(data_account);
-        ResetFunction.resetToHome();
+        ResetFunction.resetToChoose();
       }
     } catch (err) {
       console.log('err', err);
