@@ -26,9 +26,9 @@ const MainNavigator = () => {
             iconName = focused ? 'home-sharp' : 'home-outline';
           } else if (route.name === 'Hoạt động') {
             iconName = focused ? 'calendar-sharp' : 'calendar-outline';
-          } else if (route.name === 'Sức khỏe') {
+          } else if (route.name === 'TabSucKhoe') {
             iconName = focused ? 'shield' : 'shield-outline';
-          } else if (route.name === 'Thực đơn') {
+          } else if (route.name === 'TabThucDon') {
             iconName = focused ? 'restaurant' : 'restaurant-outline';
           } else if (route.name === 'TabLoiNhan') {
             iconName = focused ? 'newspaper-sharp' : 'newspaper-outline';
@@ -41,18 +41,36 @@ const MainNavigator = () => {
         tabBarInactiveTintColor: 'gray',
       })}>
       <Tab.Screen name="Hoạt động" component={HoatDong} />
-      <Tab.Screen name="Sức khỏe" component={SucKhoe} />
+      <Tab.Screen
+        name="TabSucKhoe"
+        component={AllStackNavigator}
+        options={{
+          tabBarLabel: 'Sức khỏe',
+        }}
+        initialParams={{
+          initialRouteName: 'SucKhoe',
+        }}
+      />
       <Tab.Screen
         name="TabHome"
         component={AllStackNavigator}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Trang chủ',
         }}
         initialParams={{
           initialRouteName: 'Home',
         }}
       />
-      <Tab.Screen name="Thực đơn" component={ThucDon} />
+      <Tab.Screen
+        name="TabThucDon"
+        component={AllStackNavigator}
+        options={{
+          tabBarLabel: 'Thực đơn',
+        }}
+        initialParams={{
+          initialRouteName: 'ThucDon',
+        }}
+      />
       <Tab.Screen
         name="TabLoiNhan"
         component={AllStackNavigator}

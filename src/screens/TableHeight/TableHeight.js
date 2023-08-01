@@ -5,10 +5,10 @@ import HTML from 'react-native-render-html';
 import {Loading} from '../../elements';
 import {useQuery} from 'react-query';
 import {FetchApi} from '../../utils/modules';
-const ThucDon = () => {
+const TableHeight = () => {
   const contentWidth = useWindowDimensions().width;
-  const {data, isLoading} = useQuery(['NewThucDon'], () =>
-    FetchApi.getMenus(11),
+  const {data, isLoading} = useQuery(['NewTableHeight'], () =>
+    FetchApi.getTableHeight(11),
   );
 
   if (isLoading) {
@@ -34,4 +34,4 @@ const ThucDon = () => {
     </ScrollView>
   );
 };
-export default ThucDon;
+export default TableHeight;

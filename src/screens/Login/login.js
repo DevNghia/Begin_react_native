@@ -20,6 +20,14 @@ import {ResetFunction} from '../../utils/modules';
 const Login = ({navigation}) => {
   const {handleSubmit, control} = useForm();
   const [submiting, setSubmiting] = useState(false);
+  const registerDeviceid = async () => {
+    try {
+      const data = await FetchApi.registerDeviceid();
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+      // Xử lý lỗi ở đây
+    }
+  };
   const onSubmit = async data => {
     try {
       setSubmiting(true);
@@ -30,10 +38,15 @@ const Login = ({navigation}) => {
         appcode: 'R',
       });
       console.log('result: ', result);
-      if (result._msg_code === 3) {
+      if (result._msg_code === 1) {
         const data_account = {...result._data, ...{password: password}};
         AccountService.set(data_account);
+<<<<<<< HEAD
         ResetFunction.resetToChoose();
+=======
+        registerDeviceid();
+        ResetFunction.resetToHome();
+>>>>>>> nghia2
       }
     } catch (err) {
       console.log('err', err);
