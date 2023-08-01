@@ -1,10 +1,5 @@
 import * as React from 'react';
-<<<<<<< HEAD
-import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
-import {Sizes} from '../../utils/resource';
 
-const TinTuc = ({navigation}) => {
-=======
 import {
   View,
   Text,
@@ -24,7 +19,7 @@ const TinTuc = ({navigation}) => {
   if (isLoading) {
     return <Loading />;
   }
->>>>>>> nghia2
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -41,15 +36,7 @@ const TinTuc = ({navigation}) => {
           }}>
           <Text style={{color: 'black', fontSize: 20}}>Tin Tức </Text>
         </View>
-<<<<<<< HEAD
-        <View style={styles.blockList}>
-          <Image
-            style={{width: 130, height: 70}}
-            source={require('../Main/banner_kidsschool.png')}
-          />
-          <Text style={{color: 'black'}}>Bản tin tháng 7</Text>
-        </View>
-=======
+
         {(data || []).map((item, index) => {
           return (
             <TouchableOpacity
@@ -91,7 +78,7 @@ const TinTuc = ({navigation}) => {
             </TouchableOpacity>
           );
         })}
->>>>>>> nghia2
+
       </ScrollView>
     </View>
   );

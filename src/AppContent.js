@@ -17,17 +17,15 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TouchableCo} from './elements';
 import {useNavigation} from '@react-navigation/core';
-<<<<<<< HEAD
 
-// import {MenuFunction} from './navigators/Items';
 
-=======
+
 import {useQuery} from 'react-query';
 // import {MenuFunction} from './navigators/Items';
 import {AccountService} from './utils/Account';
 import {FetchApi} from './utils/modules';
 import {ResetFunction} from './utils/modules';
->>>>>>> nghia2
+
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const MenuFunctionItem = ({data}) => {
@@ -59,21 +57,7 @@ const MenuFunction = () => {
       label: 'Đăng xuất',
       onPress: () => {
         try {
-<<<<<<< HEAD
-          // FetchApi.logout();
-          NavigationService.ResetFunction.resetToLogin();
-          //   AccountService.set({});
-          //   const tag = 'fcmToken';
 
-          //   const mmkvId = `mmkv-${tag}`;
-          //   const mmkvKey = `key-${tag}`;
-
-          //   const MMKVwithID = new MMKVStorage.Loader()
-          //     .withInstanceID(mmkvId)
-          //     .initialize();
-
-          //   MMKVwithID.setMap(mmkvKey, {});
-=======
           FetchApi.logout();
           ResetFunction.resetToLogin();
           // AccountService.set({});
@@ -87,7 +71,7 @@ const MenuFunction = () => {
           //   .initialize();
 
           // MMKVwithID.setMap(mmkvKey, {});
->>>>>>> nghia2
+
         } catch (error) {}
       },
     },
@@ -234,10 +218,9 @@ const AppContent = () => {
         {/* <Stack.Screen name="SlideDraw" component={SlideDraw} /> */}
         {/* <Stack.Screen name="Main" component={Main} /> */}
         <Stack.Screen name="Login" component={Login} />
-<<<<<<< HEAD
+
         <Stack.Screen name="ChonCon" component={ChonCon} />
-=======
->>>>>>> nghia2
+
         {/* <Stack.Screen name="Register" component={Register} /> */}
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="SlideDraw" component={SlideDraw} />

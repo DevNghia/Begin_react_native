@@ -14,13 +14,12 @@ import TaoDonXinNghi from '../screens/TaoDonXinNghi/TaoDonXinNghi';
 import LoiNhan from '../screens/LoiNhan/LoiNhan';
 import TaoLoiNhanMoi from '../screens/TaoLoiNhanMoi/TaoLoiNhanMoi';
 import Notification from '../screens/Notification/Notification';
-<<<<<<< HEAD
-=======
+
 import SucKhoe from '../screens/SucKhoe/SucKhoe';
 import TableHeight from '../screens/TableHeight/TableHeight';
 import TableWeight from '../screens/TableWeight/TableWeight';
 import ThucDon from '../screens/ThucDon/ThucDon';
->>>>>>> nghia2
+
 
 const Stack = createStackNavigator();
 
