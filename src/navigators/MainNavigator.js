@@ -28,7 +28,7 @@ const MainNavigator = () => {
             iconName = focused ? 'calendar-sharp' : 'calendar-outline';
           } else if (route.name === 'TabSucKhoe') {
             iconName = focused ? 'shield' : 'shield-outline';
-          } else if (route.name === 'Thực đơn') {
+          } else if (route.name === 'TabThucDon') {
             iconName = focused ? 'restaurant' : 'restaurant-outline';
           } else if (route.name === 'TabLoiNhan') {
             iconName = focused ? 'newspaper-sharp' : 'newspaper-outline';
@@ -61,7 +61,16 @@ const MainNavigator = () => {
           initialRouteName: 'Home',
         }}
       />
-      <Tab.Screen name="Thực đơn" component={ThucDon} />
+      <Tab.Screen
+        name="TabThucDon"
+        component={AllStackNavigator}
+        options={{
+          tabBarLabel: 'Thực đơn',
+        }}
+        initialParams={{
+          initialRouteName: 'ThucDon',
+        }}
+      />
       <Tab.Screen
         name="TabLoiNhan"
         component={AllStackNavigator}

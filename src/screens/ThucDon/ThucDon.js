@@ -1,11 +1,37 @@
-
 import * as React from 'react';
-import { View, Text} from 'react-native';
-const  ThucDon = () => {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{color:'black'}}>Thực đơn</Text>
-      </View>
-    );
+import {View, Text, ScrollView, useWindowDimensions} from 'react-native';
+import {Sizes} from '../../utils/resource';
+import HTML from 'react-native-render-html';
+import {Loading} from '../../elements';
+import {useQuery} from 'react-query';
+import {FetchApi} from '../../utils/modules';
+const ThucDon = () => {
+  const contentWidth = useWindowDimensions().width;
+  const {data, isLoading} = useQuery(['NewThucDon'], () =>
+    FetchApi.getMenus(11),
+  );
+
+  if (isLoading) {
+    return <Loading />;
   }
-  export default ThucDon;
+  return (
+    <ScrollView
+      style={{padding: Sizes.padding}}
+      contentContainerStyle={{paddingBottom: 60}}>
+      <HTML
+        containerStyle={{flex: 1, width: '100%'}}
+        ignoredStyles={['height', 'display', 'width']}
+        contentWidth={contentWidth}
+        source={{html: data?._data?.content}}
+        baseStyle={{color: 'black'}}
+        // tagsStyles={{
+        //   p: {color: 'black'},
+        //   h1: {color: 'black'},
+        //   span: {color: 'black'},
+        // }}
+        ignoredDomTags={['source']}
+      />
+    </ScrollView>
+  );
+};
+export default ThucDon;

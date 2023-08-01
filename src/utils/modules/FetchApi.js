@@ -310,6 +310,18 @@ const FetchApi = {
       return {message: error.message};
     }
   },
+  getMenus: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getMenus(student_id);
+      const result = await CommonCall(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
 };
 
 export {FetchApi};
