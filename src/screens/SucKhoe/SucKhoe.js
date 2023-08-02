@@ -4,7 +4,20 @@ import {Sizes} from '../../utils/resource';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Image} from 'react-native-ui-lib';
 import {TouchableCo} from '../../elements';
+import {useSelector} from 'react-redux';
+import {useQuery} from 'react-query';
+import {FetchApi} from '../../utils/modules';
+import {Loading} from '../../elements';
 const SucKhoe = ({navigation}) => {
+  const studentId = useSelector(state => state.data.data._id);
+  const {data, isLoading} = useQuery('useGetGrowth', () =>
+    FetchApi.getGrowth(studentId),
+  );
+  console.log('test growth:   ', data);
+  if (isLoading) {
+    return <Loading />;
+  }
+
   const columns = 2;
 
   const itemWidth = Dimensions.get('window').width / 2.35;
@@ -23,7 +36,6 @@ const SucKhoe = ({navigation}) => {
             justifyContent: 'space-between',
           }}>
           <Text style={{color: 'black', fontSize: 20}}>SỨC KHỎE </Text>
-
         </View>
         <View
           style={{
@@ -34,13 +46,17 @@ const SucKhoe = ({navigation}) => {
           }}>
           <View style={styles.image}>
             <Image
-              source={require('../../utils/Icons/payments.png')}
+              source={{
+                uri: data._data.user_info.avatar_url,
+              }}
               style={styles.avatar}
             />
           </View>
 
-          <Text style={{color: 'black', fontSize: 14, marginHorizontal: 20}}>
-            Đang xem thông tin của bé Giang{' '}
+          <Text style={{color: 'black', fontSize: 18, marginHorizontal: 20}}>
+            {data._data.user_info.first_name +
+              ' ' +
+              data._data.user_info.last_name}
           </Text>
         </View>
 
@@ -48,52 +64,45 @@ const SucKhoe = ({navigation}) => {
           Chiều cao - Cân nặng{' '}
         </Text>
         <View style={{flexDirection: 'row'}}>
-          <TouchableCo onPress={() => navigation.navigate('TableHeight')}>
-            <View style={[styles.itemContainer, {width: itemWidth}]}>
-              <Icon
-                name="human-male-height"
-                size={45}
-                color="#22A249"
-                style={styles.icon}
-              />
-              <Text>Chiều cao</Text>
-              <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-                90 cm
-              </Text>
-            </View>
-          </TouchableCo>
+          <View style={[styles.itemContainer, {width: itemWidth}]}>
+            <Icon
+              name="human-male-height"
+              size={45}
+              color="#22A249"
+              style={styles.icon}
+            />
+            <Text>Chiều cao</Text>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+              {data._data.height} cm
+            </Text>
+          </View>
 
-          <TouchableCo onPress={() => navigation.navigate('TableWeight')}>
-            <View style={[styles.itemContainer, {width: itemWidth}]}>
-              <Icon
-                name="weight-kilogram"
-                size={45}
-                color="#22A249"
-                style={styles.icon}
-              />
-              <Text>Cân nặng</Text>
-              <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-                12.4 KG
-              </Text>
-            </View>
-          </TouchableCo>
+          <View style={[styles.itemContainer, {width: itemWidth}]}>
+            <Icon
+              name="weight-kilogram"
+              size={45}
+              color="#22A249"
+              style={styles.icon}
+            />
+            <Text>Cân nặng</Text>
+            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+              {data._data.weight} KG
+            </Text>
+          </View>
         </View>
 
         <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>
           Sức khỏe chung{' '}
         </Text>
         <View style={styles.viewbot}>
-          <Text style={styles.textbot}>Nhóm máu: A</Text>
-          <Text style={styles.textbot}>Răng-Hàm-Mặt: value</Text>
-          <Text style={styles.textbot}>Tai-Mũi-Họng: value</Text>
-          <Text style={styles.textbot}>Khám mắt: value</Text>
-          <Text style={styles.textbot}>Khám tim: value</Text>
-          <Text style={styles.textbot}>Khám phổi: value</Text>
-          <Text style={styles.textbot}>Khám da: value</Text>
-          <Text style={styles.textbot}>Người khám: value</Text>
-          <Text style={styles.textbot}>Ghi chú: value</Text>
+          <Text style={styles.textbot}>Răng-Hàm-Mặt: {data._data.tooth}</Text>
+          <Text style={styles.textbot}>Tai-Mũi-Họng: {data._data.throat} </Text>
+          <Text style={styles.textbot}>Khám mắt: {data._data.eye}</Text>
+          <Text style={styles.textbot}>Khám tim: {data._data.heart}</Text>
+          <Text style={styles.textbot}>Khám phổi: {data._data.lung}</Text>
+          <Text style={styles.textbot}>Khám da: {data._data.skin}</Text>
+          <Text style={styles.textbot}>Ghi chú: {data._data.note}</Text>
         </View>
-
       </ScrollView>
     </View>
   );
@@ -152,4 +161,3 @@ const styles = StyleSheet.create({
   },
 });
 export default SucKhoe;
-

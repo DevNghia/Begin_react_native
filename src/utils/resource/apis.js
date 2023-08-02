@@ -20,6 +20,8 @@ const Apis = {
   getCharWeight: student_id =>
     `${host.api_mamnon}/ps_student/${student_id}/growth_chart/weight`,
   getMenus: student_id => `${host.api_mamnon}/ps_student/menus/${student_id}`,
+  getStudent: student_id => `${host.api_mamnon}/ps_student/${student_id}`,
+  getGrowth: student_id => `${host.api_mamnon}/ps_student/${student_id}/growth`,
 };
 
 export {Apis};

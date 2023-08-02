@@ -18,14 +18,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TouchableCo} from './elements';
 import {useNavigation} from '@react-navigation/core';
 
-
-
 import {useQuery} from 'react-query';
 // import {MenuFunction} from './navigators/Items';
 import {AccountService} from './utils/Account';
 import {FetchApi} from './utils/modules';
 import {ResetFunction} from './utils/modules';
-
+import {useDispatch} from 'react-redux';
+import {setData} from './actions/dataActions';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const MenuFunctionItem = ({data}) => {
@@ -57,7 +56,6 @@ const MenuFunction = () => {
       label: 'Đăng xuất',
       onPress: () => {
         try {
-
           FetchApi.logout();
           ResetFunction.resetToLogin();
           // AccountService.set({});
@@ -71,7 +69,6 @@ const MenuFunction = () => {
           //   .initialize();
 
           // MMKVwithID.setMap(mmkvKey, {});
-
         } catch (error) {}
       },
     },
@@ -88,7 +85,10 @@ const MenuFunction = () => {
 const menu2 = ({navigation}) => {
   return <MenuFunction />;
 };
-const SlideDraw = () => {
+const SlideDraw = ({route}) => {
+  const data = route.params?.dataprops;
+  const dispatch = useDispatch();
+  dispatch(setData(data));
   return (
     <Drawer.Navigator
       drawerType={'back'}
@@ -103,58 +103,7 @@ const SlideDraw = () => {
 const HeaderApp = ({navigation}) => {
   const insets = useSafeAreaInsets();
   const account = AccountService.get();
-  // const {data, isLoading} = useQuery(
-  //   'useGetProfile',
-  //   () => FetchApi.profile(),
-  //   console.log('nghĩabeossssssss', data),
-  // );
-  const profile = async (api, headers) => {
-    try {
-      // Tạo các options cho fetch
-      const options = {
-        method: 'GET',
-        headers: {
-          ...headers.reduce((acc, header) => {
-            acc[header.key] = header.value;
-            return acc;
-          }, {}),
-        },
-      };
 
-      const response = await fetch(api, options);
-      const responseData = await response.json();
-      return responseData;
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  };
-
-  // Ví dụ sử dụng hàm profile để lấy thông tin người dùng
-  const apiUrl = 'http://api.nvoting.com/ps_user/profile'; // Địa chỉ URL API lấy thông tin người dùng
-  const headers = [
-    {
-      key: 'deviceid',
-      value: '2D92C8D4-942D-455D-85A2-4B22AB84BE3F',
-      type: 'text',
-    },
-    {
-      key: 'Authorization',
-      value: 'Bearer ' + account.api_token,
-      type: 'text',
-    },
-  ];
-
-  // profile(apiUrl, headers)
-  //   .then(data => {
-  //     // Xử lý dữ liệu nhận được từ API
-  //     // Ví dụ: log ra console
-  //     console.log('Data:', data);
-  //   })
-  //   .catch(error => {
-  //     // Xử lý lỗi nếu có
-  //     console.error(error);
-  //   });
   return (
     <View
       style={{

@@ -97,6 +97,7 @@ const CommonCallWithoutUseQuery = async (api, header) => {
     let headers = {
       'Content-Type': 'application/json',
       deviceid: getUniqueId()._j,
+      // deviceid: 'abcdasadfaf324',
     };
     console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', headers);
     if (header) {
@@ -317,6 +318,36 @@ const FetchApi = {
       };
       const api = Apis.getMenus(student_id);
       const result = await CommonCall(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getStudent: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getStudent(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data?.user_info || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getGrowth: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getGrowth(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result;
+      }
       return result;
     } catch (error) {
       return {message: error.message};

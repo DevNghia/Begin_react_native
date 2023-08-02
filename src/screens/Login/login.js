@@ -6,11 +6,8 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
-  Dimensions,
   TextInput,
-  TouchableOpacity,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {useForm, Controller} from 'react-hook-form';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {FetchApi} from '../../utils/modules';
@@ -31,6 +28,12 @@ const Login = ({navigation}) => {
       });
       console.log('result: ', result);
       if (result._msg_code === 3) {
+        const data_account = {...result._data, ...{password: password}};
+        AccountService.set(data_account);
+        FetchApi.registerDeviceid();
+        ResetFunction.resetToChoose();
+      }
+      if (result._msg_code === 1) {
         const data_account = {...result._data, ...{password: password}};
         AccountService.set(data_account);
         ResetFunction.resetToChoose();

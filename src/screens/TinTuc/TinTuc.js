@@ -12,9 +12,11 @@ import {Sizes} from '../../utils/resource';
 import {FetchApi} from '../../utils/modules';
 import {useQuery} from 'react-query';
 import {Loading} from '../../elements';
+import {useSelector} from 'react-redux';
 const TinTuc = ({navigation}) => {
+  const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery('useGetNewsType', () =>
-    FetchApi.getNews(11),
+    FetchApi.getNews(studentId),
   );
   if (isLoading) {
     return <Loading />;
@@ -41,7 +43,7 @@ const TinTuc = ({navigation}) => {
           return (
             <TouchableOpacity
               key={item.id}
-              style={{padding: 10, flexDirection: 'row'}}
+              style={{flexDirection: 'row'}}
               onPress={() =>
                 navigation.navigate('NewAndBlogDetail', {dataProps: item})
               }>
@@ -78,7 +80,6 @@ const TinTuc = ({navigation}) => {
             </TouchableOpacity>
           );
         })}
-
       </ScrollView>
     </View>
   );
