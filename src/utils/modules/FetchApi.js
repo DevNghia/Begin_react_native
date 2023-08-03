@@ -318,7 +318,7 @@ const FetchApi = {
       };
       const api = Apis.getMenus(student_id);
       const result = await CommonCall(api, header);
-      return result;
+      return result._data;
     } catch (error) {
       return {message: error.message};
     }
