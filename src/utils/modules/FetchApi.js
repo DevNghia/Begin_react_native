@@ -323,6 +323,18 @@ const FetchApi = {
       return {message: error.message};
     }
   },
+  getMenusDay: async (student_id, date) => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getMenusDay({student_id, date});
+      const result = await CommonCall(api, header);
+      return result._data;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
   getStudent: async student_id => {
     try {
       const header = {

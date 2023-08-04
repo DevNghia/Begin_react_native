@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,8 @@ import {
   useWindowDimensions,
   StyleSheet,
   Image,
+  TextInput,
+  Pressable,
   TouchableOpacity,
 } from 'react-native';
 import {Sizes} from '../../utils/resource';
@@ -15,11 +17,47 @@ import {useQuery} from 'react-query';
 import {FetchApi} from '../../utils/modules';
 import {useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {useForm, Controller} from 'react-hook-form';
+
 const ThucDon = () => {
+  const {handleSubmit, control} = useForm();
+  const [showPicker, setShowPicker] = useState(false);
+  const [submiting, setSubmiting] = useState(false);
+  const [selectedGender, setSelectedGender] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [dates, setDates] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Nam', value: '1'},
+    {label: 'Nữ', value: '0'},
+  ]);
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowPicker(false);
+    setDate(currentDate);
+  };
+
+  const showDatepicker = () => {
+    setShowPicker(true);
+  };
   const studentId = useSelector(state => state.data.data._id);
   const contentWidth = useWindowDimensions().width;
-  const {data, isLoading} = useQuery(['NewThucDon'], () =>
-    FetchApi.getMenus(studentId),
+  const formatDate = dateString => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+  };
+  const {data, isLoading} = useQuery(
+    ['NewThucDon', formatDate(date)],
+    () => FetchApi.getMenusDay(studentId, formatDate(date)),
+    console.log(formatDate(date)),
   );
 
   if (isLoading) {
@@ -42,26 +80,73 @@ const ThucDon = () => {
           }}>
           <Text style={{color: 'black', fontSize: 20}}>Thực đơn </Text>
         </View>
-        <View
-          style={{
-            height: Sizes.device_width < Sizes.device_height,
-            width: 300,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            marginHorizontal: 30,
-            marginVertical: 10,
-            borderRadius: 10,
-            backgroundColor: '#FFE8E8',
-            // marginTop: insets.top,
-            flexDirection: 'row',
-            // alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <Ionicons name={'calendar-outline'} size={30} color={'#EE4B4B'} />
-          <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-            {data.day_at}
-          </Text>
-        </View>
+
+        {/* <Controller
+          control={control}
+          name="birthday"
+          defaultValue=""
+          placeholder="Full Name"
+          rules={{required: true}}
+          render={({field: {onChange, value}, fieldState: {error}}) => (
+            <Pressable onPress={showDatepicker}>
+              <TextInput
+                style={{color: 'black'}}
+                underlineColorAndroid="transparent"
+                value={value ? new Date(value).toLocaleDateString() : ''}
+                placeholder="Birth Day"
+                placeholderTextColor="#9a73ef"
+                autoCapitalize="none"
+                editable={false}
+              />
+
+              {show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={value ? new Date(value) : new Date()}
+                  // display="spinner"
+                  mode="date"
+                  onChange={(event, selectedDate) => {
+                    onChange(selectedDate ? selectedDate.toISOString() : '');
+                    // onSubmit(value);
+                    setDates(selectedDate);
+                    setShow(false);
+                  }}
+                />
+              )}
+            </Pressable>
+          )}
+        /> */}
+        <TouchableOpacity onPress={showDatepicker}>
+          <View
+            style={{
+              height: Sizes.device_width < Sizes.device_height,
+              width: 300,
+              paddingHorizontal: 15,
+              paddingVertical: 10,
+              marginHorizontal: 30,
+              marginVertical: 10,
+              borderRadius: 10,
+              backgroundColor: '#FFE8E8',
+              // marginTop: insets.top,
+              flexDirection: 'row',
+              // alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Ionicons name={'calendar-outline'} size={30} color={'#EE4B4B'} />
+            <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
+              {data.day_at}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        {showPicker && (
+          <DateTimePicker
+            value={date}
+            mode="date"
+            display="default"
+            onChange={onChange}
+          />
+        )}
+
         {(data.meal || []).map((item, index) => {
           return (
             <React.Fragment key={index}>
@@ -72,7 +157,7 @@ const ThucDon = () => {
               {Object.keys(item.food_op || {}).map(foodKey => {
                 // console.log('test thực đơn: ', item.food_op[foodKey].title);
                 return (
-                  <View style={styles.blockList}>
+                  <View style={styles.blockList} key={foodKey}>
                     <Image
                       style={{width: 120, height: 75}}
                       source={{
