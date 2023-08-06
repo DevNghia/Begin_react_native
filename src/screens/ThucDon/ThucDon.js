@@ -3,11 +3,8 @@ import {
   View,
   Text,
   ScrollView,
-  useWindowDimensions,
   StyleSheet,
   Image,
-  TextInput,
-  Pressable,
   TouchableOpacity,
 } from 'react-native';
 import {Sizes} from '../../utils/resource';
@@ -18,23 +15,11 @@ import {FetchApi} from '../../utils/modules';
 import {useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {useForm, Controller} from 'react-hook-form';
 
 const ThucDon = () => {
-  const {handleSubmit, control} = useForm();
   const [showPicker, setShowPicker] = useState(false);
-  const [submiting, setSubmiting] = useState(false);
-  const [selectedGender, setSelectedGender] = useState('');
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [dates, setDates] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'Nam', value: '1'},
-    {label: 'Nữ', value: '0'},
-  ]);
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowPicker(false);
@@ -45,7 +30,6 @@ const ThucDon = () => {
     setShowPicker(true);
   };
   const studentId = useSelector(state => state.data.data._id);
-  const contentWidth = useWindowDimensions().width;
   const formatDate = dateString => {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -54,10 +38,8 @@ const ThucDon = () => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}${month}${day}`;
   };
-  const {data, isLoading} = useQuery(
-    ['NewThucDon', formatDate(date)],
-    () => FetchApi.getMenusDay(studentId, formatDate(date)),
-    console.log(formatDate(date)),
+  const {data, isLoading} = useQuery(['NewThucDon', formatDate(date)], () =>
+    FetchApi.getMenusDay(studentId, formatDate(date)),
   );
 
   if (isLoading) {

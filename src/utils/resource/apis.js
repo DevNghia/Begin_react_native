@@ -24,6 +24,10 @@ const Apis = {
     `${host.api_mamnon}/ps_student/menus/${student_id}/${date}`,
   getStudent: student_id => `${host.api_mamnon}/ps_student/${student_id}`,
   getGrowth: student_id => `${host.api_mamnon}/ps_student/${student_id}/growth`,
+  getOffSchool: student_id =>
+    `${host.api_mamnon}/ps_offschool/offschool/${student_id}?status=ok`,
+  getListSend: student_id =>
+    `${host.api_mamnon}/ps_offschool/listsend/${student_id}`,
 };
 
 export {Apis};

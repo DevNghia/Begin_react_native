@@ -365,6 +365,36 @@ const FetchApi = {
       return {message: error.message};
     }
   },
+  getOffSchool: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getOffSchool(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data?.data_info || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getListSend: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getListSend(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
 };
 
 export {FetchApi};
