@@ -10,7 +10,7 @@ const NewAndBlogDetail = ({navigation, route}) => {
   const datas = route.params?.dataProps;
   const {data, isError, refetch, error, isLoading} = useQuery(
     ['NewAndBlogDetail'],
-    () => FetchApi.getNewsDetail(datas.id, 11),
+    () => FetchApi.getNewsDetail(datas.id, studentId),
   );
 
   if (isLoading) {
