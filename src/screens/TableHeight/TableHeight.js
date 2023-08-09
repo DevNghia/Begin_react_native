@@ -5,10 +5,12 @@ import HTML from 'react-native-render-html';
 import {Loading} from '../../elements';
 import {useQuery} from 'react-query';
 import {FetchApi} from '../../utils/modules';
+import {useSelector} from 'react-redux';
 const TableHeight = () => {
   const contentWidth = useWindowDimensions().width;
+  const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery(['NewTableHeight'], () =>
-    FetchApi.getTableHeight(11),
+    FetchApi.getTableHeight(studentId),
   );
 
   if (isLoading) {

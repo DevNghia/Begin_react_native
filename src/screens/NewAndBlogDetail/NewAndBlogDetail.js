@@ -5,7 +5,9 @@ import {FetchApi} from '../../utils/modules';
 import {Sizes} from '../../utils/resource';
 import HTML from 'react-native-render-html';
 import {Loading} from '../../elements';
+import {useSelector} from 'react-redux';
 const NewAndBlogDetail = ({navigation, route}) => {
+  const studentId = useSelector(state => state.data.data._id);
   const contentWidth = useWindowDimensions().width;
   const datas = route.params?.dataProps;
   const {data, isError, refetch, error, isLoading} = useQuery(

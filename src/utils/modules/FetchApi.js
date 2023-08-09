@@ -97,6 +97,7 @@ const CommonCallWithoutUseQuery = async (api, header) => {
     let headers = {
       'Content-Type': 'application/json',
       deviceid: getUniqueId()._j,
+      // deviceid: 'abcdasadfaf324',
     };
     console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', headers);
     if (header) {
@@ -317,6 +318,125 @@ const FetchApi = {
       };
       const api = Apis.getMenus(student_id);
       const result = await CommonCall(api, header);
+      return result._data;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getMenusDay: async (student_id, date) => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getMenusDay({student_id, date});
+      const result = await CommonCall(api, header);
+      return result._data;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getStudent: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getStudent(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data?.user_info || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getGrowth: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getGrowth(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result;
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getOffSchool: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getOffSchool(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data?.data_info || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getListSend: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getListSend(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  postOffSchool: async ({
+    description,
+    user_id,
+    student_id,
+    from_date,
+    to_date,
+  }) => {
+    try {
+      const info = {
+        description,
+        user_id,
+        student_id,
+        from_date,
+        to_date,
+      };
+      const bodyData = {
+        info,
+      };
+      const request = JSON.stringify(bodyData);
+      const header = {
+        method: 'POST',
+        body: request,
+      };
+      const api = Apis.postOffSchool;
+      console.log('headerswww: ', header);
+      const result = await CommonCall(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getFee: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getFee(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data?.fee || [];
+      }
+      // console.log('test ds tin: ', result._data.data_info);
       return result;
     } catch (error) {
       return {message: error.message};

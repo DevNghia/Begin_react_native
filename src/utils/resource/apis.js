@@ -20,6 +20,17 @@ const Apis = {
   getCharWeight: student_id =>
     `${host.api_mamnon}/ps_student/${student_id}/growth_chart/weight`,
   getMenus: student_id => `${host.api_mamnon}/ps_student/menus/${student_id}`,
+  getMenusDay: ({student_id, date}) =>
+    `${host.api_mamnon}/ps_student/menus/${student_id}/${date}`,
+  getStudent: student_id => `${host.api_mamnon}/ps_student/${student_id}`,
+  getGrowth: student_id => `${host.api_mamnon}/ps_student/${student_id}/growth`,
+  getOffSchool: student_id =>
+    `${host.api_mamnon}/ps_offschool/offschool/${student_id}?status=ok`,
+  getListSend: student_id =>
+    `${host.api_mamnon}/ps_offschool/listsend/${student_id}`,
+  postOffSchool: `${host.api_mamnon}/ps_offschool/offschool`,
+  getFee: student_id =>
+    `${host.api_mamnon}/ps_student/${student_id}/report_fees`,
 };
 
 export {Apis};

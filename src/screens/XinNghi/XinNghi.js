@@ -4,18 +4,21 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ScrollView,
 } from 'react-native';
 import {Sizes} from '../../utils/resource';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {navigate} from '../../utils/modules';
+import {useQuery} from 'react-query';
+import {FetchApi} from '../../utils/modules';
+import {useSelector} from 'react-redux';
 const XinNghi = ({navigation}) => {
+  const studentId = useSelector(state => state.data.data._id);
+  const {data, isLoading} = useQuery(['NewListOffSchool'], () =>
+    FetchApi.getOffSchool(studentId),
+  );
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView>
         <View
           style={{
             height: Sizes.device_width < Sizes.device_height,
@@ -27,11 +30,8 @@ const XinNghi = ({navigation}) => {
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>XIN NGHỈ </Text>
+          <Text style={{color: 'black', fontSize: 20}}>XIN NGHỈ</Text>
         </View>
-        <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>
-          Thông tin của bé Giang{' '}
-        </Text>
         <TouchableOpacity onPress={() => navigation.navigate('TaoDonXinNghi')}>
           <View
             style={{
@@ -55,61 +55,39 @@ const XinNghi = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>
-          Danh sách đơn{' '}
+          Danh sách đơn đã duyệt
         </Text>
-        <View style={styles.blockList}>
-          <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-            Nguyễn Chí Nghĩa gửi đơn xin nghỉ cho bé Giang 1 ngày{' '}
-          </Text>
-          <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
-            Lý do: Bé nghỉ ốm
-          </Text>
-          <Text
-            style={{
-              color: '#BFBFBF',
-              fontSize: 12,
-              marginVertical: 5,
-              alignSelf: 'flex-end',
-            }}>
-            Gửi lúc 10:00 ngày 23/07/2023
-          </Text>
-        </View>
-        <View style={styles.blockList}>
-          <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-            Nguyễn Chí Nghĩa gửi đơn xin nghỉ cho bé Giang 1 ngày{' '}
-          </Text>
-          <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
-            Lý do: Bé nghỉ ốm
-          </Text>
-          <Text
-            style={{
-              color: '#BFBFBF',
-              fontSize: 12,
-              marginVertical: 5,
-              alignSelf: 'flex-end',
-            }}>
-            Gửi lúc 10:00 ngày 23/07/2023
-          </Text>
-        </View>
-        <View style={styles.blockList}>
-          <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-            Nguyễn Chí Nghĩa gửi đơn xin nghỉ cho bé Giang 1 ngày{' '}
-          </Text>
-          <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
-            Lý do: Bé nghỉ ốm
-          </Text>
-          <Text
-            style={{
-              color: '#BFBFBF',
-              fontSize: 12,
-              marginVertical: 5,
-              alignSelf: 'flex-end',
-            }}>
-            Gửi lúc 10:00 ngày 23/07/2023
-          </Text>
-        </View>
-      </View>
-    </ScrollView>
+        {(data || []).map((item, index) => {
+          return (
+            <View style={styles.blockList} key={index}>
+              <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
+                {/* Nguyễn Chí Nghĩa gửi đơn xin nghỉ cho bé Giang 1 ngày{' '} */}
+                {item.relative_fullname} gửi đơn xin nghỉ cho bé{' '}
+                {item.student_name}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Từ ngày: {item.from_date}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Đến ngày: {item.to_date}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Lý do: {item.description}
+              </Text>
+              <Text
+                style={{
+                  color: '#BFBFBF',
+                  fontSize: 12,
+                  marginVertical: 5,
+                  alignSelf: 'flex-end',
+                }}>
+                Gửi lúc {item.date_at}
+              </Text>
+            </View>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

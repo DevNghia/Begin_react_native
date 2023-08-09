@@ -4,30 +4,85 @@ import {
   Text,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Pressable,
   Alert,
-  SafeAreaView,
 } from 'react-native';
 import {Sizes} from '../../utils/resource';
 import {Icons, TouchableCo} from '../../elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // import Icon from 'react-native-vector-icons/MaterialIconss';
 import {useForm, Controller} from 'react-hook-form';
-import {KeyboardAwareScrollView} from 'react-native-ui-lib';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {useSelector} from 'react-redux';
+import {useQuery} from 'react-query';
+import {FetchApi} from '../../utils/modules';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {Loading} from '../../elements';
 const TaoDonXinNghi = ({navigation}) => {
-  const [choise, setchoise] = useState(true);
+  const studentId = useSelector(state => state.data.data._id);
+  const {data, isLoading} = useQuery(['NewListSend'], () =>
+    FetchApi.getListSend(studentId),
+  );
+
   const {
     handleSubmit,
     control,
     reset,
     formState: {errors},
   } = useForm();
+  const [submiting, setSubmiting] = useState(false);
   const onSubmit = async data => {
-    const {content} = data;
-    console.log(content);
+    try {
+      setSubmiting(true);
+      const {description, user_id, from_date, to_date} = data;
+      const result = await FetchApi.postOffSchool({
+        description: description,
+        user_id: user_id,
+        student_id: studentId,
+        from_date: from_date,
+        to_date: to_date,
+      });
+      console.log('NghiaNC', result);
+      if (result._msg_code == 1) {
+        console.log('Gửi đơn xin nghỉ thành công');
+        Alert.alert(result._msg_text);
+      } else {
+        Alert.alert(result._msg_text);
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
 
     reset({content: ''});
   };
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState(
+    (data || []).map((item, index) => ({
+      label: item.full_name,
+      value: item.user_id,
+    })),
+  );
+  const [inputHeight, setInputHeight] = useState(40);
+
+  //date_picker
+  const [showPicker, setShowPicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowPicker(false);
+    setDate(currentDate);
+  };
+
+  const showDatepicker = () => {
+    setShowPicker(true);
+  };
+  const dayOfWeek = date.toLocaleDateString('vn-VN', {weekday: 'long'});
+  // Định dạng theo chuỗi "Thứ Ngày Tháng Năm"
+  const formattedDate = `${dayOfWeek}`;
   return (
     <View style={styles.container}>
       <View
@@ -51,101 +106,191 @@ const TaoDonXinNghi = ({navigation}) => {
           <Text style={{color: 'black', fontSize: 17}}>Gửi </Text>
         </TouchableCo>
       </View>
-      <Text style={{color: 'black', fontSize: 17, marginHorizontal: 15}}>
-        Chọn bé
-      </Text>
-      <View style={{flexDirection: 'row'}}>
-        <Ionicons
-          style={{marginLeft: 15}}
-          name={choise ? 'checkmark-circle' : 'checkmark-circle-outline'}
-          color={'#F97A7A'}
-          size={30}
-          onPress={() => setchoise(!choise)}
-        />
-        <Text style={{color: 'black', fontSize: 17, marginVertical: 3}}>
-          Chọn bé Giang
-        </Text>
-      </View>
-      <View style={{flexDirection: 'row'}}>
-        <Ionicons
-          style={{marginLeft: 15}}
-          name={choise ? 'checkmark-circle' : 'checkmark-circle-outline'}
-          color={'#F97A7A'}
-          size={30}
-          onPress={() => setchoise(!choise)}
-        />
-        <Text style={{color: 'black', fontSize: 17, marginVertical: 3}}>
-          Chọn bé Gấm
-        </Text>
-      </View>
-      <View style={{marginVertical: 25}}>
+
+      <View style={{marginVertical: 5}}>
         <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
-          Nhắn cho ngày
+          Từ ngày
         </Text>
-        <View
-          style={{
-            height: Sizes.device_width < Sizes.device_height,
-            width: 300,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            marginHorizontal: 30,
-            marginVertical: 10,
-            borderRadius: 10,
-            backgroundColor: 'white',
-            // marginTop: insets.top,
-            flexDirection: 'row',
-            // alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <Ionicons name={'calendar-outline'} size={30} color={'#EE4B4B'} />
-          <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-            Thứ hai,ngày 24 tháng 7
-          </Text>
-        </View>
+        <Controller
+          control={control}
+          name="from_date"
+          defaultValue=""
+          placeholder="Full Name"
+          rules={{required: true}}
+          render={({field: {onChange, value}, fieldState: {error}}) => (
+            <Pressable onPress={showDatepicker}>
+              <View
+                style={{
+                  height: Sizes.device_width < Sizes.device_height,
+                  width: 300,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                  marginHorizontal: 30,
+                  marginVertical: 10,
+                  borderRadius: 10,
+                  backgroundColor: '#FFE8E8',
+                  // marginTop: insets.top,
+                  flexDirection: 'row',
+                  // alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Ionicons
+                  name={'calendar-outline'}
+                  size={30}
+                  color={'#EE4B4B'}
+                />
+                <TextInput
+                  style={{color: 'black'}}
+                  underlineColorAndroid="transparent"
+                  value={value ? new Date(value).toLocaleDateString() : ''}
+                  placeholder="Từ ngày"
+                  placeholderTextColor="black"
+                  autoCapitalize="none"
+                  editable={false}
+                />
+              </View>
+              {showPicker && (
+                <DateTimePicker
+                  value={value ? new Date(value) : new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    onChange(selectedDate ? selectedDate.toISOString() : '');
+                    setShowPicker(false);
+                  }}
+                />
+              )}
+            </Pressable>
+          )}
+        />
       </View>
       <View>
         <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
-          Nội dung
+          Đên ngày
         </Text>
-        {errors.content && (
-          <Text style={{color: 'red', marginLeft: 30}}>
-            Nội dung không được để trống
-          </Text>
-        )}
-        <View
-          style={{
-            height: 100,
-            width: 300,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            marginHorizontal: 30,
-            marginVertical: 10,
-            borderRadius: 10,
-            backgroundColor: 'white',
-            // marginTop: insets.top,
-            // flexDirection: 'row',
-            // alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <Controller
-            control={control}
-            name="content"
-            defaultValue=""
-            rules={{required: true}}
-            render={({field: {onChange, value}, fieldState: {error}}) => (
-              <TextInput
-                style={styles.input}
-                underlineColorAndroid="transparent"
-                value={value}
-                placeholder="Nhập nội dung..."
-                placeholderTextColor="gray"
-                autoCapitalize="none"
-                onChangeText={onChange}
-                color="black"
-              />
-            )}
+        <Controller
+          control={control}
+          name="to_date"
+          defaultValue=""
+          placeholder="Full Name"
+          rules={{required: true}}
+          render={({field: {onChange, value}, fieldState: {error}}) => (
+            <Pressable onPress={showDatepicker}>
+              <View
+                style={{
+                  height: Sizes.device_width < Sizes.device_height,
+                  width: 300,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                  marginHorizontal: 30,
+                  marginVertical: 10,
+                  borderRadius: 10,
+                  backgroundColor: '#FFE8E8',
+                  // marginTop: insets.top,
+                  flexDirection: 'row',
+                  // alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Ionicons
+                  name={'calendar-outline'}
+                  size={30}
+                  color={'#EE4B4B'}
+                />
+                <TextInput
+                  style={{color: 'black'}}
+                  underlineColorAndroid="transparent"
+                  value={value ? new Date(value).toLocaleDateString() : ''}
+                  placeholder="Đến ngày"
+                  placeholderTextColor="black"
+                  autoCapitalize="none"
+                  editable={false}
+                />
+              </View>
+              {showPicker && (
+                <DateTimePicker
+                  value={value ? new Date(value) : new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    onChange(selectedDate ? selectedDate.toISOString() : '');
+                    setShowPicker(false);
+                  }}
+                />
+              )}
+            </Pressable>
+          )}
+        />
+      </View>
+      <Controller
+        control={control}
+        name="user_id"
+        defaultValue=""
+        rules={{required: true}}
+        render={({field: {onChange, value}, fieldState: {error}}) => (
+          <DropDownPicker
+            style={styles.drop}
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={onChange}
+            setItems={setItems}
+            placeholder="Chọn người nhận"
           />
-        </View>
+        )}
+      />
+      <View>
+        <KeyboardAwareScrollView enableOnAndroid={true}>
+          <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
+            Nội dung
+          </Text>
+          {errors.content && (
+            <Text style={{color: 'red', marginLeft: 30}}>
+              Nội dung không được để trống
+            </Text>
+          )}
+          <View
+            style={{
+              height: 200,
+              width: 300,
+              paddingHorizontal: 15,
+              paddingVertical: 10,
+              marginHorizontal: 30,
+              marginVertical: 10,
+              borderRadius: 10,
+              backgroundColor: 'white',
+              // marginTop: insets.top,
+              // flexDirection: 'row',
+              // alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <ScrollView>
+              <Controller
+                control={control}
+                name="description"
+                defaultValue=""
+                rules={{required: false}}
+                render={({field: {onChange, value}, fieldState: {error}}) => (
+                  <TextInput
+                    style={[styles.input, {height: inputHeight}]}
+                    underlineColorAndroid="transparent"
+                    value={value}
+                    placeholder="Nhập nội dung..."
+                    placeholderTextColor="gray"
+                    autoCapitalize="none"
+                    onChangeText={onChange}
+                    color="black"
+                    multiline
+                    maxLength={255}
+                    onContentSizeChange={e => {
+                      setInputHeight(e.nativeEvent.contentSize.height);
+                    }}
+                  />
+                )}
+              />
+            </ScrollView>
+          </View>
+        </KeyboardAwareScrollView>
       </View>
     </View>
   );
@@ -155,6 +300,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#EEC8C8',
     justifyContent: 'flex-start',
+  },
+  drop: {
+    width: 300,
+    height: 40,
+    borderWidth: 0,
+    padding: 10,
+    color: 'black',
+    marginHorizontal: 30,
+    marginBottom: 20,
+    // zIndex: 1,
   },
 });
 export default TaoDonXinNghi;

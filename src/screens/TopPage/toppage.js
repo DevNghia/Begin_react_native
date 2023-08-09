@@ -1,26 +1,6 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-  Button,
-  ScrollView,
-  RefreshControl
-} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import HomeScreen from './items/Home';
-import SettingsScreen from './items/setting';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import Blog from './items/Blog';
-import Scan from './items/Scan';
-
-
+import {View, Text, ScrollView, RefreshControl} from 'react-native';
 
 const TopPage = () => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -70,16 +50,14 @@ const TopPage = () => {
     //   <Tab.Screen name="Settings" component={SettingsScreen} />
     //   <Tab.Screen name="Scan" component={Scan} />
     // </Tab.Navigator>
-    <ScrollView 
-    refreshControl={
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    }
-    >
-    <View style={{flex: 1}}>
-      <Text style={{color: 'black'}}>Nghĩa Đẹp zai</Text>
-    </View>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      <View style={{flex: 1}}>
+        <Text style={{color: 'black'}}>Nghĩa Đẹp zai</Text>
+      </View>
     </ScrollView>
-
   );
 };
 
