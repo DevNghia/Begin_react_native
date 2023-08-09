@@ -28,6 +28,9 @@ const Apis = {
     `${host.api_mamnon}/ps_offschool/offschool/${student_id}?status=ok`,
   getListSend: student_id =>
     `${host.api_mamnon}/ps_offschool/listsend/${student_id}`,
+  postOffSchool: `${host.api_mamnon}/ps_offschool/offschool`,
+  getFee: student_id =>
+    `${host.api_mamnon}/ps_student/${student_id}/report_fees`,
 };
 
 export {Apis};

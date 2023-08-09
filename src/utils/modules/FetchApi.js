@@ -395,6 +395,53 @@ const FetchApi = {
       return {message: error.message};
     }
   },
+  postOffSchool: async ({
+    description,
+    user_id,
+    student_id,
+    from_date,
+    to_date,
+  }) => {
+    try {
+      const info = {
+        description,
+        user_id,
+        student_id,
+        from_date,
+        to_date,
+      };
+      const bodyData = {
+        info,
+      };
+      const request = JSON.stringify(bodyData);
+      const header = {
+        method: 'POST',
+        body: request,
+      };
+      const api = Apis.postOffSchool;
+      console.log('headerswww: ', header);
+      const result = await CommonCall(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getFee: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getFee(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data?.fee || [];
+      }
+      // console.log('test ds tin: ', result._data.data_info);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
 };
 
 export {FetchApi};
