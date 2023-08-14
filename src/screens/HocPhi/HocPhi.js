@@ -15,12 +15,12 @@ import {
 import {useSelector} from 'react-redux';
 import {Loading} from '../../elements';
 import {FetchApi} from '../../utils/modules';
+import {useQuery} from 'react-query';
 const HocPhi = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [text, setText] = useState('Empty');
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -35,14 +35,43 @@ const HocPhi = () => {
     setShow(true);
     setMode(currentMode);
   };
+  const options = {month: 'long'};
+  const formatDate = dateString => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    return `${month}${year}`;
+  };
   const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery(['NewFee'], () =>
-    FetchApi.getFee(studentId),
+  const {data, isLoading} = useQuery(['NewFee', formatDate(date)], () =>
+    FetchApi.getFee(studentId, formatDate(date)),
   );
-
   if (isLoading) {
     return <Loading />;
   }
+  const data_info = data._data.data_infos;
+  let data1 = 'null';
+  let data2 = 'null';
+  let data3 = 'null';
+  let data4 = 'null';
+  if (data_info !== null) {
+    data1 = data_info.dukien;
+    data2 = data_info.duthangtruoc;
+    data3 = data_info.tongnop;
+    data4 = data_info.danop;
+  } else {
+    data1 = 'null';
+    data2 = 'null';
+    data3 = 'null';
+    data4 = 'null';
+  }
+
+  const tableDatas = [
+    {name: 'John', age: '28', occupation: 'Developer'},
+    {name: 'Jane', age: '24', occupation: 'Designer'},
+    {name: 'Mike', age: '32', occupation: 'Manager'},
+  ];
   const state = {
     tableHead: ['Tên phí', 'Số lượng', 'Thành Tiền'],
     tableData: [
@@ -52,9 +81,15 @@ const HocPhi = () => {
       ['ngoại khóa', '1', '200000'],
     ],
   };
+
   const state2 = {
-    tableHead2: ['Số dư', 'Tổng thanh toán', 'Đã thanh toán'],
-    tableData: ['1000000', '7000000', '6000000'],
+    tableHead2: [
+      'Dự kiến của tháng: ',
+      'Số dư: ',
+      'Tổng thanh toán: ',
+      'Đã thanh toán: ',
+    ],
+    tableData: [data1 + ' vnđ', data2 + ' vnđ', data3 + ' vnđ', data4 + ' vnđ'],
   };
   return (
     <View style={styles.container}>
@@ -80,17 +115,23 @@ const HocPhi = () => {
           }}>
           <View style={styles.image}>
             <Image
-              source={require('../../utils/Icons/payments.png')}
+              source={{
+                uri: data._data.user_info.avatar_url,
+              }}
               style={styles.avatar}
             />
           </View>
 
-          {/* <Text style={{color:'black',fontSize:14,marginHorizontal:20,}}>Đang xem thông tin của bé Giang </Text> */}
+          <Text style={{color: 'black', fontSize: 14, marginHorizontal: 20}}>
+            {data._data.user_info.first_name +
+              ' ' +
+              data._data.user_info.last_name}
+          </Text>
         </View>
 
         <View style={styles.date}>
           <Text onPress={() => showMode('date')} style={styles.text1}>
-            {text}
+            {date.toLocaleDateString('vi-VN', options)}
           </Text>
         </View>
         {show && (
@@ -111,30 +152,27 @@ const HocPhi = () => {
             style={styles.head}
             textStyle={styles.text}
           />
-          <TableWrapper style={styles.wrapper}>
-            {/* <Col data={state.tableTitle} style={styles.title} heightArr={[28,28]} textStyle={styles.text}/> */}
-            <Rows
-              data={state.tableData}
-              flexArr={[1, 1, 1]}
-              style={styles.row}
-              textStyle={styles.text}
-            />
-          </TableWrapper>
+          {(data._data.fee || []).map((rowData, index) => (
+            <TableWrapper key={index} style={styles.wrapper}>
+              <Cell data={rowData.se} textStyle={styles.text} />
+              <Cell data={rowData.by_number} textStyle={styles.text} />
+              <Cell
+                data={rowData.unit_price + ' vnđ'}
+                textStyle={styles.text}
+              />
+            </TableWrapper>
+          ))}
         </Table>
 
         <Table style={styles.table} borderStyle={{borderWidth: 1}}>
-          <Cell data="" style={styles.singleHead} />
           <TableWrapper style={styles.wrapper}>
             <Col
               data={state2.tableHead2}
               style={styles.title}
               heightArr={[30, 30, 30]}
               textStyle={styles.titleText}></Col>
-          </TableWrapper>
-
-          <TableWrapper style={styles.wrapper}>
-            <Cols
-              data={state2.tableData2}
+            <Col
+              data={state2.tableData}
               heightArr={[30, 30, 30]}
               textStyle={styles.text}
             />

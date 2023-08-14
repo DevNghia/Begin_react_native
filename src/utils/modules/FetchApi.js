@@ -3,19 +3,6 @@ import {Apis} from '../resource';
 import {AccountService} from '../Account';
 import {ResetFunction} from './ResetFunction';
 
-const account = AccountService.get();
-const headers = [
-  {
-    key: 'deviceid',
-    value: '2D92C8D4-942D-455D-85A2-4B22AB84BE3F',
-    type: 'text',
-  },
-  {
-    key: 'Authorization',
-    value: 'Bearer ' + account.api_token,
-    type: 'text',
-  },
-];
 const CommonCall = async (api, header) => {
   console.log('api', api);
   // const Strings = LanguageService.get();
@@ -380,6 +367,21 @@ const FetchApi = {
       return {message: error.message};
     }
   },
+  getOffSchoolcd: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getOffSchoolcd(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data?.data_info || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
   getListSend: async student_id => {
     try {
       const header = {
@@ -426,17 +428,96 @@ const FetchApi = {
       return {message: error.message};
     }
   },
-  getFee: async student_id => {
+  getFee: async (student_id, date) => {
     try {
       const header = {
         method: 'GET',
       };
-      const api = Apis.getFee(student_id);
+      const api = Apis.getFee({student_id, date});
+      const result = await CommonCall(api, header);
+      // console.log('test ds tin: ', result._data.data_info);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getAdvice: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getAdvice(student_id);
       const result = await CommonCall(api, header);
       if (result._msg_code === 1) {
-        return result._data?.fee || [];
+        return result._data?.data_info || [];
       }
-      // console.log('test ds tin: ', result._data.data_info);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getAdvicecd: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getAdvicecd(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data?.data_info || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getAdviceCate: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getAdviceCate(student_id);
+      const result = await CommonCall(api, header);
+      if (result._msg_code === 1) {
+        return result._data || [];
+      }
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  postAdvice: async ({content, user_id, category_id, title, student_id}) => {
+    try {
+      const info = {
+        title,
+        content,
+        user_id,
+        category_id,
+        student_id,
+      };
+      const bodyData = {
+        info,
+      };
+      const request = JSON.stringify(bodyData);
+      const header = {
+        method: 'POST',
+        body: request,
+      };
+      const api = Apis.postAdvice;
+      const result = await CommonCall(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getServices: async student_id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getServices(student_id);
+      const result = await CommonCall(api, header);
+
       return result;
     } catch (error) {
       return {message: error.message};

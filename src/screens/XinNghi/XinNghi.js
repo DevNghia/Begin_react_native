@@ -11,11 +11,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useQuery} from 'react-query';
 import {FetchApi} from '../../utils/modules';
 import {useSelector} from 'react-redux';
+import {Loading} from '../../elements';
+
 const XinNghi = ({navigation}) => {
   const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery(['NewListOffSchool'], () =>
     FetchApi.getOffSchool(studentId),
   );
+  const {data: cd, isLoading: loadcd} = useQuery(['NewListOffSchoolcd'], () =>
+    FetchApi.getOffSchoolcd(studentId),
+  );
+  if (isLoading && loadcd) {
+    return <Loading />;
+  }
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -26,11 +34,15 @@ const XinNghi = ({navigation}) => {
             paddingVertical: 10,
             backgroundColor: 'white',
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
           <Text style={{color: 'black', fontSize: 20}}>XIN NGHỈ</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
         </View>
         <TouchableOpacity onPress={() => navigation.navigate('TaoDonXinNghi')}>
           <View
@@ -54,12 +66,56 @@ const XinNghi = ({navigation}) => {
             </Text>
           </View>
         </TouchableOpacity>
-        <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>
-          Danh sách đơn đã duyệt
-        </Text>
+
         {(data || []).map((item, index) => {
           return (
             <View style={styles.blockList} key={index}>
+              <View style={{flexDirection: 'row'}}>
+                <Ionicons
+                  name={`checkmark-circle-sharp`}
+                  size={20}
+                  color={'green'}
+                />
+                <Text style={{color: 'black', fontSize: 16}}>Đã duyệt</Text>
+              </View>
+              <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
+                {/* Nguyễn Chí Nghĩa gửi đơn xin nghỉ cho bé Giang 1 ngày{' '} */}
+                {item.relative_fullname} gửi đơn xin nghỉ cho bé{' '}
+                {item.student_name}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Từ ngày: {item.from_date}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Đến ngày: {item.to_date}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Lý do: {item.description}
+              </Text>
+              <Text
+                style={{
+                  color: '#BFBFBF',
+                  fontSize: 12,
+                  marginVertical: 5,
+                  alignSelf: 'flex-end',
+                }}>
+                Gửi lúc {item.date_at}
+              </Text>
+            </View>
+          );
+        })}
+
+        {(cd || []).map((item, index) => {
+          return (
+            <View style={styles.blockList} key={index}>
+              <View style={{flexDirection: 'row'}}>
+                <Ionicons
+                  name={`checkmark-circle-sharp`}
+                  size={20}
+                  color={'gray'}
+                />
+                <Text style={{color: 'black', fontSize: 16}}>Chưa duyệt</Text>
+              </View>
               <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
                 {/* Nguyễn Chí Nghĩa gửi đơn xin nghỉ cho bé Giang 1 ngày{' '} */}
                 {item.relative_fullname} gửi đơn xin nghỉ cho bé{' '}

@@ -7,6 +7,7 @@ const Apis = {
   home_relative: `${host.api_mamnon}/ps_user/home_relative`,
   home: `${host.api_mamnon}/ps_user/home`,
   registerDeviceid: `${host.api_mamnon}/ps_user/active`,
+
   getNews: student_id =>
     `${host.api_mamnon}/ps_articles/list/global/1?student_id=${student_id}`,
   getNewsDetail: ({id, student_id}) =>
@@ -26,11 +27,23 @@ const Apis = {
   getGrowth: student_id => `${host.api_mamnon}/ps_student/${student_id}/growth`,
   getOffSchool: student_id =>
     `${host.api_mamnon}/ps_offschool/offschool/${student_id}?status=ok`,
+  getOffSchoolcd: student_id =>
+    `${host.api_mamnon}/ps_offschool/offschool/${student_id}?status=cd`,
   getListSend: student_id =>
     `${host.api_mamnon}/ps_offschool/listsend/${student_id}`,
   postOffSchool: `${host.api_mamnon}/ps_offschool/offschool`,
-  getFee: student_id =>
-    `${host.api_mamnon}/ps_student/${student_id}/report_fees`,
+
+  getFee: ({student_id, date}) =>
+    `${host.api_mamnon}/ps_student/${student_id}/${date}/report_fees`,
+  getAdvice: student_id =>
+    `${host.api_mamnon}/ps_advice/advices/${student_id}?status=ok`,
+  getAdvicecd: student_id =>
+    `${host.api_mamnon}/ps_advice/advices/${student_id}?status=cd`,
+  getAdviceCate: student_id =>
+    `${host.api_mamnon}/ps_advice/a_categories/${student_id}`,
+  postAdvice: `${host.api_mamnon}/ps_advice/advice`,
+  getServices: student_id =>
+    `${host.api_mamnon}/ps_student/${student_id}/services_used`,
 };
 
 export {Apis};

@@ -9,52 +9,144 @@ import {
   ScrollView,
 } from 'react-native';
 import {Sizes} from '../../utils/resource';
-import {Icons, TouchableCo} from '../../elements';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Icons, Loading, TouchableCo} from '../../elements';
 // import Icon from 'react-native-vector-icons/MaterialIconss';
 import {useForm, Controller} from 'react-hook-form';
-import {navigate} from '../../utils/modules';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {useQuery} from 'react-query';
+import {useSelector} from 'react-redux';
+import {FetchApi} from '../../utils/modules';
+import {ResetFunction} from '../../utils/modules';
 const TaoLoiNhanMoi = ({navigation}) => {
-  const [choise, setchoise] = useState(true);
+  const studentId = useSelector(state => state.data.data._id);
+  const {data, isLoading} = useQuery(['NewListSend'], () =>
+    FetchApi.getListSend(studentId),
+  );
+  const {data: cate, isLoadings} = useQuery(['NewListCate'], () =>
+    FetchApi.getAdviceCate(studentId),
+  );
+
+  const [open1, setOpen1] = useState(false);
+  const [items1, setItems1] = useState(
+    (data || []).map((item, index) => ({
+      label: item.full_name,
+      value: item.user_id,
+    })),
+  );
+  const [open2, setOpen2] = useState(false);
+  const [items2, setItems2] = useState(
+    (cate || []).map((item, index) => ({
+      label: item.title,
+      value: item.category_id,
+    })),
+  );
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
+
   const {
     handleSubmit,
     control,
     reset,
     formState: {errors},
   } = useForm();
+  const [submiting, setSubmiting] = useState(false);
   const onSubmit = async data => {
-    const {content} = data;
-    console.log(content);
+    try {
+      setSubmiting(true);
+      const {content, user_id, category_id, title, student_id} = data;
+      const result = await FetchApi.postAdvice({
+        content: content,
+        user_id: user_id,
+        category_id: category_id,
+        title: title,
+        student_id: studentId,
+      });
+      if (result._msg_code == 1) {
+        console.log('Gửi lời nhắn thành công');
+        Alert.alert(result._msg_text);
+        ResetFunction.resetToAdvice();
+        // navigation.navigate('XinNghi');
+      } else {
+        Alert.alert(result._msg_text);
+      }
+    } catch (err) {
+      console.log('err', err);
+    }
 
     reset({content: ''});
   };
+
   const [inputHeight, setInputHeight] = useState(40);
+
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          height: Sizes.device_width < Sizes.device_height,
+          paddingHorizontal: 15,
+          paddingVertical: 10,
+          backgroundColor: 'white',
+          // marginTop: insets.top,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <TouchableCo onPress={() => navigation.goBack()}>
+          <Icons name={'close'} size={21} color={'black'} />
+        </TouchableCo>
+        <Text style={{color: 'black', fontSize: 19, marginVertical: -2}}>
+          Tạo Lời nhắn mới{' '}
+        </Text>
+        <TouchableCo onPress={handleSubmit(onSubmit)}>
+          <Text style={{color: 'black', fontSize: 17}}>Gửi </Text>
+        </TouchableCo>
+      </View>
+      <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
+        Giao viên nhận
+      </Text>
+      <Controller
+        control={control}
+        name="user_id"
+        defaultValue=""
+        rules={{required: true}}
+        render={({field: {onChange, value}, fieldState: {error}}) => (
+          <DropDownPicker
+            style={styles.drop}
+            open={open1}
+            value={value}
+            items={items1}
+            setOpen={setOpen1}
+            setValue={onChange}
+            setItems={setItems1}
+            placeholder="Chọn người nhận"
+          />
+        )}
+      />
+      <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
+        Danh mục lời nhắn
+      </Text>
+      <Controller
+        control={control}
+        name="category_id"
+        defaultValue=""
+        rules={{required: true}}
+        render={({field: {onChange, value}, fieldState: {error}}) => (
+          <DropDownPicker
+            style={styles.drop}
+            open={open2}
+            value={value}
+            items={items2}
+            setOpen={setOpen2}
+            setValue={onChange}
+            setItems={setItems2}
+            placeholder="Chọn danh mục"
+          />
+        )}
+      />
       <KeyboardAwareScrollView enableOnAndroid={true}>
-        <View
-          style={{
-            height: Sizes.device_width < Sizes.device_height,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            backgroundColor: 'white',
-            // marginTop: insets.top,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <TouchableCo onPress={() => navigation.goBack()}>
-            <Icons name={'close'} size={21} color={'black'} />
-          </TouchableCo>
-          <Text style={{color: 'black', fontSize: 19, marginVertical: -2}}>
-            Tạo Lời nhắn mới{' '}
-          </Text>
-          <TouchableCo onPress={handleSubmit(onSubmit)}>
-            <Text style={{color: 'black', fontSize: 17}}>Gửi </Text>
-          </TouchableCo>
-        </View>
-        <View style={{marginVertical: 25}}>
+        {/* <View style={{marginVertical: 25}}>
           <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
             Nhắn cho ngày
           </Text>
@@ -78,8 +170,8 @@ const TaoLoiNhanMoi = ({navigation}) => {
               Thứ hai,ngày 24 tháng 7
             </Text>
           </View>
-        </View>
-        <View style={{marginTop: -20}}>
+        </View> */}
+        {/* <View style={{marginTop: -20}}>
           <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
             Hình ảnh
           </Text>
@@ -99,6 +191,60 @@ const TaoLoiNhanMoi = ({navigation}) => {
               justifyContent: 'space-between',
             }}>
             <Ionicons name={'add-circle'} size={30} color={'#898F9D'} />
+          </View>
+        </View> */}
+
+        <View>
+          <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
+            Tiêu đề lời nhắn
+          </Text>
+          {errors.content && (
+            <Text style={{color: 'red', marginLeft: 30}}>
+              Tiêu đề không được để trống
+            </Text>
+          )}
+          <View
+            style={{
+              height: 100,
+              width: 300,
+              paddingHorizontal: 15,
+              paddingVertical: 10,
+              marginHorizontal: 30,
+              marginVertical: 10,
+              borderRadius: 10,
+              backgroundColor: 'white',
+              // marginTop: insets.top,
+              // flexDirection: 'row',
+              // alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <SafeAreaView>
+              <ScrollView>
+                <Controller
+                  control={control}
+                  name="title"
+                  defaultValue=""
+                  rules={{required: true}}
+                  render={({field: {onChange, value}, fieldState: {error}}) => (
+                    <TextInput
+                      style={styles.input}
+                      underlineColorAndroid="transparent"
+                      value={value}
+                      placeholder="Nhập tiêu đề..."
+                      placeholderTextColor="gray"
+                      autoCapitalize="none"
+                      onChangeText={onChange}
+                      color="black"
+                      multiline
+                      maxLength={255}
+                      onContentSizeChange={e => {
+                        setInputHeight(e.nativeEvent.contentSize.height);
+                      }}
+                    />
+                  )}
+                />
+              </ScrollView>
+            </SafeAreaView>
           </View>
         </View>
         <View>
@@ -163,6 +309,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#EEC8C8',
     justifyContent: 'flex-start',
+  },
+  drop: {
+    width: 300,
+    height: 40,
+    borderWidth: 0,
+    padding: 10,
+    color: 'black',
+    marginHorizontal: 30,
+    marginBottom: 15,
+    zIndex: 1,
   },
 });
 export default TaoLoiNhanMoi;
