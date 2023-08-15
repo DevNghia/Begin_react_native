@@ -18,7 +18,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useSelector} from 'react-redux';
 import {useQuery} from 'react-query';
-import {FetchApi} from '../../utils/modules';
+import {FetchApi, ResetFunction} from '../../utils/modules';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Loading} from '../../elements';
 const TaoDonXinNghi = ({navigation}) => {
@@ -49,6 +49,8 @@ const TaoDonXinNghi = ({navigation}) => {
       if (result._msg_code == 1) {
         console.log('Gửi đơn xin nghỉ thành công');
         Alert.alert(result._msg_text);
+        ResetFunction.resetToOff();
+        // navigation.navigate('XinNghi');
       } else {
         Alert.alert(result._msg_text);
       }
@@ -59,7 +61,6 @@ const TaoDonXinNghi = ({navigation}) => {
     reset({content: ''});
   };
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
   const [items, setItems] = useState(
     (data || []).map((item, index) => ({
       label: item.full_name,
@@ -69,20 +70,17 @@ const TaoDonXinNghi = ({navigation}) => {
   const [inputHeight, setInputHeight] = useState(40);
 
   //date_picker
-  const [showPicker, setShowPicker] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowPicker(false);
-    setDate(currentDate);
-  };
+  const [showPicker1, setShowPicker1] = useState(false);
+  const [showPicker2, setShowPicker2] = useState(false);
+  const [date1, setDate1] = useState(new Date());
+  const [date2, setDate2] = useState(new Date());
 
-  const showDatepicker = () => {
-    setShowPicker(true);
+  const showDatepicker1 = () => {
+    setShowPicker1(true);
   };
-  const dayOfWeek = date.toLocaleDateString('vn-VN', {weekday: 'long'});
-  // Định dạng theo chuỗi "Thứ Ngày Tháng Năm"
-  const formattedDate = `${dayOfWeek}`;
+  const showDatepicker2 = () => {
+    setShowPicker2(true);
+  };
   return (
     <View style={styles.container}>
       <View
@@ -118,7 +116,7 @@ const TaoDonXinNghi = ({navigation}) => {
           placeholder="Full Name"
           rules={{required: true}}
           render={({field: {onChange, value}, fieldState: {error}}) => (
-            <Pressable onPress={showDatepicker}>
+            <Pressable onPress={showDatepicker1}>
               <View
                 style={{
                   height: Sizes.device_width < Sizes.device_height,
@@ -149,14 +147,14 @@ const TaoDonXinNghi = ({navigation}) => {
                   editable={false}
                 />
               </View>
-              {showPicker && (
+              {showPicker1 && (
                 <DateTimePicker
                   value={value ? new Date(value) : new Date()}
                   mode="date"
                   display="default"
                   onChange={(event, selectedDate) => {
                     onChange(selectedDate ? selectedDate.toISOString() : '');
-                    setShowPicker(false);
+                    setShowPicker1(false);
                   }}
                 />
               )}
@@ -175,7 +173,7 @@ const TaoDonXinNghi = ({navigation}) => {
           placeholder="Full Name"
           rules={{required: true}}
           render={({field: {onChange, value}, fieldState: {error}}) => (
-            <Pressable onPress={showDatepicker}>
+            <Pressable onPress={showDatepicker2}>
               <View
                 style={{
                   height: Sizes.device_width < Sizes.device_height,
@@ -206,14 +204,14 @@ const TaoDonXinNghi = ({navigation}) => {
                   editable={false}
                 />
               </View>
-              {showPicker && (
+              {showPicker2 && (
                 <DateTimePicker
                   value={value ? new Date(value) : new Date()}
                   mode="date"
                   display="default"
                   onChange={(event, selectedDate) => {
                     onChange(selectedDate ? selectedDate.toISOString() : '');
-                    setShowPicker(false);
+                    setShowPicker2(false);
                   }}
                 />
               )}

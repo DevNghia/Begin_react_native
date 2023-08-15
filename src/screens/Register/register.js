@@ -146,6 +146,7 @@ const Register = ({navigation}) => {
                           selectedDate ? selectedDate.toISOString() : '',
                         );
                         setShow(false);
+                        console.log('sdfsdfsdf', selectedDate);
                       }}
                     />
                   )}

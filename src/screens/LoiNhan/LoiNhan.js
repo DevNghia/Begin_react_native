@@ -9,7 +9,22 @@ import {
 } from 'react-native';
 import {Sizes} from '../../utils/resource';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
+import {FetchApi} from '../../utils/modules';
+import {useQuery} from 'react-query';
+import {Loading} from '../../elements';
 const LoiNhan = ({navigation}) => {
+  const studentId = useSelector(state => state.data.data._id);
+  const {data, isLoading} = useQuery(['NewListAdvice'], () =>
+    FetchApi.getAdvice(studentId),
+  );
+  const {data: cd, isLoadingcd} = useQuery(['NewListAdvicecd'], () =>
+    FetchApi.getAdvicecd(studentId),
+  );
+  if (isLoading && isLoadingcd) {
+    return <Loading />;
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -20,11 +35,15 @@ const LoiNhan = ({navigation}) => {
             paddingVertical: 10,
             backgroundColor: 'white',
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>LỜI NHẮN </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 20}}>LỜI NHẮN</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
         </View>
         <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>
           Lời nhắn của bạn{' '}
@@ -54,57 +73,64 @@ const LoiNhan = ({navigation}) => {
         <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>
           Danh sách lời nhắn{' '}
         </Text>
-        <View style={styles.blockList}>
-          <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-            Nguyễn Chí Nghĩa gửi lời nhắn{' '}
-          </Text>
-          <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
-            Nội dung: cô giáo xinh quá
-          </Text>
-          <Text
-            style={{
-              color: '#BFBFBF',
-              fontSize: 12,
-              marginVertical: 5,
-              alignSelf: 'flex-end',
-            }}>
-            Gửi lúc 10:00 ngày 23/07/2023
-          </Text>
-        </View>
-        <View style={styles.blockList}>
-          <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-            Nguyễn Chí Nghĩa gửi lời nhắn
-          </Text>
-          <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
-            Nội dung: cô giáo xinh quá
-          </Text>
-          <Text
-            style={{
-              color: '#BFBFBF',
-              fontSize: 12,
-              marginVertical: 5,
-              alignSelf: 'flex-end',
-            }}>
-            Gửi lúc 10:00 ngày 23/07/2023
-          </Text>
-        </View>
-        <View style={styles.blockList}>
-          <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-            Nguyễn Chí Nghĩa gửi lời nhắn
-          </Text>
-          <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
-            Nội dung: cô giáo xinh quá
-          </Text>
-          <Text
-            style={{
-              color: '#BFBFBF',
-              fontSize: 12,
-              marginVertical: 5,
-              alignSelf: 'flex-end',
-            }}>
-            Gửi lúc 10:00 ngày 23/07/2023
-          </Text>
-        </View>
+        {(data || []).map((item, index) => {
+          return (
+            <View style={styles.blockList} key={index}>
+              <View style={{flexDirection: 'row'}}>
+                <Ionicons
+                  name={`checkmark-circle-sharp`}
+                  size={20}
+                  color={'green'}
+                />
+                <Text style={{color: 'black', fontSize: 16}}>Đã duyệt</Text>
+              </View>
+              <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
+                Lời nhắn đến {item.user_fullname}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Nội dung: cô giáo xinh quá
+              </Text>
+              <Text
+                style={{
+                  color: '#BFBFBF',
+                  fontSize: 12,
+                  marginVertical: 5,
+                  alignSelf: 'flex-end',
+                }}>
+                Gửi lúc {item.date_at}
+              </Text>
+            </View>
+          );
+        })}
+        {(cd || []).map((item, index) => {
+          return (
+            <View style={styles.blockList} key={index}>
+              <View style={{flexDirection: 'row'}}>
+                <Ionicons
+                  name={`checkmark-circle-sharp`}
+                  size={20}
+                  color={'gray'}
+                />
+                <Text style={{color: 'black', fontSize: 16}}>Chưa duyệt</Text>
+              </View>
+              <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
+                Lời nhắn đến {item.user_fullname}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Nội dung: cô giáo xinh quá
+              </Text>
+              <Text
+                style={{
+                  color: '#BFBFBF',
+                  fontSize: 12,
+                  marginVertical: 5,
+                  alignSelf: 'flex-end',
+                }}>
+                Gửi lúc {item.date_at}
+              </Text>
+            </View>
+          );
+        })}
       </ScrollView>
     </View>
   );

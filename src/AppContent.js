@@ -49,8 +49,8 @@ const MenuFunction = () => {
   const navigation = useNavigation();
   const menuList = [
     {
-      label: 'Tin Tức',
-      onPress: () => navigation.navigate('TinTuc'),
+      label: 'Trọn bé',
+      onPress: () => ResetFunction.resetToChoose(),
     },
     {
       label: 'Đăng xuất',
