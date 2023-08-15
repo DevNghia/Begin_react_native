@@ -15,11 +15,9 @@ import {
 import {useSelector} from 'react-redux';
 import {Loading} from '../../elements';
 import {FetchApi} from '../../utils/modules';
-<<<<<<< HEAD
-import { useQuery } from 'react-query';
-=======
+
 import {useQuery} from 'react-query';
->>>>>>> nghia2
+
 const HocPhi = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
