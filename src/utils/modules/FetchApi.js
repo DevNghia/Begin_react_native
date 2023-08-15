@@ -3,19 +3,19 @@ import {Apis} from '../resource';
 import {AccountService} from '../Account';
 import {ResetFunction} from './ResetFunction';
 
-const account = AccountService.get();
-const headers = [
-  {
-    key: 'deviceid',
-    value: '2D92C8D4-942D-455D-85A2-4B22AB84BE3F',
-    type: 'text',
-  },
-  {
-    key: 'Authorization',
-    value: 'Bearer ' + account.api_token,
-    type: 'text',
-  },
-];
+// const account = AccountService.get();
+// const headers = [
+//   {
+//     key: 'deviceid',
+//     value: '2D92C8D4-942D-455D-85A2-4B22AB84BE3F',
+//     type: 'text',
+//   },
+//   {
+//     key: 'Authorization',
+//     value: 'Bearer ' + account.api_token,
+//     type: 'text',
+//   },
+// ];
 const CommonCall = async (api, header) => {
   console.log('api', api);
   // const Strings = LanguageService.get();
