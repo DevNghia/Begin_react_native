@@ -5,3 +5,9 @@ export const setData = data => {
     payload: data,
   };
 };
+export const setNotiToken = token => {
+  return {
+    type: 'SET_TOKEN',
+    payload: token,
+  };
+};

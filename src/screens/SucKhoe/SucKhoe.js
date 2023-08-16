@@ -1,13 +1,20 @@
 import * as React from 'react';
-import {View, Text, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import {Sizes} from '../../utils/resource';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Image} from 'react-native-ui-lib';
-import {TouchableCo} from '../../elements';
 import {useSelector} from 'react-redux';
 import {useQuery} from 'react-query';
 import {FetchApi} from '../../utils/modules';
 import {Loading} from '../../elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const SucKhoe = ({navigation}) => {
   const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery('useGetGrowth', () =>
@@ -17,8 +24,6 @@ const SucKhoe = ({navigation}) => {
   if (isLoading) {
     return <Loading />;
   }
-
-  const columns = 2;
 
   const itemWidth = Dimensions.get('window').width / 2.35;
   return (
@@ -31,11 +36,15 @@ const SucKhoe = ({navigation}) => {
             paddingVertical: 10,
             backgroundColor: 'white',
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>SỨC KHỎE </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 20}}>SƯC KHỎE</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
         </View>
         <View
           style={{
@@ -64,31 +73,35 @@ const SucKhoe = ({navigation}) => {
           Chiều cao - Cân nặng{' '}
         </Text>
         <View style={{flexDirection: 'row'}}>
-          <View style={[styles.itemContainer, {width: itemWidth}]}>
-            <Icon
-              name="human-male-height"
-              size={45}
-              color="#22A249"
-              style={styles.icon}
-            />
-            <Text>Chiều cao</Text>
-            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-              {data._data.height} cm
-            </Text>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('TableHeight')}>
+            <View style={[styles.itemContainer, {width: itemWidth}]}>
+              <Icon
+                name="human-male-height"
+                size={45}
+                color="#22A249"
+                style={styles.icon}
+              />
+              <Text>Chiều cao</Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+                {data._data.height} cm
+              </Text>
+            </View>
+          </TouchableOpacity>
 
-          <View style={[styles.itemContainer, {width: itemWidth}]}>
-            <Icon
-              name="weight-kilogram"
-              size={45}
-              color="#22A249"
-              style={styles.icon}
-            />
-            <Text>Cân nặng</Text>
-            <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
-              {data._data.weight} KG
-            </Text>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('TableWeight')}>
+            <View style={[styles.itemContainer, {width: itemWidth}]}>
+              <Icon
+                name="weight-kilogram"
+                size={45}
+                color="#22A249"
+                style={styles.icon}
+              />
+              <Text>Cân nặng</Text>
+              <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+                {data._data.weight} KG
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>

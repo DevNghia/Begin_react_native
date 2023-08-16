@@ -1,22 +1,27 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView, Button} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {Sizes} from '../../utils/resource';
 import {Image} from 'react-native-ui-lib';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   Table,
   TableWrapper,
   Row,
-  Rows,
   Col,
-  Cols,
   Cell,
 } from 'react-native-table-component';
 import {useSelector} from 'react-redux';
 import {Loading} from '../../elements';
 import {FetchApi} from '../../utils/modules';
 import {useQuery} from 'react-query';
-const HocPhi = () => {
+const HocPhi = ({navigation}) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -61,10 +66,10 @@ const HocPhi = () => {
     data3 = data_info.tongnop;
     data4 = data_info.danop;
   } else {
-    data1 = 'null';
-    data2 = 'null';
-    data3 = 'null';
-    data4 = 'null';
+    data1 = '';
+    data2 = '';
+    data3 = '';
+    data4 = '';
   }
 
   const tableDatas = [
@@ -101,11 +106,15 @@ const HocPhi = () => {
             paddingVertical: 10,
 
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>HỌC PHÍ </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 20}}>HỌC PHÍ</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'#FCEEEE'} />
         </View>
         <View
           style={{
@@ -122,7 +131,7 @@ const HocPhi = () => {
             />
           </View>
 
-          <Text style={{color: 'black', fontSize: 14, marginHorizontal: 20}}>
+          <Text style={{color: 'black', fontSize: 16, marginHorizontal: 20}}>
             {data._data.user_info.first_name +
               ' ' +
               data._data.user_info.last_name}
@@ -145,7 +154,7 @@ const HocPhi = () => {
           />
         )}
 
-        <Table style={styles.table} borderStyle={{borderWidth: 1}}>
+        <Table style={styles.table}>
           <Row
             data={state.tableHead}
             flexArr={[1, 1, 1]}
@@ -164,7 +173,7 @@ const HocPhi = () => {
           ))}
         </Table>
 
-        <Table style={styles.table} borderStyle={{borderWidth: 1}}>
+        <Table style={styles.table}>
           <TableWrapper style={styles.wrapper}>
             <Col
               data={state2.tableHead2}
@@ -212,8 +221,8 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   image: {
-    height: 100,
-    width: 100,
+    height: 70,
+    width: 70,
     borderRadius: 50, // Đặt borderRadius thành nửa kích thước để làm hình ảnh tròn
     overflow: 'hidden', // Giữ cho hình ảnh không bị tràn ra khỏi khung
     marginBottom: 10,
@@ -226,14 +235,27 @@ const styles = StyleSheet.create({
   table: {
     flex: 1,
     backgroundColor: '#fff',
-
+    // borderRadius: 10,
     marginHorizontal: 15,
     marginBottom: 10,
   },
-  head: {height: 40, backgroundColor: '#f1f8ff'},
+  head: {
+    height: 40,
+    backgroundColor: '#f1f8ff',
+    // borderRadius: 10,
+    borderWidth: 0,
+  },
   singleHead: {width: 80, height: 40, backgroundColor: '#c8e1ff'},
-  wrapper: {flexDirection: 'row'},
-  title: {flex: 1, backgroundColor: '#f6f8fa'},
+  wrapper: {
+    flexDirection: 'row',
+    borderWidth: 0.7,
+    borderTopColor: 'white',
+    borderLeftColor: 'white',
+    borderRightColor: 'white',
+    borderBottomColor: 'pink',
+    paddingBottom: 2,
+  },
+  title: {flex: 1, backgroundColor: '#f6f8fa', marginHorizontal: 15},
   row: {height: 28},
   text: {textAlign: 'center', color: 'black'},
   titleText: {color: 'black'},

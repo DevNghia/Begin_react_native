@@ -73,35 +73,6 @@ const LoiNhan = ({navigation}) => {
         <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>
           Danh sách lời nhắn{' '}
         </Text>
-        {(data || []).map((item, index) => {
-          return (
-            <View style={styles.blockList} key={index}>
-              <View style={{flexDirection: 'row'}}>
-                <Ionicons
-                  name={`checkmark-circle-sharp`}
-                  size={20}
-                  color={'green'}
-                />
-                <Text style={{color: 'black', fontSize: 16}}>Đã duyệt</Text>
-              </View>
-              <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
-                Lời nhắn đến {item.user_fullname}
-              </Text>
-              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
-                Nội dung: cô giáo xinh quá
-              </Text>
-              <Text
-                style={{
-                  color: '#BFBFBF',
-                  fontSize: 12,
-                  marginVertical: 5,
-                  alignSelf: 'flex-end',
-                }}>
-                Gửi lúc {item.date_at}
-              </Text>
-            </View>
-          );
-        })}
         {(cd || []).map((item, index) => {
           return (
             <View style={styles.blockList} key={index}>
@@ -117,7 +88,36 @@ const LoiNhan = ({navigation}) => {
                 Lời nhắn đến {item.user_fullname}
               </Text>
               <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
-                Nội dung: cô giáo xinh quá
+                Nội dung: {item.content}
+              </Text>
+              <Text
+                style={{
+                  color: '#BFBFBF',
+                  fontSize: 12,
+                  marginVertical: 5,
+                  alignSelf: 'flex-end',
+                }}>
+                Gửi lúc {item.date_at}
+              </Text>
+            </View>
+          );
+        })}
+        {(data || []).map((item, index) => {
+          return (
+            <View style={styles.blockList} key={index}>
+              <View style={{flexDirection: 'row'}}>
+                <Ionicons
+                  name={`checkmark-circle-sharp`}
+                  size={20}
+                  color={'green'}
+                />
+                <Text style={{color: 'black', fontSize: 16}}>Đã duyệt</Text>
+              </View>
+              <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
+                Lời nhắn đến {item.user_fullname}
+              </Text>
+              <Text style={{color: 'black', fontSize: 14, marginVertical: 5}}>
+                Nội dung: {item.content}
               </Text>
               <Text
                 style={{

@@ -66,17 +66,16 @@ const XinNghi = ({navigation}) => {
             </Text>
           </View>
         </TouchableOpacity>
-
-        {(data || []).map((item, index) => {
+        {(cd || []).map((item, index) => {
           return (
             <View style={styles.blockList} key={index}>
               <View style={{flexDirection: 'row'}}>
                 <Ionicons
                   name={`checkmark-circle-sharp`}
                   size={20}
-                  color={'green'}
+                  color={'gray'}
                 />
-                <Text style={{color: 'black', fontSize: 16}}>Đã duyệt</Text>
+                <Text style={{color: 'black', fontSize: 16}}>Chưa duyệt</Text>
               </View>
               <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
                 {/* Nguyễn Chí Nghĩa gửi đơn xin nghỉ cho bé Giang 1 ngày{' '} */}
@@ -104,17 +103,16 @@ const XinNghi = ({navigation}) => {
             </View>
           );
         })}
-
-        {(cd || []).map((item, index) => {
+        {(data || []).map((item, index) => {
           return (
             <View style={styles.blockList} key={index}>
               <View style={{flexDirection: 'row'}}>
                 <Ionicons
                   name={`checkmark-circle-sharp`}
                   size={20}
-                  color={'gray'}
+                  color={'green'}
                 />
-                <Text style={{color: 'black', fontSize: 16}}>Chưa duyệt</Text>
+                <Text style={{color: 'black', fontSize: 16}}>Đã duyệt</Text>
               </View>
               <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
                 {/* Nguyễn Chí Nghĩa gửi đơn xin nghỉ cho bé Giang 1 ngày{' '} */}

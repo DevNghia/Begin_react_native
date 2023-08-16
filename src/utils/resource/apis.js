@@ -7,7 +7,7 @@ const Apis = {
   home_relative: `${host.api_mamnon}/ps_user/home_relative`,
   home: `${host.api_mamnon}/ps_user/home`,
   registerDeviceid: `${host.api_mamnon}/ps_user/active`,
-
+  registerNotificationToken: `${host.api_mamnon}/ps_user/notification`,
   getNews: student_id =>
     `${host.api_mamnon}/ps_articles/list/global/1?student_id=${student_id}`,
   getNewsDetail: ({id, student_id}) =>
