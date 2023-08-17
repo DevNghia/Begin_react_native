@@ -541,6 +541,18 @@ const FetchApi = {
       return {message: error.message};
     }
   },
+  getActive: async (student_id, date) => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getActive({student_id, date});
+      const result = await CommonCall(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
 };
 
 export {FetchApi};

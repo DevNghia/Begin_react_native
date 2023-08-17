@@ -163,11 +163,11 @@ const HocPhi = ({navigation}) => {
           />
           {(data._data.fee || []).map((rowData, index) => (
             <TableWrapper key={index} style={styles.wrapper}>
-              <Cell data={rowData.se} textStyle={styles.text} />
-              <Cell data={rowData.by_number} textStyle={styles.text} />
+              <Cell data={rowData.se} textStyle={{...styles.text}} />
+              <Cell data={rowData.by_number} textStyle={{...styles.text}} />
               <Cell
                 data={rowData.unit_price + ' vnđ'}
-                textStyle={styles.text}
+                textStyle={{...styles.text}}
               />
             </TableWrapper>
           ))}

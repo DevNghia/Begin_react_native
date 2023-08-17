@@ -44,6 +44,8 @@ const Apis = {
   postAdvice: `${host.api_mamnon}/ps_advice/advice`,
   getServices: student_id =>
     `${host.api_mamnon}/ps_student/${student_id}/services_used`,
+  getActive: ({student_id, date}) =>
+    `${host.api_mamnon}/ps_student/${student_id}/active/${date}`,
 };
 
 export {Apis};

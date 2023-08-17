@@ -40,17 +40,8 @@ const MainNavigator = () => {
         tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'gray',
       })}>
-      <Tab.Screen name="Hoạt động" component={HoatDong} />
-      <Tab.Screen
-        name="TabSucKhoe"
-        component={AllStackNavigator}
-        options={{
-          tabBarLabel: 'Sức khỏe',
-        }}
-        initialParams={{
-          initialRouteName: 'SucKhoe',
-        }}
-      />
+      {/* <Tab.Screen name="Hoạt động" component={HoatDong} /> */}
+
       <Tab.Screen
         name="TabHome"
         component={AllStackNavigator}
@@ -59,6 +50,16 @@ const MainNavigator = () => {
         }}
         initialParams={{
           initialRouteName: 'Home',
+        }}
+      />
+      <Tab.Screen
+        name="TabSucKhoe"
+        component={AllStackNavigator}
+        options={{
+          tabBarLabel: 'Sức khỏe',
+        }}
+        initialParams={{
+          initialRouteName: 'SucKhoe',
         }}
       />
       <Tab.Screen

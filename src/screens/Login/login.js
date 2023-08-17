@@ -45,18 +45,12 @@ const Login = ({navigation}) => {
         ResetFunction.resetToChoose();
       }
       if (result._msg_code === 0) {
-        // ModalBase.error({
-        //   message:
-        //     'Tài khoản hoặc mật khẩu không chính xác. Vui lòng nhập lại.',
-        // });
-        // showMessage({
-        //   message: 'Hello World',
-        //   description: 'This is our second message',
-        //   type: 'success',
-        // });
         Alert.alert(
           'Tài khoản hoặc mật khẩu không chính xác. Vui lòng nhập lại.',
         );
+      }
+      if (result.message === 'Network request failed') {
+        Alert.alert('Vui lòng kết nối mạng.');
       }
     } catch (err) {
       console.log('err', err);
