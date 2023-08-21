@@ -84,7 +84,7 @@ const DichVu = () => {
             />
           </View>
 
-          <Text style={{color: 'black', fontSize: 14, marginHorizontal: 20}}>
+          <Text style={{color: 'black', fontSize: 17, marginHorizontal: 20}}>
             {data._data.user_info.first_name +
               ' ' +
               data._data.user_info.last_name}
@@ -107,7 +107,7 @@ const DichVu = () => {
           />
         )} */}
 
-        <Table style={styles.table} borderStyle={{borderWidth: 1}}>
+        <Table style={styles.table}>
           <Row
             data={state.tableHead}
             flexArr={[1, 1, 1]}
@@ -185,13 +185,20 @@ const styles = StyleSheet.create({
   table: {
     flex: 1,
     backgroundColor: '#fff',
-
     marginHorizontal: 15,
     marginBottom: 10,
   },
   head: {height: 40, backgroundColor: '#f1f8ff'},
   singleHead: {width: 80, height: 40, backgroundColor: '#c8e1ff'},
-  wrapper: {flexDirection: 'row'},
+  wrapper: {
+    flexDirection: 'row',
+    borderWidth: 0.7,
+    borderTopColor: 'white',
+    borderLeftColor: 'white',
+    borderRightColor: 'white',
+    borderBottomColor: 'pink',
+    paddingBottom: 2,
+  },
   title: {flex: 1, backgroundColor: '#f6f8fa'},
   row: {height: 28},
   text: {textAlign: 'center', color: 'black'},
