@@ -1,5 +1,5 @@
-import {getUniqueId} from 'react-native-device-info';
-import {Apis} from '../resource';
+import {getUniqueId, getSystemVersion} from 'react-native-device-info';
+import {Apis, isIOS} from '../resource';
 import {AccountService} from '../Account';
 import {ResetFunction} from './ResetFunction';
 
@@ -143,6 +143,7 @@ const CommonCallWithoutUseQuery = async (api, header) => {
     // return {code: 12, message: Strings.something_wrong};
   }
 };
+
 const FetchApi = {
   login: async ({username, password, appcode}) => {
     try {
@@ -175,12 +176,29 @@ const FetchApi = {
       return {message: error.message};
     }
   },
+  registerNotificationToken: async obj => {
+    try {
+      const header = {
+        method: 'PUT',
+        body: JSON.stringify({
+          ...obj,
+          osname: isIOS ? 'Ios' : 'Android',
+          osvesion: getSystemVersion(),
+        }),
+      };
+      const api = Apis.registerNotificationToken;
+      const result = await CommonCallWithoutUseQuery(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
   registerDeviceid: async () => {
     try {
       const header = {
-        method: 'POST',
+        method: 'PUT',
       };
-      const api = Apis.registerDeviceid;
+      const api = Apis.registerNotificationToken;
       const result = await CommonCall(api, header);
       return result;
     } catch (error) {
@@ -519,6 +537,18 @@ const FetchApi = {
       const api = Apis.getServices(student_id);
       const result = await CommonCall(api, header);
 
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getActive: async (student_id, date) => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getActive({student_id, date});
+      const result = await CommonCall(api, header);
       return result;
     } catch (error) {
       return {message: error.message};

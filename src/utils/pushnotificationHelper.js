@@ -14,10 +14,15 @@ export async function requestUserPermission() {
 
 async function GetFCMToke() {
   let fcmtoken = await AsyncStorage.getItem('fcmtoken');
+
+  // const result = await FetchApi.registerNotificationToken({
+  //   device_token: fcmtoken,
+  // });
   console.log(fcmtoken, 'old token');
   if (!fcmtoken) {
     try {
       const fcmtoken = await messaging().getToken();
+
       if (fcmtoken) {
         console.log(fcmtoken, 'new token');
         await AsyncStorage.setItem('fcmtoken', fcmtoken);

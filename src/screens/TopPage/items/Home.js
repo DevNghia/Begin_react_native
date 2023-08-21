@@ -1,10 +1,64 @@
-import * as React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from 'react-native';
 import {Sizes} from '../../../utils/resource';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  Table,
+  TableWrapper,
+  Row,
+  Rows,
+  Col,
+  Cell,
+} from 'react-native-table-component';
+import {useQuery} from 'react-query';
+import {useSelector} from 'react-redux';
+import {FetchApi} from '../../../utils/modules';
+import {Loading} from '../../../elements';
 const HomeScreen = ({navigation}) => {
+  const [date, setDate] = useState(new Date());
+  const options = {
+    weekday: 'long',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: 'Asia/Ho_Chi_Minh',
+  };
+  console.log(date);
+  const formatDate = dateString => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+  };
+  const studentId = useSelector(state => state.data.data._id);
+  const {data, isLoading} = useQuery(['NewActive', formatDate(date)], () =>
+    FetchApi.getActive(studentId, formatDate(date)),
+  );
+
+  if (isLoading) {
+    return <Loading />;
+  }
   const insets = useSafeAreaInsets();
+  (data._data.data_info || []).map((item, index) => [
+    console.log('adsasđsd', item.note),
+  ]);
+  const state = {
+    tableHead: ['Thời gian', 'Nội dung'],
+    tableData: (data._data.data_info || []).map((item, index) => [
+      item.start_time,
+      item.note,
+    ]),
+  };
   return (
     <View style={styles.container}>
       <View
@@ -55,16 +109,16 @@ const HomeScreen = ({navigation}) => {
       <View
         style={{
           height: Sizes.device_width < Sizes.device_height,
-          paddingHorizontal: 15,
-          paddingVertical: 20,
+          // paddingHorizontal: 15,
+          // paddingVertical: 20,
 
           backgroundColor: '#FCEEEE',
           marginTop: insets.top,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          // flexDirection: 'row',
+          // alignItems: 'center',
+          // justifyContent: 'space-between',
         }}>
-        <TouchableOpacity onPress={() => navigation.navigate('Albums')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('Albums')}>
           <View>
             <Icon
               name="photo-album"
@@ -74,7 +128,7 @@ const HomeScreen = ({navigation}) => {
             />
             <Text style={styles.textIcon}>Albums</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={() => navigation.navigate('DichVu')}>
           <View>
             <Icon
@@ -86,7 +140,7 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.textIcon}>Dịch Vụ</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DanhGia')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('DanhGia')}>
           <View>
             <Icon
               name="assessment"
@@ -96,7 +150,7 @@ const HomeScreen = ({navigation}) => {
             />
             <Text style={styles.textIcon}>Đánh Giá</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View
         style={{
@@ -121,7 +175,10 @@ const HomeScreen = ({navigation}) => {
           }}
           source={require('../../../utils/Icons/child_care.png')}
         />
-        <Text style={{color: 'white'}}>Thứ hai,24/07/2023</Text>
+        <Text style={{color: 'white'}}>
+          {' '}
+          {date.toLocaleDateString('vi-VN', options)}
+        </Text>
       </View>
       <View
         style={{
@@ -138,7 +195,10 @@ const HomeScreen = ({navigation}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{color: 'black'}}>Hoạt động của bé</Text>
+        <Text style={{color: '#686CDE', fontSize: 17, fontWeight: 'bold'}}>
+          HOẠT ĐỘNG TRONG NGÀY
+        </Text>
+
         <View
           style={{
             //  height: Sizes.device_width < Sizes.device_height ,
@@ -155,15 +215,30 @@ const HomeScreen = ({navigation}) => {
             // alignItems: "center",
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black'}}>Thời gian</Text>
-          <Text style={{color: 'black'}}>Thời gian</Text>
-          <Text style={{color: 'black'}}>Thời gian</Text>
-          <Text style={{color: 'black'}}>Thời gian</Text>
-          <Text style={{color: 'black'}}>Thời gian</Text>
-          <Text style={{color: 'black'}}>Thời gian</Text>
-          <Text style={{color: 'black'}}>Thời gian</Text>
-          <Text style={{color: 'black'}}>Thời gian</Text>
-          <Text style={{color: 'black'}}>Thời gian</Text>
+          <ScrollView>
+            <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+              <Row
+                data={state.tableHead}
+                flexArr={[2, 3]}
+                style={styles.head}
+                textStyle={{textAlign: 'center', color: 'black'}}
+              />
+              <TableWrapper style={styles.wrapper}>
+                <Col
+                  data={state.tableTitle}
+                  style={styles.title}
+                  heightArr={[28, 28]}
+                  textStyle={{textAlign: 'center', color: 'black'}}
+                />
+                <Rows
+                  data={state.tableData}
+                  flexArr={[2, 3]}
+                  style={styles.row}
+                  textStyle={{textAlign: 'center', color: 'black'}}
+                />
+              </TableWrapper>
+            </Table>
+          </ScrollView>
         </View>
       </View>
     </View>
@@ -186,5 +261,10 @@ const styles = StyleSheet.create({
     color: 'black',
     marginHorizontal: 30,
   },
+  head: {height: 30, backgroundColor: '#f1f8ff'},
+  text: {textAlign: 'center', color: 'black'},
+  wrapper: {flexDirection: 'row'},
+  title: {flex: 1, backgroundColor: '#f6f8fa'},
+  row: {height: 28},
 });
 export default HomeScreen;

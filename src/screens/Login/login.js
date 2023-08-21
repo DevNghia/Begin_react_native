@@ -15,7 +15,7 @@ import {FetchApi} from '../../utils/modules';
 import {AppButton} from '../../elements';
 import {AccountService} from '../../utils/Account';
 import {ResetFunction} from '../../utils/modules';
-import {showMessage} from 'react-native-flash-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Login = ({navigation}) => {
   const {handleSubmit, control} = useForm();
   const [submiting, setSubmiting] = useState(false);
@@ -38,21 +38,19 @@ const Login = ({navigation}) => {
       if (result._msg_code === 1) {
         const data_account = {...result._data, ...{password: password}};
         AccountService.set(data_account);
+        const token = await AsyncStorage.getItem('fcmtoken');
+        const deviceNoti = await FetchApi.registerNotificationToken({
+          notification_token: token,
+        });
         ResetFunction.resetToChoose();
       }
       if (result._msg_code === 0) {
-        // ModalBase.error({
-        //   message:
-        //     'Tài khoản hoặc mật khẩu không chính xác. Vui lòng nhập lại.',
-        // });
-        // showMessage({
-        //   message: 'Hello World',
-        //   description: 'This is our second message',
-        //   type: 'success',
-        // });
         Alert.alert(
           'Tài khoản hoặc mật khẩu không chính xác. Vui lòng nhập lại.',
         );
+      }
+      if (result.message === 'Network request failed') {
+        Alert.alert('Vui lòng kết nối mạng.');
       }
     } catch (err) {
       console.log('err', err);
