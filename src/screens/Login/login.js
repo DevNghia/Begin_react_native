@@ -33,15 +33,21 @@ const Login = ({navigation}) => {
         const data_account = {...result._data, ...{password: password}};
         AccountService.set(data_account);
         FetchApi.registerDeviceid();
+        const token = await AsyncStorage.getItem('fcmtoken');
+        const deviceNotification = await FetchApi.registerNotificationToken({
+          notification_token: token,
+        });
         ResetFunction.resetToChoose();
       }
       if (result._msg_code === 1) {
         const data_account = {...result._data, ...{password: password}};
         AccountService.set(data_account);
-        const token = await AsyncStorage.getItem('fcmtoken');
-        const deviceNoti = await FetchApi.registerNotificationToken({
-          notification_token: token,
-        });
+        // const token = await AsyncStorage.getItem('fcmtoken');
+        // console.log('asdasjkdfhjkasdhfglkjsdfglksjd: ', token);
+        // const deviceNoti = await FetchApi.registerNotificationToken({
+        //   notification_token: token,
+        // });
+
         ResetFunction.resetToChoose();
       }
       if (result._msg_code === 0) {

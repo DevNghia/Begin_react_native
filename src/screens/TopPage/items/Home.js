@@ -134,7 +134,7 @@ const HomeScreen = ({navigation}) => {
             <Icon
               name="home-repair-service"
               size={45}
-              color="black"
+              color="#e01039"
               style={styles.icon}
             />
             <Text style={styles.textIcon}>Dịch Vụ</Text>

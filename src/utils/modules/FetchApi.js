@@ -86,7 +86,6 @@ const CommonCallWithoutUseQuery = async (api, header) => {
       deviceid: getUniqueId()._j,
       // deviceid: 'abcdasadfaf324',
     };
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', headers);
     if (header) {
       //overide Content-type
       headers = {
@@ -195,9 +194,9 @@ const FetchApi = {
   registerDeviceid: async () => {
     try {
       const header = {
-        method: 'PUT',
+        method: 'POST',
       };
-      const api = Apis.registerNotificationToken;
+      const api = Apis.registerDeviceid;
       const result = await CommonCall(api, header);
       return result;
     } catch (error) {
