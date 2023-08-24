@@ -26,7 +26,9 @@ const TaoDonXinNghi = ({navigation}) => {
   const {data, isLoading} = useQuery(['NewListSend'], () =>
     FetchApi.getListSend(studentId),
   );
-
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
   const {
     handleSubmit,
     control,
@@ -61,19 +63,21 @@ const TaoDonXinNghi = ({navigation}) => {
     reset({content: ''});
   };
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState(
-    (data || []).map((item, index) => ({
-      label: item.full_name,
-      value: item.user_id,
-    })),
-  );
+  // const [items, setItems] = useState(
+  //   (data || []).map((item, index) => ({
+  //     label: item.full_name,
+  //     value: item.user_id,
+  //   })),
+  // );
+  const items = (data || []).map(item => ({
+    label: item.full_name,
+    value: item.user_id,
+  }));
   const [inputHeight, setInputHeight] = useState(40);
 
   //date_picker
   const [showPicker1, setShowPicker1] = useState(false);
   const [showPicker2, setShowPicker2] = useState(false);
-  const [date1, setDate1] = useState(new Date());
-  const [date2, setDate2] = useState(new Date());
 
   const showDatepicker1 = () => {
     setShowPicker1(true);
@@ -232,7 +236,7 @@ const TaoDonXinNghi = ({navigation}) => {
             items={items}
             setOpen={setOpen}
             setValue={onChange}
-            setItems={setItems}
+            setItems={items}
             placeholder="Chọn người nhận"
           />
         )}

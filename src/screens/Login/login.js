@@ -131,11 +131,7 @@ const Login = ({navigation}) => {
             )}
           />
         </SafeAreaView>
-        <Text
-          style={{color: 'gray', marginLeft: 180}}
-          onPress={() => navigation.navigate('ForgotPassword')}>
-          Forgot Password?
-        </Text>
+
         <AppButton
           onPress={handleSubmit(onSubmit)}
           disabled={submiting}

@@ -49,7 +49,7 @@ const MenuFunction = () => {
   const navigation = useNavigation();
   const menuList = [
     {
-      label: 'Trọn bé',
+      label: 'Chọn bé',
       onPress: () => ResetFunction.resetToChoose(),
     },
     {

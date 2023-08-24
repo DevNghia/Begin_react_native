@@ -28,19 +28,27 @@ const TaoLoiNhanMoi = ({navigation}) => {
   );
 
   const [open1, setOpen1] = useState(false);
-  const [items1, setItems1] = useState(
-    (data || []).map((item, index) => ({
-      label: item.full_name,
-      value: item.user_id,
-    })),
-  );
+  const item1 = (data || []).map(item => ({
+    label: item.full_name,
+    value: item.user_id,
+  }));
+  const item2 = (cate || []).map(item => ({
+    label: item.title,
+    value: item.category_id,
+  }));
+  // const [items1, setItems1] = useState(
+  //   (data || []).map((item, index) => ({
+  //     label: item.full_name,
+  //     value: item.user_id,
+  //   })),
+  // );
   const [open2, setOpen2] = useState(false);
-  const [items2, setItems2] = useState(
-    (cate || []).map((item, index) => ({
-      label: item.title,
-      value: item.category_id,
-    })),
-  );
+  // const [items2, setItems2] = useState(
+  //   (cate || []).map((item, index) => ({
+  //     label: item.title,
+  //     value: item.category_id,
+  //   })),
+  // );
   // if (isLoading) {
   //   return <Loading />;
   // }
@@ -116,10 +124,10 @@ const TaoLoiNhanMoi = ({navigation}) => {
             style={styles.drop}
             open={open1}
             value={value}
-            items={items1}
+            items={item1}
             setOpen={setOpen1}
             setValue={onChange}
-            setItems={setItems1}
+            setItems={item1}
             placeholder="Chọn người nhận"
           />
         )}
@@ -137,10 +145,10 @@ const TaoLoiNhanMoi = ({navigation}) => {
             style={styles.drop}
             open={open2}
             value={value}
-            items={items2}
+            items={item2}
             setOpen={setOpen2}
             setValue={onChange}
-            setItems={setItems2}
+            setItems={item2}
             placeholder="Chọn danh mục"
           />
         )}
