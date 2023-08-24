@@ -1,8 +1,14 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView, Button} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {Sizes} from '../../utils/resource';
 import {Image} from 'react-native-ui-lib';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   Table,
   TableWrapper,
@@ -16,7 +22,7 @@ import {useSelector} from 'react-redux';
 import {Loading} from '../../elements';
 import {FetchApi} from '../../utils/modules';
 import {useQuery} from 'react-query';
-const DichVu = () => {
+const DichVu = ({navigation}) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -63,11 +69,15 @@ const DichVu = () => {
             paddingVertical: 10,
 
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>DỊCH VỤ</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 20}}>Dịch Vụ</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'#FCEEEE'} />
         </View>
         <View
           style={{

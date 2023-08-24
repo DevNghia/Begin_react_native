@@ -16,7 +16,7 @@ import {useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const ThucDon = () => {
+const ThucDon = ({navigation}) => {
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
 
@@ -56,11 +56,15 @@ const ThucDon = () => {
             paddingVertical: 10,
             backgroundColor: 'white',
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>Thực đơn </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 20}}>Thực Đơn</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
         </View>
 
         {/* <Controller
