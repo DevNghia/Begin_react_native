@@ -25,6 +25,7 @@ import {FetchApi} from './utils/modules';
 import {ResetFunction} from './utils/modules';
 import {useDispatch} from 'react-redux';
 import {setData} from './actions/dataActions';
+import AppIntro from './screens/AppIntro/AppIntro';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const MenuFunctionItem = ({data}) => {
@@ -49,7 +50,7 @@ const MenuFunction = () => {
   const navigation = useNavigation();
   const menuList = [
     {
-      label: 'Trọn bé',
+      label: 'Chọn bé',
       onPress: () => ResetFunction.resetToChoose(),
     },
     {
@@ -120,16 +121,16 @@ const HeaderApp = ({navigation}) => {
         onPress={() => {
           navigation.toggleDrawer();
         }}>
-        <Ionicons name={'menu'} size={33} color={'black'} />
+        <Ionicons name={'menu'} size={33} color={'green'} />
       </TouchableCo>
       <TouchableCo onPress={() => navigation.navigate('Home')}>
         <Image
           style={{width: 100, height: 45, borderColor: 'black'}}
-          source={require('./utils/Images/banner_kidsschool.png')}
+          source={require('./utils/Images/favicon.png')}
         />
       </TouchableCo>
       <TouchableCo onPress={() => navigation.navigate('Notification')}>
-        <Ionicons name={'notifications'} size={30} color={'black'} />
+        <Ionicons name={'notifications'} size={30} color={'#fcca03'} />
       </TouchableCo>
     </View>
   );
@@ -164,8 +165,7 @@ const AppContent = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {/* <Stack.Screen name="SlideDraw" component={SlideDraw} /> */}
-        {/* <Stack.Screen name="Main" component={Main} /> */}
+        <Stack.Screen name="AppIntro" component={AppIntro} />
         <Stack.Screen name="Login" component={Login} />
 
         <Stack.Screen name="ChonCon" component={ChonCon} />

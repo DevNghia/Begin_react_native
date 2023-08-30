@@ -13,6 +13,8 @@ import {FetchApi} from '../../utils/modules';
 import {useQuery} from 'react-query';
 import {Loading} from '../../elements';
 import {useSelector} from 'react-redux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const TinTuc = ({navigation}) => {
   const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery('useGetNewsType', () =>
@@ -32,11 +34,15 @@ const TinTuc = ({navigation}) => {
             paddingVertical: 10,
             backgroundColor: 'white',
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>Tin Tức </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 20}}>Tin Tức</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
         </View>
 
         {(data || []).map((item, index) => {

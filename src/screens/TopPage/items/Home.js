@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
 import {Sizes} from '../../../utils/resource';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   Table,
   TableWrapper,
@@ -22,8 +24,27 @@ import {useQuery} from 'react-query';
 import {useSelector} from 'react-redux';
 import {FetchApi} from '../../../utils/modules';
 import {Loading} from '../../../elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const HomeScreen = ({navigation}) => {
   const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState('Empty');
+  const [id, setId] = useState('');
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let fDate = 'Tháng ' + (tempDate.getMonth() + 1);
+    setText(fDate);
+  };
+
+  const showMode = currentMode => {
+    setShow(true);
+    setMode(currentMode);
+  };
   const options = {
     weekday: 'long',
     day: '2-digit',
@@ -40,25 +61,57 @@ const HomeScreen = ({navigation}) => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}${month}${day}`;
   };
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery(['NewActive', formatDate(date)], () =>
-    FetchApi.getActive(studentId, formatDate(date)),
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const saveStudentId = async () => {
+    try {
+      if (studentId) {
+        await AsyncStorage.setItem('studentId', studentId.toString());
+        console.log('Student ID saved successfully.');
+      } else {
+        console.log('Student ID saved false.');
+      }
+    } catch (error) {
+      console.error('Error saving student ID:', error);
+    }
+  };
+  saveStudentId();
+  const {data, isLoading} = useQuery(
+    ['NewActive', formatDate(date)],
+    async () => {
+      const ID = await AsyncStorage.getItem('studentId');
+      let updatestudenID;
+      if (ID) {
+        updatestudenID = ID;
+      } else {
+        updatestudenID = studentId;
+      }
+      console.log('lại test: ', updatestudenID);
+      const active = await FetchApi.getActive(121, formatDate(date));
+      return active;
+    },
   );
 
   if (isLoading) {
     return <Loading />;
   }
+
   const insets = useSafeAreaInsets();
-  (data._data.data_info || []).map((item, index) => [
-    console.log('adsasđsd', item.note),
-  ]);
+
   const state = {
     tableHead: ['Thời gian', 'Nội dung'],
-    tableData: (data._data.data_info || []).map((item, index) => [
-      item.start_time,
+    tableData: (data?._data?.data_info || []).map((item, index) => [
+      item.start_time + ' - ' + item.end_time,
       item.note,
     ]),
   };
+  const calculateRowHeight = rowData => {
+    const contentHeight = Math.max(...rowData.map(item => item.length));
+    return contentHeight * 1;
+  };
+  const rowHeights = state.tableData.map(rowData =>
+    calculateRowHeight(rowData),
+  );
+  console.log('ádasdadasd:     ', rowHeights);
   return (
     <View style={styles.container}>
       <View
@@ -66,8 +119,6 @@ const HomeScreen = ({navigation}) => {
           height: Sizes.device_width < Sizes.device_height,
           paddingHorizontal: 15,
           paddingVertical: 20,
-
-          backgroundColor: '#FCEEEE',
           marginTop: insets.top,
           flexDirection: 'row',
           alignItems: 'center',
@@ -111,10 +162,8 @@ const HomeScreen = ({navigation}) => {
           height: Sizes.device_width < Sizes.device_height,
           // paddingHorizontal: 15,
           // paddingVertical: 20,
-
-          backgroundColor: '#FCEEEE',
           marginTop: insets.top,
-          // flexDirection: 'row',
+          flexDirection: 'row',
           // alignItems: 'center',
           // justifyContent: 'space-between',
         }}>
@@ -134,7 +183,7 @@ const HomeScreen = ({navigation}) => {
             <Icon
               name="home-repair-service"
               size={45}
-              color="black"
+              color="#e01039"
               style={styles.icon}
             />
             <Text style={styles.textIcon}>Dịch Vụ</Text>
@@ -152,34 +201,47 @@ const HomeScreen = ({navigation}) => {
           </View>
         </TouchableOpacity> */}
       </View>
-      <View
-        style={{
-          height: Sizes.device_width < Sizes.device_height,
-          width: '90%',
-          paddingHorizontal: 15,
-          paddingVertical: 20,
-          borderRadius: 15,
-          backgroundColor: '#686CDE',
-          marginVertical: 20,
-          // marginHorizontal: 30,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-        <Image
+      <TouchableOpacity onPress={() => showMode('date')}>
+        <View
           style={{
-            width: 38,
-            height: 30,
-            borderColor: 'black',
-            tintColor: 'white',
-          }}
-          source={require('../../../utils/Icons/child_care.png')}
+            height: Sizes.device_width < Sizes.device_height,
+            width: '72%',
+            paddingHorizontal: 15,
+            paddingVertical: 20,
+            borderRadius: 20,
+            backgroundColor: 'green',
+            marginVertical: 20,
+            // marginHorizontal: 30,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          {/* <Image
+            style={{
+              width: 38,
+              height: 30,
+              borderColor: 'black',
+              tintColor: 'white',
+            }}
+            source={require('../../../utils/Icons/child_care.png')}
+          /> */}
+          <Ionicons name={'alarm-outline'} size={40} color={'white'} />
+          <Text style={{color: 'white'}}>
+            {' '}
+            {date.toLocaleDateString('vi-VN', options)}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
         />
-        <Text style={{color: 'white'}}>
-          {' '}
-          {date.toLocaleDateString('vi-VN', options)}
-        </Text>
-      </View>
+      )}
       <View
         style={{
           height: Sizes.device_width < Sizes.device_height,
@@ -233,7 +295,7 @@ const HomeScreen = ({navigation}) => {
                 <Rows
                   data={state.tableData}
                   flexArr={[2, 3]}
-                  style={styles.row}
+                  style={{height: rowHeights}}
                   textStyle={{textAlign: 'center', color: 'black'}}
                 />
               </TableWrapper>
@@ -248,7 +310,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#FCEEEE',
+    backgroundColor: 'white',
   },
   icon: {
     width: 45,
@@ -265,6 +327,6 @@ const styles = StyleSheet.create({
   text: {textAlign: 'center', color: 'black'},
   wrapper: {flexDirection: 'row'},
   title: {flex: 1, backgroundColor: '#f6f8fa'},
-  row: {height: 28},
+  row: {height: 30},
 });
 export default HomeScreen;

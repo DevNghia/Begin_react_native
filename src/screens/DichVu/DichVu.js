@@ -1,8 +1,15 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ScrollView, Button} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {Sizes} from '../../utils/resource';
 import {Image} from 'react-native-ui-lib';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Table,
   TableWrapper,
@@ -16,7 +23,7 @@ import {useSelector} from 'react-redux';
 import {Loading} from '../../elements';
 import {FetchApi} from '../../utils/modules';
 import {useQuery} from 'react-query';
-const DichVu = () => {
+const DichVu = ({navigation}) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -36,22 +43,33 @@ const DichVu = () => {
     setShow(true);
     setMode(currentMode);
   };
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery(['NewService'], () =>
-    FetchApi.getServices(studentId),
-  );
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery(['NewService'], async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const service = await FetchApi.getServices(updatestudenID);
+    return service;
+  });
 
   if (isLoading) {
     return <Loading />;
   }
   const state = {
-    tableHead: ['Tên dịch vụ', 'Số lượng', 'Giá Tiền'],
+    tableHead: ['Tên dịch vụ', 'Số lượng', 'Giá Tiền(vnđ)'],
     tableData: [
       ['Ăn sáng', '26', '260000'],
       ['Ăn trưa', '26', '780000'],
       ['Học phí', '1', '3000000'],
       ['ngoại khóa', '1', '200000'],
     ],
+  };
+  const formatCurrencyVND = number => {
+    return new Intl.NumberFormat('vi-VN').format(number);
   };
   return (
     <View style={styles.container}>
@@ -63,11 +81,15 @@ const DichVu = () => {
             paddingVertical: 10,
 
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>DỊCH VỤ</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 20}}>Dịch Vụ</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'#FCEEEE'} />
         </View>
         <View
           style={{
@@ -118,7 +140,10 @@ const DichVu = () => {
             <TableWrapper key={index} style={styles.wrapper}>
               <Cell data={rowData.title} textStyle={styles.text} />
               <Cell data={rowData.status} textStyle={styles.text} />
-              <Cell data={rowData.price} textStyle={styles.text} />
+              <Cell
+                data={formatCurrencyVND(rowData.price)}
+                textStyle={styles.text}
+              />
             </TableWrapper>
           ))}
         </Table>

@@ -13,6 +13,7 @@ import {useSelector} from 'react-redux';
 import {FetchApi} from '../../utils/modules';
 import {useQuery} from 'react-query';
 import {Loading} from '../../elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoiNhan = ({navigation}) => {
   const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery(['NewListAdvice'], () =>

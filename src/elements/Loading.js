@@ -15,9 +15,9 @@ const Loading = ({style, sizeSpinner, loadingText}) => {
         },
         style,
       ]}>
-      <Spinner size={sizeSpinner || 24} type={'Circle'} color={'red'} />
+      <Spinner size={sizeSpinner || 24} type={'Circle'} color={'green'} />
       {!!loadingText && (
-        <Text style={{color: 'red', paddingRight: Sizes.padding / 2}}>
+        <Text style={{color: 'green', paddingRight: Sizes.padding / 2}}>
           {loadingText}
         </Text>
       )}

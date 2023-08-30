@@ -4,7 +4,6 @@ import {Image} from 'react-native-ui-lib';
 import {Loading} from '../../elements';
 import {useQuery} from 'react-query';
 import {FetchApi} from '../../utils/modules';
-import {useNavigation} from '@react-navigation/native';
 const ChonCon = ({navigation}) => {
   const {data, isLoading} = useQuery(['NewStudent'], () => FetchApi.home());
   if (isLoading) {
@@ -15,10 +14,10 @@ const ChonCon = ({navigation}) => {
     console.log('test data: ', item.student_name);
   });
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{flex: 1, alignItems: 'center', marginVertical: 100}}>
       <View style={styles.image}>
         <Image
-          source={require('../../utils/Images/banner_kidsschool.png')}
+          source={require('../../utils/Images/favicon.png')}
           style={styles.avatar}
         />
       </View>
@@ -30,10 +29,12 @@ const ChonCon = ({navigation}) => {
             key={index}
             onPress={() => navigation.navigate('SlideDraw', {dataprops: item})}>
             <View style={styles.choose}>
-              {/* <Image
-              style={styles.icon}
-              source={require('../../../utils/Icons/payments.png')}
-            /> */}
+              <Image
+                source={{
+                  uri: item.avatar_url,
+                }}
+                style={{width: 70, height: 70, marginRight: 30}}
+              />
               <Text style={styles.textch}>{item.student_name}</Text>
             </View>
           </TouchableOpacity>
@@ -44,7 +45,7 @@ const ChonCon = ({navigation}) => {
 };
 const styles = StyleSheet.create({
   text1: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     color: 'black',
     paddingBottom: 20,
@@ -61,17 +62,19 @@ const styles = StyleSheet.create({
   choose: {
     justifyContent: 'center',
     backgroundColor: '#48E958',
-    height: 50,
-    marginHorizontal: 50,
-    borderRadius: 20,
+    height: 80,
+    width: 270,
+
+    borderRadius: 18,
     alignItems: 'center',
     marginBottom: 20,
+    flexDirection: 'row',
   },
   textch: {
-    fontSize: 18,
+    flex: 0.9,
+    fontSize: 15,
     fontWeight: 'bold',
     color: 'black',
-    margin: 10,
   },
 });
 export default ChonCon;

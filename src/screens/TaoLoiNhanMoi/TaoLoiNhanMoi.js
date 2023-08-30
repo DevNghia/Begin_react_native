@@ -18,6 +18,7 @@ import {useQuery} from 'react-query';
 import {useSelector} from 'react-redux';
 import {FetchApi} from '../../utils/modules';
 import {ResetFunction} from '../../utils/modules';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const TaoLoiNhanMoi = ({navigation}) => {
   const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery(['NewListSend'], () =>
@@ -28,19 +29,27 @@ const TaoLoiNhanMoi = ({navigation}) => {
   );
 
   const [open1, setOpen1] = useState(false);
-  const [items1, setItems1] = useState(
-    (data || []).map((item, index) => ({
-      label: item.full_name,
-      value: item.user_id,
-    })),
-  );
+  const item1 = (data || []).map(item => ({
+    label: item.full_name,
+    value: item.user_id,
+  }));
+  const item2 = (cate || []).map(item => ({
+    label: item.title,
+    value: item.category_id,
+  }));
+  // const [items1, setItems1] = useState(
+  //   (data || []).map((item, index) => ({
+  //     label: item.full_name,
+  //     value: item.user_id,
+  //   })),
+  // );
   const [open2, setOpen2] = useState(false);
-  const [items2, setItems2] = useState(
-    (cate || []).map((item, index) => ({
-      label: item.title,
-      value: item.category_id,
-    })),
-  );
+  // const [items2, setItems2] = useState(
+  //   (cate || []).map((item, index) => ({
+  //     label: item.title,
+  //     value: item.category_id,
+  //   })),
+  // );
   // if (isLoading) {
   //   return <Loading />;
   // }
@@ -49,7 +58,7 @@ const TaoLoiNhanMoi = ({navigation}) => {
     handleSubmit,
     control,
     reset,
-    formState: {errors},
+    formState: {errors, errors: errorss},
   } = useForm();
   const [submiting, setSubmiting] = useState(false);
   const onSubmit = async data => {
@@ -110,18 +119,21 @@ const TaoLoiNhanMoi = ({navigation}) => {
         control={control}
         name="user_id"
         defaultValue=""
-        rules={{required: true}}
+        rules={{required: 'Chưa chọn giáo viên nhận'}}
         render={({field: {onChange, value}, fieldState: {error}}) => (
-          <DropDownPicker
-            style={styles.drop}
-            open={open1}
-            value={value}
-            items={items1}
-            setOpen={setOpen1}
-            setValue={onChange}
-            setItems={setItems1}
-            placeholder="Chọn người nhận"
-          />
+          <View>
+            {error && <Text style={styles.errorText}>{error.message}</Text>}
+            <DropDownPicker
+              style={styles.drop}
+              open={open1}
+              value={value}
+              items={item1}
+              setOpen={setOpen1}
+              setValue={onChange}
+              setItems={item1}
+              placeholder="Chọn người nhận"
+            />
+          </View>
         )}
       />
       <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
@@ -131,18 +143,21 @@ const TaoLoiNhanMoi = ({navigation}) => {
         control={control}
         name="category_id"
         defaultValue=""
-        rules={{required: true}}
+        rules={{required: 'Chưa chọn danh mục lời nhắn'}}
         render={({field: {onChange, value}, fieldState: {error}}) => (
-          <DropDownPicker
-            style={styles.drop}
-            open={open2}
-            value={value}
-            items={items2}
-            setOpen={setOpen2}
-            setValue={onChange}
-            setItems={setItems2}
-            placeholder="Chọn danh mục"
-          />
+          <View>
+            {error && <Text style={styles.errorText}>{error.message}</Text>}
+            <DropDownPicker
+              style={styles.drop}
+              open={open2}
+              value={value}
+              items={item2}
+              setOpen={setOpen2}
+              setValue={onChange}
+              setItems={item2}
+              placeholder="Chọn danh mục"
+            />
+          </View>
         )}
       />
       <KeyboardAwareScrollView enableOnAndroid={true}>
@@ -251,7 +266,7 @@ const TaoLoiNhanMoi = ({navigation}) => {
           <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
             Nội dung
           </Text>
-          {errors.content && (
+          {errorss.title && (
             <Text style={{color: 'red', marginLeft: 30}}>
               Nội dung không được để trống
             </Text>
@@ -319,6 +334,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginBottom: 15,
     zIndex: 1,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 5,
+    marginHorizontal: 30,
   },
 });
 export default TaoLoiNhanMoi;

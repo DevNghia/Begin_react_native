@@ -15,8 +15,9 @@ import {FetchApi} from '../../utils/modules';
 import {useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ThucDon = () => {
+const ThucDon = ({navigation}) => {
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
 
@@ -56,11 +57,15 @@ const ThucDon = () => {
             paddingVertical: 10,
             backgroundColor: 'white',
             // marginTop: insets.top,
-            // flexDirection: 'row',
+            flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Text style={{color: 'black', fontSize: 20}}>Thực đơn </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 20}}>Thực Đơn</Text>
+          <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
         </View>
 
         {/* <Controller
@@ -115,7 +120,13 @@ const ThucDon = () => {
               justifyContent: 'space-between',
             }}>
             <Ionicons name={'calendar-outline'} size={30} color={'#EE4B4B'} />
-            <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 16,
+                marginVertical: 5,
+                marginHorizontal: 18,
+              }}>
               {data.day_at}
             </Text>
           </View>
