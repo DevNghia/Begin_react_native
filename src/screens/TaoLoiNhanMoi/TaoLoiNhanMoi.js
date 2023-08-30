@@ -20,13 +20,30 @@ import {FetchApi} from '../../utils/modules';
 import {ResetFunction} from '../../utils/modules';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const TaoLoiNhanMoi = ({navigation}) => {
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery(['NewListSend'], () =>
-    FetchApi.getListSend(studentId),
-  );
-  const {data: cate, isLoadings} = useQuery(['NewListCate'], () =>
-    FetchApi.getAdviceCate(studentId),
-  );
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery(['NewListSend'], async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+
+    const send = await FetchApi.getListSend(updatestudenID);
+    return send;
+  });
+  const {data: cate, isLoadings} = useQuery(['NewListCate'], async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const cate = await FetchApi.getAdviceCate(updatestudenID);
+    return cate;
+  });
 
   const [open1, setOpen1] = useState(false);
   const item1 = (data || []).map(item => ({
@@ -58,19 +75,27 @@ const TaoLoiNhanMoi = ({navigation}) => {
     handleSubmit,
     control,
     reset,
-    formState: {errors, errors: errorss},
+    formState: {errors},
+    formState: {errors: errorss},
   } = useForm();
   const [submiting, setSubmiting] = useState(false);
   const onSubmit = async data => {
     try {
       setSubmiting(true);
-      const {content, user_id, category_id, title, student_id} = data;
+      const {content, user_id, category_id, title} = data;
+      const ID = await AsyncStorage.getItem('studentId');
+      let updatestudenID;
+      if (ID) {
+        updatestudenID = ID;
+      } else {
+        updatestudenID = studentId;
+      }
       const result = await FetchApi.postAdvice({
         content: content,
         user_id: user_id,
         category_id: category_id,
         title: title,
-        student_id: studentId,
+        student_id: updatestudenID,
       });
       if (result._msg_code == 1) {
         console.log('Gửi lời nhắn thành công');

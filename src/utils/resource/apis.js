@@ -9,7 +9,7 @@ const Apis = {
   registerDeviceid: `${host.api_mamnon}/ps_user/active`,
   registerNotificationToken: `${host.api_mamnon}/ps_user/notification`,
   getNews: student_id =>
-    `${host.api_mamnon}/ps_articles/list/global/1?student_id=${student_id}`,
+    `${host.api_mamnon}/ps_articles/list/all/1?student_id=${student_id}`,
   getNewsDetail: ({id, student_id}) =>
     `${host.api_mamnon}/ps_articles/${id}?student_id=${student_id}`,
   getTableHeight: student_id =>
@@ -46,6 +46,10 @@ const Apis = {
     `${host.api_mamnon}/ps_student/${student_id}/services_used`,
   getActive: ({student_id, date}) =>
     `${host.api_mamnon}/ps_student/${student_id}/active/${date}`,
+  getListNotification: `${host.api_mamnon}/ps_cms/notifications/sent`,
+  getNotificationDetail: id =>
+    `${host.api_mamnon}/ps_cms/notifications/show/sent/${id}`,
+  getCountNotification: `${host.api_mamnon}/ps_cms/notread`,
 };
 
 export {Apis};

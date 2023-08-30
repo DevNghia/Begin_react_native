@@ -553,6 +553,43 @@ const FetchApi = {
       return {message: error.message};
     }
   },
+  getListNotification: async () => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getListNotification;
+      const result = await CommonCall(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getCountNotification: async () => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getCountNotification;
+      const result = await CommonCall(api, header);
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
+  getNotificationDetail: async id => {
+    try {
+      const header = {
+        method: 'GET',
+      };
+      const api = Apis.getNotificationDetail(id);
+      const result = await CommonCall(api, header);
+
+      return result;
+    } catch (error) {
+      return {message: error.message};
+    }
+  },
 };
 
 export {FetchApi};

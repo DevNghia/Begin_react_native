@@ -14,13 +14,33 @@ import {useSelector} from 'react-redux';
 import {Loading} from '../../elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const XinNghi = ({navigation}) => {
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery(['NewListOffSchool'], () =>
-    FetchApi.getOffSchool(studentId),
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery(['NewListOffSchool'], async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const offschool = await FetchApi.getOffSchool(updatestudenID);
+    return offschool;
+  });
+  const {data: cd, isLoading: loadcd} = useQuery(
+    ['NewListOffSchoolcd'],
+    async () => {
+      const ID = await AsyncStorage.getItem('studentId');
+      let updatestudenID;
+      if (ID) {
+        updatestudenID = ID;
+      } else {
+        updatestudenID = studentId;
+      }
+      const offschoolcd = await FetchApi.getOffSchoolcd(updatestudenID);
+      return offschoolcd;
+    },
   );
-  const {data: cd, isLoading: loadcd} = useQuery(['NewListOffSchoolcd'], () =>
-    FetchApi.getOffSchoolcd(studentId),
-  );
+
   if (isLoading && loadcd) {
     return <Loading />;
   }

@@ -116,7 +116,7 @@ const Login = ({navigation}) => {
           color="green"
           style={{
             position: 'absolute',
-            right: 20,
+            right: '-35%',
             bottom: 20,
           }}
           name={hidePass ? 'eye' : 'eye-slash'}
@@ -144,14 +144,14 @@ const Login = ({navigation}) => {
         />
       </View>
       <View style={styles.content}>
-        <SafeAreaView>
+        <SafeAreaView style={{width: '100%', alignItems: 'center'}}>
           <Controller
             control={control}
             name="username"
             defaultValue=""
             rules={{required: 'Vui lòng nhập tên đăng nhập'}}
             render={({field: {onChange, value}, fieldState: {error}}) => (
-              <View style={{borderWidth: 4, width: '80%'}}>
+              <View style={{width: '100%', alignItems: 'center'}}>
                 <TextInput
                   style={styles.input}
                   underlineColorAndroid="transparent"
@@ -172,7 +172,11 @@ const Login = ({navigation}) => {
             defaultValue=""
             rules={{required: 'Vui lòng nhập mật khẩu'}} // Thêm luật kiểm tra
             render={({field: {onChange, value}, fieldState: {error}}) => (
-              <View>
+              <View
+                style={{
+                  width: '100%',
+                  alignItems: 'center',
+                }}>
                 <TextInput
                   style={styles.input}
                   underlineColorAndroid="transparent"
@@ -198,7 +202,9 @@ const Login = ({navigation}) => {
         />
       </View>
       <View style={styles.footer}>
-        <Text style={{color: 'gray'}}>2023 © Copyright Newwaytech</Text>
+        <Text style={{color: 'gray', fontSize: 15}}>
+          2023 © Copyright Newwaytech
+        </Text>
       </View>
     </View>
   );
@@ -215,7 +221,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    borderWidth: 3,
+
     // width: '100%',
     alignItems: 'center',
     alignContent: 'center',
@@ -232,12 +238,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tinyLogo: {
-    width: 250,
-    height: 150,
+    width: '80%',
+    height: '80%',
   },
   footer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    // marginTop,
+
     alignItems: 'center',
   },
   appButtonContainer: {

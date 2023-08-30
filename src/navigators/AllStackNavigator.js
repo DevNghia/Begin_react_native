@@ -19,7 +19,7 @@ import SucKhoe from '../screens/SucKhoe/SucKhoe';
 import TableHeight from '../screens/TableHeight/TableHeight';
 import TableWeight from '../screens/TableWeight/TableWeight';
 import ThucDon from '../screens/ThucDon/ThucDon';
-
+import NotificationDetail from '../screens/NotificationDetail/NotificationDetail';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +46,7 @@ const AllStackNavigator = ({navigation, route}) => {
       <Stack.Screen name="TableHeight" component={TableHeight} />
       <Stack.Screen name="TableWeight" component={TableWeight} />
       <Stack.Screen name="ThucDon" component={ThucDon} />
+      <Stack.Screen name="NotificationDetai" component={NotificationDetail} />
     </Stack.Navigator>
   );
 };

@@ -11,3 +11,7 @@ export const setNotiToken = token => {
     payload: token,
   };
 };
+export const updateNotificationData = newData => ({
+  type: 'UPDATE_NOTIFICATION_DATA',
+  payload: newData,
+});

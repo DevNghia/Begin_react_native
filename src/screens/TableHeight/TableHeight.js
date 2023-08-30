@@ -16,10 +16,19 @@ import {Loading} from '../../elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const TableHeight = ({navigation}) => {
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery('useGetTableHeight', () =>
-    FetchApi.getTableHeight(studentId),
-  );
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery('useGetTableHeight', async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+
+    const height = await FetchApi.getTableHeight(updatestudenID);
+    return height;
+  });
   console.log('test growth:   ', data);
   if (isLoading) {
     return <Loading />;

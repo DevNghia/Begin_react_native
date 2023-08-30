@@ -30,7 +30,7 @@ const ThucDon = ({navigation}) => {
   const showDatepicker = () => {
     setShowPicker(true);
   };
-  const studentId = useSelector(state => state.data.data._id);
+  const studentId = useSelector(state => state?.data?.data?._id);
   const formatDate = dateString => {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -39,8 +39,20 @@ const ThucDon = ({navigation}) => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}${month}${day}`;
   };
-  const {data, isLoading} = useQuery(['NewThucDon', formatDate(date)], () =>
-    FetchApi.getMenusDay(studentId, formatDate(date)),
+  const {data, isLoading} = useQuery(
+    ['NewThucDon', formatDate(date)],
+    async () => {
+      const ID = await AsyncStorage.getItem('studentId');
+      let updatestudenID;
+      if (ID) {
+        updatestudenID = ID;
+      } else {
+        updatestudenID = studentId;
+      }
+
+      const menu = await FetchApi.getMenusDay(updatestudenID, formatDate(date));
+      return menu;
+    },
   );
 
   if (isLoading) {
@@ -144,7 +156,7 @@ const ThucDon = ({navigation}) => {
           return (
             <React.Fragment key={index}>
               <Text style={{color: 'black', marginHorizontal: 20}}>
-                {item.meal_title}
+                {item?.meal_title}
               </Text>
               {/* Lặp qua thuộc tính của "food_op" */}
               {Object.keys(item.food_op || {}).map(foodKey => {
@@ -152,12 +164,19 @@ const ThucDon = ({navigation}) => {
                 return (
                   <View style={styles.blockList} key={foodKey}>
                     <Image
-                      style={{width: 120, height: 75}}
+                      style={{width: '35%', height: 75, borderRadius: 10}}
                       source={{
-                        uri: item.food_op[foodKey].image,
+                        uri:
+                          item?.food_op[foodKey]?.image ??
+                          'https://media.istockphoto.com/id/1256285832/vi/vec-to/th%E1%BB%B1c-%C4%91%C6%A1n-ch%E1%BB%AF-c%C3%A1i-v%E1%BB%9Bi-n%C4%A9a-%C4%91%C4%A9a-v%C3%A0-%C3%A1p-ph%C3%ADch-v%E1%BA%BD-tay-mu%E1%BB%97ng-cho-th%E1%BB%B1c-%C4%91%C6%A1n-qu%C3%A1n-c%C3%A0-ph%C3%AA-ho%E1%BA%B7c-nh%C3%A0-h%C3%A0ng.jpg?s=1024x1024&w=is&k=20&c=CdZ_2zVAMRBL5Bf51L-tSS1y3yifebUGtM6sRFj326o=',
                       }}
                     />
-                    <View style={{flex: 1, marginLeft: 10}}>
+                    <View
+                      style={{
+                        flex: 1,
+                        marginLeft: 10,
+                        justifyContent: 'center',
+                      }}>
                       <Text
                         style={{
                           fontWeight: '600',
@@ -165,7 +184,7 @@ const ThucDon = ({navigation}) => {
                           fontSize: Sizes.h5,
                         }}
                         multipleLines={true}
-                        numberOfLines={2}>
+                        numberOfLines={10}>
                         {item.food_op[foodKey].title}
                       </Text>
                       <Text

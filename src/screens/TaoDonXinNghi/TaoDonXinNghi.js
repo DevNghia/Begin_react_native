@@ -23,10 +23,18 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Loading} from '../../elements';
 const TaoDonXinNghi = ({navigation}) => {
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery(['NewListSend'], () =>
-    FetchApi.getListSend(studentId),
-  );
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery(['NewListSend'], async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const listsend = await FetchApi.getListSend(updatestudenID);
+    return listsend;
+  });
   // if (isLoading) {
   //   return <Loading />;
   // }
@@ -41,10 +49,17 @@ const TaoDonXinNghi = ({navigation}) => {
     try {
       setSubmiting(true);
       const {description, user_id, from_date, to_date} = data;
+      const ID = await AsyncStorage.getItem('studentId');
+      let updatestudenID;
+      if (ID) {
+        updatestudenID = ID;
+      } else {
+        updatestudenID = studentId;
+      }
       const result = await FetchApi.postOffSchool({
         description: description,
         user_id: user_id,
-        student_id: studentId,
+        student_id: updatestudenID,
         from_date: from_date,
         to_date: to_date,
       });
@@ -86,166 +101,166 @@ const TaoDonXinNghi = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View
-          style={{
-            height: Sizes.device_width < Sizes.device_height,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            backgroundColor: 'white',
-            // marginTop: insets.top,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <TouchableCo onPress={() => navigation.goBack()}>
-            <Icons name={'close'} size={21} color={'black'} />
-          </TouchableCo>
-          <Text style={{color: 'black', fontSize: 19, marginVertical: -2}}>
-            Tạo đơn xin nghỉ{' '}
-          </Text>
-          <TouchableCo onPress={handleSubmit(onSubmit)}>
-            <Text style={{color: 'black', fontSize: 17}}>Gửi </Text>
-          </TouchableCo>
-        </View>
+      <View
+        style={{
+          height: Sizes.device_width < Sizes.device_height,
+          paddingHorizontal: 15,
+          paddingVertical: 10,
+          backgroundColor: 'white',
+          // marginTop: insets.top,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <TouchableCo onPress={() => navigation.goBack()}>
+          <Icons name={'close'} size={21} color={'black'} />
+        </TouchableCo>
+        <Text style={{color: 'black', fontSize: 19, marginVertical: -2}}>
+          Tạo đơn xin nghỉ{' '}
+        </Text>
+        <TouchableCo onPress={handleSubmit(onSubmit)}>
+          <Text style={{color: 'black', fontSize: 17}}>Gửi </Text>
+        </TouchableCo>
+      </View>
 
-        <View style={{marginVertical: 5}}>
-          <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
-            Từ ngày
-          </Text>
-          <Controller
-            control={control}
-            name="from_date"
-            defaultValue=""
-            placeholder="Full Name"
-            rules={{required: 'Chưa chọn ngày bắt đầu'}}
-            render={({field: {onChange, value}, fieldState: {error}}) => (
-              <Pressable onPress={showDatepicker1}>
-                {error && <Text style={styles.errorText}>{error.message}</Text>}
-                <View
-                  style={{
-                    height: Sizes.device_width < Sizes.device_height,
-                    width: 300,
-                    paddingHorizontal: 15,
-                    paddingVertical: 10,
-                    marginHorizontal: 30,
-                    marginVertical: 10,
-                    borderRadius: 10,
-                    backgroundColor: '#FFE8E8',
-                    // marginTop: insets.top,
-                    flexDirection: 'row',
-                    // alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}>
-                  <Ionicons
-                    name={'calendar-outline'}
-                    size={30}
-                    color={'#EE4B4B'}
-                  />
-                  <TextInput
-                    style={{color: 'black'}}
-                    underlineColorAndroid="transparent"
-                    value={value ? new Date(value).toLocaleDateString() : ''}
-                    placeholder="Từ ngày"
-                    placeholderTextColor="black"
-                    autoCapitalize="none"
-                    editable={false}
-                  />
-                </View>
-                {showPicker1 && (
-                  <DateTimePicker
-                    value={value ? new Date(value) : new Date()}
-                    mode="date"
-                    display="default"
-                    onChange={(event, selectedDate) => {
-                      onChange(selectedDate ? selectedDate.toISOString() : '');
-                      setShowPicker1(false);
-                    }}
-                  />
-                )}
-              </Pressable>
-            )}
-          />
-        </View>
-        <View>
-          <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
-            Đên ngày
-          </Text>
-          <Controller
-            control={control}
-            name="to_date"
-            defaultValue=""
-            placeholder="Full Name"
-            rules={{required: 'Chưa chọn ngày kết thúc'}}
-            render={({field: {onChange, value}, fieldState: {error}}) => (
-              <Pressable onPress={showDatepicker2}>
-                {error && <Text style={styles.errorText}>{error.message}</Text>}
-                <View
-                  style={{
-                    height: Sizes.device_width < Sizes.device_height,
-                    width: 300,
-                    paddingHorizontal: 15,
-                    paddingVertical: 10,
-                    marginHorizontal: 30,
-                    marginVertical: 10,
-                    borderRadius: 10,
-                    backgroundColor: '#FFE8E8',
-                    // marginTop: insets.top,
-                    flexDirection: 'row',
-                    // alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}>
-                  <Ionicons
-                    name={'calendar-outline'}
-                    size={30}
-                    color={'#EE4B4B'}
-                  />
-                  <TextInput
-                    style={{color: 'black'}}
-                    underlineColorAndroid="transparent"
-                    value={value ? new Date(value).toLocaleDateString() : ''}
-                    placeholder="Đến ngày"
-                    placeholderTextColor="black"
-                    autoCapitalize="none"
-                    editable={false}
-                  />
-                </View>
-                {showPicker2 && (
-                  <DateTimePicker
-                    value={value ? new Date(value) : new Date()}
-                    mode="date"
-                    display="default"
-                    onChange={(event, selectedDate) => {
-                      onChange(selectedDate ? selectedDate.toISOString() : '');
-                      setShowPicker2(false);
-                    }}
-                  />
-                )}
-              </Pressable>
-            )}
-          />
-        </View>
+      <View style={{marginVertical: 5}}>
+        <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
+          Từ ngày
+        </Text>
         <Controller
           control={control}
-          name="user_id"
+          name="from_date"
           defaultValue=""
-          rules={{required: 'Chưa chọn người nhận'}}
+          placeholder="Full Name"
+          rules={{required: 'Chưa chọn ngày bắt đầu'}}
           render={({field: {onChange, value}, fieldState: {error}}) => (
-            <View>
+            <Pressable onPress={showDatepicker1}>
               {error && <Text style={styles.errorText}>{error.message}</Text>}
-              <DropDownPicker
-                style={styles.drop}
-                open={open}
-                value={value}
-                items={items}
-                setOpen={setOpen}
-                setValue={onChange}
-                setItems={items}
-                placeholder="Chọn người nhận"
-              />
-            </View>
+              <View
+                style={{
+                  height: Sizes.device_width < Sizes.device_height,
+                  width: 300,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                  marginHorizontal: 30,
+                  marginVertical: 10,
+                  borderRadius: 10,
+                  backgroundColor: '#FFE8E8',
+                  // marginTop: insets.top,
+                  flexDirection: 'row',
+                  // alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Ionicons
+                  name={'calendar-outline'}
+                  size={30}
+                  color={'#EE4B4B'}
+                />
+                <TextInput
+                  style={{color: 'black'}}
+                  underlineColorAndroid="transparent"
+                  value={value ? new Date(value).toLocaleDateString() : ''}
+                  placeholder="Từ ngày"
+                  placeholderTextColor="black"
+                  autoCapitalize="none"
+                  editable={false}
+                />
+              </View>
+              {showPicker1 && (
+                <DateTimePicker
+                  value={value ? new Date(value) : new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    onChange(selectedDate ? selectedDate.toISOString() : '');
+                    setShowPicker1(false);
+                  }}
+                />
+              )}
+            </Pressable>
           )}
         />
+      </View>
+      <View>
+        <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
+          Đên ngày
+        </Text>
+        <Controller
+          control={control}
+          name="to_date"
+          defaultValue=""
+          placeholder="Full Name"
+          rules={{required: 'Chưa chọn ngày kết thúc'}}
+          render={({field: {onChange, value}, fieldState: {error}}) => (
+            <Pressable onPress={showDatepicker2}>
+              {error && <Text style={styles.errorText}>{error.message}</Text>}
+              <View
+                style={{
+                  height: Sizes.device_width < Sizes.device_height,
+                  width: 300,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
+                  marginHorizontal: 30,
+                  marginVertical: 10,
+                  borderRadius: 10,
+                  backgroundColor: '#FFE8E8',
+                  // marginTop: insets.top,
+                  flexDirection: 'row',
+                  // alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Ionicons
+                  name={'calendar-outline'}
+                  size={30}
+                  color={'#EE4B4B'}
+                />
+                <TextInput
+                  style={{color: 'black'}}
+                  underlineColorAndroid="transparent"
+                  value={value ? new Date(value).toLocaleDateString() : ''}
+                  placeholder="Đến ngày"
+                  placeholderTextColor="black"
+                  autoCapitalize="none"
+                  editable={false}
+                />
+              </View>
+              {showPicker2 && (
+                <DateTimePicker
+                  value={value ? new Date(value) : new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    onChange(selectedDate ? selectedDate.toISOString() : '');
+                    setShowPicker2(false);
+                  }}
+                />
+              )}
+            </Pressable>
+          )}
+        />
+      </View>
+      <Controller
+        control={control}
+        name="user_id"
+        defaultValue=""
+        rules={{required: 'Chưa chọn người nhận'}}
+        render={({field: {onChange, value}, fieldState: {error}}) => (
+          <View>
+            {error && <Text style={styles.errorText}>{error.message}</Text>}
+            <DropDownPicker
+              style={styles.drop}
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={onChange}
+              setItems={items}
+              placeholder="Chọn người nhận"
+            />
+          </View>
+        )}
+      />
+      <ScrollView>
         <View>
           <KeyboardAwareScrollView enableOnAndroid={true}>
             <Text style={{color: 'black', fontSize: 17, marginLeft: 30}}>
