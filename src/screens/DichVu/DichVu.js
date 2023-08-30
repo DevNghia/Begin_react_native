@@ -9,6 +9,7 @@ import {
 import {Sizes} from '../../utils/resource';
 import {Image} from 'react-native-ui-lib';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Table,
   TableWrapper,
@@ -42,22 +43,33 @@ const DichVu = ({navigation}) => {
     setShow(true);
     setMode(currentMode);
   };
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery(['NewService'], () =>
-    FetchApi.getServices(studentId),
-  );
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery(['NewService'], async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const service = await FetchApi.getServices(updatestudenID);
+    return service;
+  });
 
   if (isLoading) {
     return <Loading />;
   }
   const state = {
-    tableHead: ['Tên dịch vụ', 'Số lượng', 'Giá Tiền'],
+    tableHead: ['Tên dịch vụ', 'Số lượng', 'Giá Tiền(vnđ)'],
     tableData: [
       ['Ăn sáng', '26', '260000'],
       ['Ăn trưa', '26', '780000'],
       ['Học phí', '1', '3000000'],
       ['ngoại khóa', '1', '200000'],
     ],
+  };
+  const formatCurrencyVND = number => {
+    return new Intl.NumberFormat('vi-VN').format(number);
   };
   return (
     <View style={styles.container}>
@@ -128,7 +140,10 @@ const DichVu = ({navigation}) => {
             <TableWrapper key={index} style={styles.wrapper}>
               <Cell data={rowData.title} textStyle={styles.text} />
               <Cell data={rowData.status} textStyle={styles.text} />
-              <Cell data={rowData.price} textStyle={styles.text} />
+              <Cell
+                data={formatCurrencyVND(rowData.price)}
+                textStyle={styles.text}
+              />
             </TableWrapper>
           ))}
         </Table>

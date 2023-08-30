@@ -6,6 +6,7 @@ import {Sizes} from '../../utils/resource';
 import HTML from 'react-native-render-html';
 import {Loading} from '../../elements';
 import {useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const NewAndBlogDetail = ({navigation, route}) => {
   const studentId = useSelector(state => state.data.data._id);
   const contentWidth = useWindowDimensions().width;

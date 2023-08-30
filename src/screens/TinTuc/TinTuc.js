@@ -14,6 +14,7 @@ import {useQuery} from 'react-query';
 import {Loading} from '../../elements';
 import {useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const TinTuc = ({navigation}) => {
   const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery('useGetNewsType', () =>

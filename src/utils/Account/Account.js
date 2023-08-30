@@ -13,6 +13,13 @@ const AccountService = {
     MMKVwithID.setMap(mmkvKey, value);
   },
 };
+const AccountService1 = {
+  get: () => MMKVwithID.getMap(mmkvKey),
+  set: (value = {}) => {
+    const studentIdObject = {id: value};
+    MMKVwithID.setMap(mmkvKey, studentIdObject);
+  },
+};
 
 function useAppAccount() {
   let account = MMKVwithID.getMap(mmkvKey);
@@ -22,4 +29,4 @@ function useAppAccount() {
   }
   return [account, setValue];
 }
-export {useAppAccount, AccountService};
+export {useAppAccount, AccountService, AccountService1};

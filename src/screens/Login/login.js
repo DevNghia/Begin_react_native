@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,9 +16,48 @@ import {AppButton} from '../../elements';
 import {AccountService} from '../../utils/Account';
 import {ResetFunction} from '../../utils/modules';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {green} from 'react-native-reanimated';
 const Login = ({navigation}) => {
-  const {handleSubmit, control} = useForm();
+  const {handleSubmit, control, setValue} = useForm();
   const [submiting, setSubmiting] = useState(false);
+  // const account = AccountService.get();
+
+  // useEffect(() => {
+  //   //TODO: currently don't need a account to use app
+  //   if (account?.api_token) {
+  //     ResetFunction.resetToHome(navigation);
+  //   } else {
+  //     ResetFunction.resetToLogin(navigation);
+  //   }
+  // }, []);
+  const saveToken = async token => {
+    try {
+      await AsyncStorage.setItem('@token', token);
+    } catch (error) {
+      console.error('Error saving token:', error);
+    }
+  };
+  const saveCredentials = async (username, password) => {
+    try {
+      await AsyncStorage.setItem(
+        '@credentials',
+        JSON.stringify({username, password}),
+      );
+    } catch (error) {
+      console.error('Lỗi khi lưu thông tin tài khoản:', error);
+    }
+  };
+
+  const getSavedCredentials = async () => {
+    try {
+      const credentialsString = await AsyncStorage.getItem('@credentials');
+      return credentialsString ? JSON.parse(credentialsString) : null;
+    } catch (error) {
+      console.error('Lỗi khi lấy thông tin tài khoản:', error);
+      return null;
+    }
+  };
+
   const onSubmit = async data => {
     try {
       setSubmiting(true);
@@ -29,6 +68,7 @@ const Login = ({navigation}) => {
         appcode: 'R',
       });
       console.log('result: ', result);
+
       if (result._msg_code === 3) {
         const data_account = {...result._data, ...{password: password}};
         AccountService.set(data_account);
@@ -42,11 +82,14 @@ const Login = ({navigation}) => {
       if (result._msg_code === 1) {
         const data_account = {...result._data, ...{password: password}};
         AccountService.set(data_account);
-        // const token = await AsyncStorage.getItem('fcmtoken');
-        // console.log('asdasjkdfhjkasdhfglkjsdfglksjd: ', token);
-        // const deviceNoti = await FetchApi.registerNotificationToken({
-        //   notification_token: token,
-        // });
+        saveToken(result._data.api_token);
+        saveCredentials(username, password);
+        const token = await AsyncStorage.getItem('fcmtoken');
+        console.log('asdasjkdfhjkasdhfglkjsdfglksjd: ', token);
+        const deviceNoti = await FetchApi.registerNotificationToken({
+          notification_token: token,
+        });
+        Alert.alert('Đăng nhập thành công.');
 
         ResetFunction.resetToChoose();
       }
@@ -67,45 +110,59 @@ const Login = ({navigation}) => {
   const [hidePass, setHidePass] = useState(true);
   const renderSecure = () => {
     return (
-      <Icon
-        size={20}
-        color="green"
-        style={{
-          position: 'absolute',
-          right: 20,
-          bottom: 20,
-        }}
-        name={hidePass ? 'eye-slash' : 'eye'}
-        onPress={() => setHidePass(!hidePass)}
-      />
+      <View>
+        <Icon
+          size={20}
+          color="green"
+          style={{
+            position: 'absolute',
+            right: 20,
+            bottom: 20,
+          }}
+          name={hidePass ? 'eye' : 'eye-slash'}
+          onPress={() => setHidePass(!hidePass)}
+        />
+      </View>
     );
   };
+  useEffect(() => {
+    const fetchSavedCredentials = async () => {
+      const savedCredentials = await getSavedCredentials();
+      if (savedCredentials) {
+        setValue('username', savedCredentials.username);
+        setValue('password', savedCredentials.password);
+      }
+    };
+    fetchSavedCredentials();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
           style={styles.tinyLogo}
-          source={require('../Main/banner_kidsschool.png')}
+          source={require('../../utils/Images/favicon.png')}
         />
       </View>
       <View style={styles.content}>
-        {/* <Text style={styles.text1}>Ki</Text> */}
         <SafeAreaView>
           <Controller
             control={control}
             name="username"
             defaultValue=""
-            rules={{required: true}}
+            rules={{required: 'Vui lòng nhập tên đăng nhập'}}
             render={({field: {onChange, value}, fieldState: {error}}) => (
-              <TextInput
-                style={styles.input}
-                underlineColorAndroid="transparent"
-                value={value}
-                placeholder="Tên đăng nhập"
-                placeholderTextColor="green"
-                autoCapitalize="none"
-                onChangeText={onChange}
-              />
+              <View style={{borderWidth: 4, width: '80%'}}>
+                <TextInput
+                  style={styles.input}
+                  underlineColorAndroid="transparent"
+                  value={value}
+                  placeholder="Tên đăng nhập"
+                  placeholderTextColor="green"
+                  autoCapitalize="none"
+                  onChangeText={onChange}
+                />
+                {error && <Text style={styles.errorText}>{error.message}</Text>}
+              </View>
             )}
           />
 
@@ -113,7 +170,7 @@ const Login = ({navigation}) => {
             control={control}
             name="password"
             defaultValue=""
-            rules={{required: true}}
+            rules={{required: 'Vui lòng nhập mật khẩu'}} // Thêm luật kiểm tra
             render={({field: {onChange, value}, fieldState: {error}}) => (
               <View>
                 <TextInput
@@ -127,6 +184,7 @@ const Login = ({navigation}) => {
                   onChangeText={onChange}
                 />
                 {renderSecure()}
+                {error && <Text style={styles.errorText}>{error.message}</Text>}
               </View>
             )}
           />
@@ -139,7 +197,9 @@ const Login = ({navigation}) => {
           size="sm"
         />
       </View>
-      <View style={styles.footer}></View>
+      <View style={styles.footer}>
+        <Text style={{color: 'gray'}}>2023 © Copyright Newwaytech</Text>
+      </View>
     </View>
   );
 };
@@ -155,7 +215,11 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    borderWidth: 3,
+    // width: '100%',
     alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   text1: {
     fontSize: 30,
@@ -168,8 +232,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tinyLogo: {
-    width: 200,
-    height: 100,
+    width: 250,
+    height: 150,
   },
   footer: {
     flex: 1,
@@ -192,12 +256,20 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   input: {
-    width: 290,
+    width: '80%',
     height: 40,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 0.5,
     padding: 10,
-    color: 'black',
+    color: 'green',
+    borderRadius: 10,
+    borderColor: 'green',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 5,
+    marginHorizontal: 12,
   },
 });
 export default Login;

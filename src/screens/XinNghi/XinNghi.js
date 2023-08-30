@@ -12,7 +12,7 @@ import {useQuery} from 'react-query';
 import {FetchApi} from '../../utils/modules';
 import {useSelector} from 'react-redux';
 import {Loading} from '../../elements';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const XinNghi = ({navigation}) => {
   const studentId = useSelector(state => state.data.data._id);
   const {data, isLoading} = useQuery(['NewListOffSchool'], () =>

@@ -1,31 +1,57 @@
 import * as React from 'react';
-import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import {Sizes} from '../../utils/resource';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const Notification = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View
-          style={{
-            height: Sizes.device_width < Sizes.device_height,
-            paddingHorizontal: 15,
-            paddingVertical: 10,
-            backgroundColor: 'white',
-            // marginTop: insets.top,
-            // flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-          <Text style={{color: 'black', fontSize: 20}}>Thông báo </Text>
-        </View>
-        <View style={styles.blockList}>
+      <View
+        style={{
+          height: Sizes.device_width < Sizes.device_height,
+          paddingHorizontal: 15,
+          paddingVertical: 10,
+          backgroundColor: 'white',
+          // marginTop: insets.top,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
+        </TouchableOpacity>
+        <Text style={{color: 'black', fontSize: 20}}>THÔNG BÁO</Text>
+        <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
+      </View>
+      {/* <View style={styles.blockList}>
           <Image
             style={{width: 80, height: 35}}
             source={require('../Main/banner_kidsschool.png')}
           />
           <Text style={{color: 'black'}}>Có tin mới: Thông báo về lịch</Text>
-        </View>
+        </View> */}
+
+      <ScrollView>
+        <Text
+          style={{
+            color: 'gray',
+            justifyContent: 'center',
+            marginVertical: 200,
+          }}>
+          Bạn không có thông báo.
+        </Text>
+        {/* <View style={styles.blockList}>
+          <Image
+            style={{width: 80, height: 35}}
+            source={require('../Main/banner_kidsschool.png')}
+          />
+          <Text style={{color: 'black'}}>Có tin mới: Thông báo về lịch</Text>
+        </View> */}
       </ScrollView>
     </View>
   );

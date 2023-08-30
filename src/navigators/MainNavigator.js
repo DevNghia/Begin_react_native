@@ -37,8 +37,8 @@ const MainNavigator = () => {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#a8329d',
-        tabBarInactiveTintColor: '#a8329d',
+        tabBarActiveTintColor: 'green',
+        tabBarInactiveTintColor: 'green',
       })}>
       {/* <Tab.Screen name="Hoạt động" component={HoatDong} /> */}
 

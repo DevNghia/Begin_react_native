@@ -15,6 +15,7 @@ import {FetchApi} from '../../utils/modules';
 import {useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ThucDon = ({navigation}) => {
   const [showPicker, setShowPicker] = useState(false);
@@ -119,7 +120,13 @@ const ThucDon = ({navigation}) => {
               justifyContent: 'space-between',
             }}>
             <Ionicons name={'calendar-outline'} size={30} color={'#EE4B4B'} />
-            <Text style={{color: 'black', fontSize: 16, marginVertical: 5}}>
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 16,
+                marginVertical: 5,
+                marginHorizontal: 18,
+              }}>
               {data.day_at}
             </Text>
           </View>
