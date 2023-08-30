@@ -17,10 +17,18 @@ import {Loading} from '../../elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const SucKhoe = ({navigation}) => {
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery('useGetGrowth', () =>
-    FetchApi.getGrowth(studentId),
-  );
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery('useGetGrowth', async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const growth = await FetchApi.getGrowth(updatestudenID);
+    return growth;
+  });
   console.log('test growth:   ', data);
   if (isLoading) {
     return <Loading />;

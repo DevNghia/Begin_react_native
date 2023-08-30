@@ -15,7 +15,7 @@ import MainNavigator from './navigators/MainNavigator';
 import {Sizes} from './utils/resource';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {TouchableCo} from './elements';
+import {Loading, TouchableCo} from './elements';
 import {useNavigation} from '@react-navigation/core';
 
 import {useQuery} from 'react-query';
@@ -103,7 +103,37 @@ const SlideDraw = ({route}) => {
 };
 const HeaderApp = ({navigation}) => {
   const insets = useSafeAreaInsets();
-  const account = AccountService.get();
+  const [data, setData] = useState(null); // Dữ liệu ban đầu
+  const [isLoading, setIsLoading] = useState(true); // Trạng thái loading
+
+  const fetchData = async () => {
+    try {
+      const response = await FetchApi.getCountNotification();
+      const newData = response; // Giả sử dữ liệu từ API có thuộc tính _data
+      setData(newData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); // Gọi fetchData khi component được tạo
+
+    const interval = setInterval(() => {
+      fetchData(); // Gọi fetchData mỗi 5 giây
+    }, 5000);
+
+    // Clear interval khi component unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <View
@@ -130,7 +160,26 @@ const HeaderApp = ({navigation}) => {
         />
       </TouchableCo>
       <TouchableCo onPress={() => navigation.navigate('Notification')}>
-        <Ionicons name={'notifications'} size={30} color={'#fcca03'} />
+        <View style={{position: 'relative'}}>
+          <Ionicons name={'notifications'} size={30} color={'#fcca03'} />
+          <View
+            style={{
+              position: 'absolute',
+              top: -7,
+              right: -7,
+              backgroundColor: 'red',
+              borderRadius: 10,
+              minWidth: 20,
+              minHeight: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{color: 'white', fontSize: 12}}>
+              {data?._data?.number_notifications_not_read}
+            </Text>
+            {/* Số lượng thông báo */}
+          </View>
+        </View>
       </TouchableCo>
     </View>
   );

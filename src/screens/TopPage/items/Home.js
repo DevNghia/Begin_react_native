@@ -86,7 +86,7 @@ const HomeScreen = ({navigation}) => {
         updatestudenID = studentId;
       }
       console.log('lại test: ', updatestudenID);
-      const active = await FetchApi.getActive(121, formatDate(date));
+      const active = await FetchApi.getActive(updatestudenID, formatDate(date));
       return active;
     },
   );

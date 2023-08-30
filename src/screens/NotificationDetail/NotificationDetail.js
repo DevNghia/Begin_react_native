@@ -14,21 +14,13 @@ import {Loading} from '../../elements';
 import {useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-const NewAndBlogDetail = ({navigation, route}) => {
-  const studentId = useSelector(state => state?.data?.data?._id);
+const NotificationDetail = ({navigation, route}) => {
   const contentWidth = useWindowDimensions().width;
   const datas = route.params?.dataProps;
-  const {data, isLoading} = useQuery(['NewAndBlogDetail'], async () => {
-    const ID = await AsyncStorage.getItem('studentId');
-    let updatestudenID;
-    if (ID) {
-      updatestudenID = ID;
-    } else {
-      updatestudenID = studentId;
-    }
-    const detail = await FetchApi.getNewsDetail(datas.id, updatestudenID);
-    return detail;
-  });
+  console.log('laskdfjlaksjfdlkjafdalk:   ', datas);
+  const {data, isLoading} = useQuery(['NewNotificationDetail'], () =>
+    FetchApi.getNotificationDetail(datas.notification_id),
+  );
 
   if (isLoading) {
     return <Loading />;
@@ -49,17 +41,17 @@ const NewAndBlogDetail = ({navigation, route}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
           <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
         </TouchableOpacity>
-        <Text style={{color: 'black', fontSize: 20}}>LỜI NHẮN</Text>
+        <Text style={{color: 'black', fontSize: 20}}>CHI TIẾT THÔNG BÁO</Text>
         <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
       </View>
       <HTML
         containerStyle={{flex: 1, width: '100%'}}
         ignoredStyles={['height', 'display', 'width']}
         contentWidth={contentWidth}
-        source={{html: data?._data?.data_info?.content}}
+        source={{html: data?._data?.content}}
         baseStyle={{color: 'black'}}
         // tagsStyles={{
         //   p: {color: 'black'},
@@ -72,4 +64,4 @@ const NewAndBlogDetail = ({navigation, route}) => {
   );
 };
 
-export default NewAndBlogDetail;
+export default NotificationDetail;

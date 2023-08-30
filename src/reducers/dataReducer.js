@@ -2,6 +2,7 @@
 const initialState = {
   data: null,
   token: null,
+  notificationData: null,
 };
 
 const dataReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const dataReducer = (state = initialState, action) => {
       return {...state, data: action.payload};
     case 'SET_TOKEN':
       return {...state, token: action.payload};
+    case 'UPDATE_NOTIFICATION_DATA':
+      return {
+        ...state,
+        notificationData: action.payload,
+      };
     default:
       return state;
   }

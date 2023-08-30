@@ -16,10 +16,18 @@ import {useSelector} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const TinTuc = ({navigation}) => {
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery('useGetNewsType', () =>
-    FetchApi.getNews(studentId),
-  );
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery('useGetNewsType', async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const news = FetchApi.getNews(updatestudenID);
+    return news;
+  });
   if (isLoading) {
     return <Loading />;
   }

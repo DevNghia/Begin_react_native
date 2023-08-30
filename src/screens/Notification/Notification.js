@@ -1,14 +1,65 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {Sizes} from '../../utils/resource';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {FetchApi} from '../../utils/modules';
+import {Loading} from '../../elements';
+import {useQuery} from 'react-query';
 const Notification = ({navigation}) => {
+  // const {data, isLoading} = useQuery(['NewNotification'], () =>
+  //   FetchApi.getListNotification(),
+  // );
+  const [data, setData] = useState(null); // Dữ liệu ban đầu
+  const [isLoading, setIsLoading] = useState(true); // Trạng thái loading
+
+  const fetchData = async () => {
+    try {
+      const response = await FetchApi.getListNotification();
+      const newData = response; // Giả sử dữ liệu từ API có thuộc tính _data
+      setData(newData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); // Gọi fetchData khi component được tạo
+
+    const interval = setInterval(() => {
+      fetchData(); // Gọi fetchData mỗi 5 giây
+    }, 10000);
+
+    // Clear interval khi component unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const Data_Null = () => {
+    return (
+      <Text
+        style={{
+          color: 'gray',
+          justifyContent: 'center',
+          marginVertical: 200,
+        }}>
+        Bạn không có thông báo.
+      </Text>
+    );
+  };
   return (
     <View style={styles.container}>
       <View
@@ -28,30 +79,30 @@ const Notification = ({navigation}) => {
         <Text style={{color: 'black', fontSize: 20}}>THÔNG BÁO</Text>
         <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
       </View>
-      {/* <View style={styles.blockList}>
-          <Image
-            style={{width: 80, height: 35}}
-            source={require('../Main/banner_kidsschool.png')}
-          />
-          <Text style={{color: 'black'}}>Có tin mới: Thông báo về lịch</Text>
-        </View> */}
 
       <ScrollView>
-        <Text
-          style={{
-            color: 'gray',
-            justifyContent: 'center',
-            marginVertical: 200,
-          }}>
-          Bạn không có thông báo.
-        </Text>
-        {/* <View style={styles.blockList}>
-          <Image
-            style={{width: 80, height: 35}}
-            source={require('../Main/banner_kidsschool.png')}
-          />
-          <Text style={{color: 'black'}}>Có tin mới: Thông báo về lịch</Text>
-        </View> */}
+        {(data?._data?.data_info || []).map((item, index) => {
+          return (
+            <TouchableOpacity
+              key={index}
+              onPress={() =>
+                navigation.navigate('NotificationDetai', {dataProps: item})
+              }>
+              <View style={styles.blockList}>
+                <Image
+                  style={{width: 80, height: 35}}
+                  source={require('../Main/banner_kidsschool.png')}
+                />
+                <View>
+                  <Text style={{color: 'black'}}>
+                    {item.notification_title}{' '}
+                  </Text>
+                  <Text style={{color: 'black'}}>{item.date_at} </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
     </View>
   );
@@ -60,8 +111,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: 'center',
   },
   blockList: {
     height: Sizes.device_width < Sizes.device_height,

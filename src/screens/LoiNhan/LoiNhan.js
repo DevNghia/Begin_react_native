@@ -15,13 +15,29 @@ import {useQuery} from 'react-query';
 import {Loading} from '../../elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoiNhan = ({navigation}) => {
-  const studentId = useSelector(state => state.data.data._id);
-  const {data, isLoading} = useQuery(['NewListAdvice'], () =>
-    FetchApi.getAdvice(studentId),
-  );
-  const {data: cd, isLoadingcd} = useQuery(['NewListAdvicecd'], () =>
-    FetchApi.getAdvicecd(studentId),
-  );
+  const studentId = useSelector(state => state?.data?.data?._id);
+  const {data, isLoading} = useQuery(['NewListAdvice'], async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const advice = await FetchApi.getAdvice(updatestudenID);
+    return advice;
+  });
+  const {data: cd, isLoadingcd} = useQuery(['NewListAdvicecd'], async () => {
+    const ID = await AsyncStorage.getItem('studentId');
+    let updatestudenID;
+    if (ID) {
+      updatestudenID = ID;
+    } else {
+      updatestudenID = studentId;
+    }
+    const advicecd = await FetchApi.getAdvicecd(updatestudenID);
+    return advicecd;
+  });
   if (isLoading && isLoadingcd) {
     return <Loading />;
   }
