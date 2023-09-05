@@ -52,7 +52,7 @@ const NewAndBlogDetail = ({navigation, route}) => {
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
         </TouchableOpacity>
-        <Text style={{color: 'black', fontSize: 20}}>LỜI NHẮN</Text>
+        <Text style={{color: 'black', fontSize: 20}}>Chi tiết</Text>
         <Ionicons name={'add-circle-sharp'} size={30} color={'white'} />
       </View>
       <HTML

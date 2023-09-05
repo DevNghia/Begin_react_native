@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  TouchableHighlight,
   ScrollView,
 } from 'react-native';
 import {Sizes} from '../../../utils/resource';
@@ -30,6 +31,7 @@ const HomeScreen = ({navigation}) => {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [text, setText] = useState('Empty');
+  const [expandedSections, setExpandedSections] = useState([]);
   const [id, setId] = useState('');
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -52,7 +54,7 @@ const HomeScreen = ({navigation}) => {
     year: 'numeric',
     timeZone: 'Asia/Ho_Chi_Minh',
   };
-  console.log(date);
+
   const formatDate = dateString => {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -62,19 +64,22 @@ const HomeScreen = ({navigation}) => {
     return `${year}${month}${day}`;
   };
   const studentId = useSelector(state => state?.data?.data?._id);
-  const saveStudentId = async () => {
-    try {
-      if (studentId) {
-        await AsyncStorage.setItem('studentId', studentId.toString());
-        console.log('Student ID saved successfully.');
-      } else {
-        console.log('Student ID saved false.');
+  useEffect(() => {
+    const saveStudentId = async () => {
+      try {
+        if (studentId) {
+          await AsyncStorage.setItem('studentId', studentId.toString());
+          console.log('Đã lưu mã sinh viên thành công.');
+        } else {
+          console.log('Lưu mã sinh viên thất bại.');
+        }
+      } catch (error) {
+        console.error('Lỗi khi lưu mã sinh viên:', error);
       }
-    } catch (error) {
-      console.error('Error saving student ID:', error);
-    }
-  };
-  saveStudentId();
+    };
+
+    saveStudentId();
+  }, []);
   const {data, isLoading} = useQuery(
     ['NewActive', formatDate(date)],
     async () => {
@@ -111,95 +116,116 @@ const HomeScreen = ({navigation}) => {
   const rowHeights = state.tableData.map(rowData =>
     calculateRowHeight(rowData),
   );
-  console.log('ádasdadasd:     ', rowHeights);
+
+  const toggleExpanded = sectionId => {
+    if (expandedSections.includes(sectionId)) {
+      setExpandedSections(expandedSections.filter(id => id !== sectionId));
+    } else {
+      setExpandedSections([...expandedSections, sectionId]);
+    }
+  };
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          height: Sizes.device_width < Sizes.device_height,
-          paddingHorizontal: 15,
-          paddingVertical: 20,
-          marginTop: insets.top,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-        <TouchableOpacity onPress={() => navigation.navigate('HocPhi')}>
-          <View>
-            {/* <Image
-            style={styles.icon}
-            source={require('../../../utils/Icons/payments.png')}
-          /> */}
+      <View style={styles.menu}>
+        <View
+          style={{
+            backgroundColor: '#FFFF99',
+            borderRadius: 11,
+            width: '45%',
+          }}>
+          <TouchableOpacity onPress={() => navigation.navigate('HocPhi')}>
             <Icon
               name="payments"
-              size={45}
+              size={30}
               color="#04962D"
               style={styles.icon}
             />
-            <Text style={styles.textIcon}>Học phí</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('XinNghi')}>
-          <View>
-            <Icon name="email" size={45} color="#FEBE10" style={styles.icon} />
-            <Text style={styles.textIcon}>Xin Nghỉ</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('TinTuc')}>
-          <View>
+            <Text
+              style={{
+                color: 'black',
+                paddingHorizontal: 10,
+                fontWeight: 500,
+                fontSize: 16,
+                marginTop: -2,
+              }}>
+              Học phí
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            backgroundColor: '#99FFCC',
+            borderRadius: 11,
+            width: '45%',
+          }}>
+          <TouchableOpacity onPress={() => navigation.navigate('XinNghi')}>
+            <Icon name="email" size={30} color="#FEBE10" style={styles.icon} />
+            <Text
+              style={{
+                color: 'black',
+                paddingHorizontal: 10,
+                fontWeight: 500,
+                fontSize: 16,
+                marginTop: -2,
+              }}>
+              Xin nghỉ
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.menu}>
+        <View
+          style={{
+            backgroundColor: '#CCFFFF',
+            borderRadius: 11,
+            width: '45%',
+          }}>
+          <TouchableOpacity onPress={() => navigation.navigate('TinTuc')}>
             <Icon
               name="article"
-              size={45}
+              size={30}
               color="#08DCEA"
               style={styles.icon}
             />
-            <Text style={styles.textIcon}>Tin Tức</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          height: Sizes.device_width < Sizes.device_height,
-          // paddingHorizontal: 15,
-          // paddingVertical: 20,
-          marginTop: insets.top,
-          flexDirection: 'row',
-          // alignItems: 'center',
-          // justifyContent: 'space-between',
-        }}>
-        {/* <TouchableOpacity onPress={() => navigation.navigate('Albums')}>
-          <View>
-            <Icon
-              name="photo-album"
-              size={45}
-              color="#EF0606"
-              style={styles.icon}
-            />
-            <Text style={styles.textIcon}>Albums</Text>
-          </View>
-        </TouchableOpacity> */}
-        <TouchableOpacity onPress={() => navigation.navigate('DichVu')}>
-          <View>
+            <Text
+              style={{
+                color: 'black',
+                paddingHorizontal: 10,
+                fontWeight: 500,
+                fontSize: 16,
+                marginTop: -2,
+              }}>
+              Tin tức
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            backgroundColor: '#FFCCFF',
+            borderRadius: 11,
+            width: '45%',
+          }}>
+          <TouchableOpacity onPress={() => navigation.navigate('DichVu')}>
             <Icon
               name="home-repair-service"
-              size={45}
+              size={30}
               color="#e01039"
               style={styles.icon}
             />
-            <Text style={styles.textIcon}>Dịch Vụ</Text>
-          </View>
-        </TouchableOpacity>
-        {/* <TouchableOpacity onPress={() => navigation.navigate('DanhGia')}>
-          <View>
-            <Icon
-              name="assessment"
-              size={45}
-              color="#8F14C9"
-              style={styles.icon}
-            />
-            <Text style={styles.textIcon}>Đánh Giá</Text>
-          </View>
-        </TouchableOpacity> */}
+            <Text
+              style={{
+                color: 'black',
+                paddingHorizontal: 10,
+                fontWeight: 500,
+                fontSize: 16,
+                marginTop: -2,
+              }}>
+              Dịch vụ
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <TouchableOpacity onPress={() => showMode('date')}>
         <View
@@ -207,7 +233,7 @@ const HomeScreen = ({navigation}) => {
             height: Sizes.device_width < Sizes.device_height,
             width: '72%',
             paddingHorizontal: 15,
-            paddingVertical: 20,
+            paddingVertical: 10,
             borderRadius: 20,
             backgroundColor: 'green',
             marginVertical: 20,
@@ -244,8 +270,9 @@ const HomeScreen = ({navigation}) => {
       )}
       <View
         style={{
-          height: Sizes.device_width < Sizes.device_height,
-          width: '90%',
+          // height: Sizes.device_width < Sizes.device_height,
+          height: '50%',
+          width: '100%',
 
           paddingHorizontal: 15,
           paddingVertical: 20,
@@ -263,22 +290,23 @@ const HomeScreen = ({navigation}) => {
 
         <View
           style={{
-            //  height: Sizes.device_width < Sizes.device_height ,
-            height: 210,
-            width: 280,
+            // height: Sizes.device_width < Sizes.device_height,
+            height: '100%',
+
+            width: '100%',
 
             paddingHorizontal: 15,
             paddingVertical: 20,
             borderRadius: 15,
             backgroundColor: 'white',
-            marginVertical: 0,
-            marginHorizontal: 30,
+            // marginVertical: 0,
+            // marginHorizontal: 30,
             // flexDirection: "row",
             // alignItems: "center",
             justifyContent: 'space-between',
           }}>
           <ScrollView>
-            <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+            {/* <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
               <Row
                 data={state.tableHead}
                 flexArr={[2, 3]}
@@ -299,7 +327,63 @@ const HomeScreen = ({navigation}) => {
                   textStyle={{textAlign: 'center', color: 'black'}}
                 />
               </TableWrapper>
-            </Table>
+            </Table> */}
+            {!data?._data?.data_info || data._data.data_info.length === 0 ? (
+              <Text
+                style={{
+                  color: 'gray',
+                  textAlign: 'center',
+                }}>
+                Bé Chưa có hoạt động
+              </Text>
+            ) : (
+              data._data.data_info.map(section => (
+                <View
+                  style={{
+                    borderColor: 'green',
+                    flexDirection: 'row',
+                  }}
+                  key={section.id}>
+                  <View
+                    style={{
+                      borderWidth: 1,
+                      borderColor: 'green',
+                      width: '100%',
+                      marginVertical: 5,
+                      borderRadius: 10,
+                    }}>
+                    <View key={section.id}>
+                      <TouchableOpacity
+                        onPress={() => toggleExpanded(section.id)}>
+                        <View style={styles.header}>
+                          <Text style={styles.headerText}>
+                            {section.start_time + ' - ' + section.end_time}
+                          </Text>
+                          <Text style={styles.headerText}>{section.title}</Text>
+                          <Ionicons
+                            name={
+                              expandedSections.includes(section.id)
+                                ? 'chevron-up'
+                                : 'chevron-down'
+                            }
+                            size={15}
+                            color="black"
+                            marginTop={2}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                      {expandedSections.includes(section.id) && (
+                        <View style={styles.content}>
+                          <Text style={{textAlign: 'center', color: 'black'}}>
+                            {section.note}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                  </View>
+                </View>
+              ))
+            )}
           </ScrollView>
         </View>
       </View>
@@ -312,12 +396,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  menu: {
+    flexDirection: 'row',
+    paddingHorizontal: 7,
+    paddingVertical: 7,
+    width: '100%',
+    height: '17%',
+    justifyContent: 'space-around',
+  },
+  header: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerText: {
+    textAlign: 'center',
+    fontSize: 15,
+    alignItems: 'center',
+    color: 'black',
+  },
+  content: {
+    borderRadius: 10,
+    padding: 20,
+    backgroundColor: '#D9D9D9',
+  },
   icon: {
-    width: 45,
-    height: 49,
+    width: '35%',
+    height: '60%',
+    borderRadius: 25,
     borderColor: 'black',
 
-    marginHorizontal: 30,
+    marginHorizontal: 10,
+    marginVertical: 5,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    backgroundColor: 'white',
   },
   textIcon: {
     color: 'black',

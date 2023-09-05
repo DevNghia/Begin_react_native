@@ -89,7 +89,6 @@ const Login = ({navigation}) => {
         const deviceNoti = await FetchApi.registerNotificationToken({
           notification_token: token,
         });
-        Alert.alert('Đăng nhập thành công.');
 
         ResetFunction.resetToChoose();
       }

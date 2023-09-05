@@ -36,7 +36,7 @@ const Notification = ({navigation}) => {
 
     const interval = setInterval(() => {
       fetchData(); // Gọi fetchData mỗi 5 giây
-    }, 10000);
+    }, 5000);
 
     // Clear interval khi component unmount
     return () => {
@@ -82,13 +82,15 @@ const Notification = ({navigation}) => {
 
       <ScrollView>
         {(data?._data?.data_info || []).map((item, index) => {
+          const blockListStyle =
+            item.status_read == 0 ? styles.blockList : styles.unreadBlockList;
           return (
             <TouchableOpacity
               key={index}
               onPress={() =>
                 navigation.navigate('NotificationDetai', {dataProps: item})
               }>
-              <View style={styles.blockList}>
+              <View style={blockListStyle}>
                 <Image
                   style={{width: 80, height: 35}}
                   source={require('../Main/banner_kidsschool.png')}
@@ -115,13 +117,24 @@ const styles = StyleSheet.create({
   },
   blockList: {
     height: Sizes.device_width < Sizes.device_height,
-    width: 320,
+    width: '100%',
     paddingHorizontal: 15,
     paddingVertical: 10,
-    marginHorizontal: 20,
-    marginVertical: 10,
+    // marginHorizontal: 20,
+    // marginVertical: 5,
     borderRadius: 10,
     backgroundColor: '#FFE8E8',
+    flexDirection: 'row',
+  },
+  unreadBlockList: {
+    height: Sizes.device_width < Sizes.device_height,
+    width: '100%',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    // marginHorizontal: 20,
+    // marginVertical: 5,
+    borderRadius: 10,
+    backgroundColor: 'white',
     flexDirection: 'row',
   },
 });

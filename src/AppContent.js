@@ -131,9 +131,9 @@ const HeaderApp = ({navigation}) => {
     };
   }, []);
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
 
   return (
     <View
