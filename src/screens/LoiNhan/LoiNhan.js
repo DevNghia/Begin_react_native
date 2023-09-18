@@ -155,7 +155,7 @@ const LoiNhan = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCEEEE',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },

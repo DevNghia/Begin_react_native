@@ -29,7 +29,6 @@ const TableHeight = ({navigation}) => {
     const height = await FetchApi.getTableHeight(updatestudenID);
     return height;
   });
-  console.log('test growth:   ', data);
   if (isLoading) {
     return <Loading />;
   }
@@ -104,7 +103,7 @@ const TableHeight = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCEEEE',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'flex-start',
   },
   itemContainer: {

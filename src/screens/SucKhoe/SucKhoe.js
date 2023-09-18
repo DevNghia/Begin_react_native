@@ -29,7 +29,6 @@ const SucKhoe = ({navigation}) => {
     const growth = await FetchApi.getGrowth(updatestudenID);
     return growth;
   });
-  console.log('test growth:   ', data);
   if (isLoading) {
     return <Loading />;
   }
@@ -132,7 +131,7 @@ const SucKhoe = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCEEEE',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'flex-start',
   },
   itemContainer: {

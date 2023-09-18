@@ -60,13 +60,16 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     width: '80%',
+    height: 50,
     marginVertical: 10,
+    justifyContent: 'center',
   },
   appButtonText: {
     fontSize: 18,
-    color: 'green',
+    color: '#1C7D1C',
     fontWeight: 'bold',
     alignSelf: 'center',
+
     textTransform: 'uppercase',
   },
   input: {

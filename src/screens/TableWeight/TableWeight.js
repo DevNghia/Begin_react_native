@@ -29,7 +29,6 @@ const TableWeight = ({navigation}) => {
     const weight = await FetchApi.getTableWeight(updatestudenID);
     return weight;
   });
-  console.log('test growth:   ', data);
   if (isLoading) {
     return <Loading />;
   }
@@ -103,7 +102,7 @@ const TableWeight = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCEEEE',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'flex-start',
   },
   itemContainer: {

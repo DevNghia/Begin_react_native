@@ -6,13 +6,26 @@ import {ResetFunction} from '../../utils/modules';
 
 const AppIntro = ({navigation}) => {
   const account = AccountService.get();
+  // useEffect(() => {
+  //   // Thực hiện chuyển đổi sang màn hình khác sau một khoảng thời gian (ví dụ: 3 giây)
+  //   const timer = setTimeout(() => {
+  //     ResetFunction.resetToLogin(navigation); // Chuyển đến màn hình "Login" sau khi intro hoàn thành
+  //   }, 3000); // 3 giây, bạn có thể điều chỉnh thời gian theo ý muốn
+
+  //   // Đảm bảo xóa bộ đếm khi màn hình unmount
+  //   return () => clearTimeout(timer);
+  // }, []);
   useEffect(() => {
     //TODO: currently don't need a account to use app
-    if (account?.api_token) {
-      ResetFunction.resetToHome(navigation);
-    } else {
-      ResetFunction.resetToLogin(navigation);
-    }
+    const timer = setTimeout(() => {
+      if (account?.api_token) {
+        ResetFunction.resetToHome(navigation);
+      } else {
+        ResetFunction.resetToLogin(navigation);
+      } // Chuyển đến màn hình "Login" sau khi intro hoàn thành
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -20,7 +33,7 @@ const AppIntro = ({navigation}) => {
       <View style={styles.header}>
         <Image
           style={styles.tinyLogo}
-          source={require('../../utils/Images/favicon.png')}
+          source={require('../../utils/Images/KIDKUN_final.png')}
         />
       </View>
     </View>
@@ -51,8 +64,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tinyLogo: {
-    width: 250,
-    height: 150,
+    width: '100%',
+    height: '50%',
   },
   footer: {
     flex: 1,

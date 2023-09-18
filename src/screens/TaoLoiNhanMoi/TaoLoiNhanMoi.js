@@ -98,7 +98,6 @@ const TaoLoiNhanMoi = ({navigation}) => {
         student_id: updatestudenID,
       });
       if (result._msg_code == 1) {
-        console.log('Gửi lời nhắn thành công');
         Alert.alert(result._msg_text);
         ResetFunction.resetToAdvice();
         // navigation.navigate('XinNghi');

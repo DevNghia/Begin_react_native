@@ -63,9 +63,7 @@ const TaoDonXinNghi = ({navigation}) => {
         from_date: from_date,
         to_date: to_date,
       });
-      console.log('NghiaNC', result);
       if (result._msg_code == 1) {
-        console.log('Gửi đơn xin nghỉ thành công');
         Alert.alert(result._msg_text);
         ResetFunction.resetToOff();
         // navigation.navigate('XinNghi');

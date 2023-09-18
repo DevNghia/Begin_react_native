@@ -9,15 +9,11 @@ const ChonCon = ({navigation}) => {
   if (isLoading) {
     return <Loading />;
   }
-
-  (data._data || []).map((item, index) => {
-    console.log('test data: ', item.student_name);
-  });
   return (
     <View style={{flex: 1, alignItems: 'center', marginVertical: 100}}>
       <View style={styles.image}>
         <Image
-          source={require('../../utils/Images/favicon.png')}
+          source={require('../../utils/Images/KIDKUN_final.png')}
           style={styles.avatar}
         />
       </View>
@@ -52,12 +48,10 @@ const styles = StyleSheet.create({
   },
   image: {
     overflow: 'hidden', // Giữ cho hình ảnh không bị tràn ra khỏi khung
-    margin: 10,
-    padding: 10,
   },
   avatar: {
-    width: 200,
-    height: 100,
+    width: 250,
+    height: 170,
   },
   choose: {
     justifyContent: 'center',

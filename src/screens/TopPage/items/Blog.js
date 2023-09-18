@@ -8,12 +8,6 @@ const Blog = ({navigation}) => {
   const {data, isLoading} = useQuery('useGetNewsType', () =>
     FetchApi.getNewsType(1),
   );
-  const test = () => {
-    (data || []).map((item, index) => {
-      console.log(index);
-    });
-  };
-
   //   if (isLoading) {
   //     return <Loading />;
   //   }

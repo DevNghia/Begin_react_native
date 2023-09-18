@@ -22,13 +22,22 @@ import {useSelector} from 'react-redux';
 import {Loading} from '../../elements';
 import {FetchApi} from '../../utils/modules';
 import {useQuery} from 'react-query';
+import SelectDropdown from 'react-native-select-dropdown';
 const HocPhi = ({navigation}) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   const [text, setText] = useState('Empty');
-  const [id, setId] = useState(null);
-  const [studentIDs, setStudentIDs] = useState(null);
+
+  const [selectedItem, setSelectedItem] = useState(null);
+  const formatDate = dateString => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    return `${month}${year}`;
+  };
+  const [months, setMonths] = useState(formatDate(date));
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -44,17 +53,10 @@ const HocPhi = ({navigation}) => {
     setMode(currentMode);
   };
   const options = {month: 'long'};
-  const formatDate = dateString => {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    return `${month}${year}`;
-  };
 
   const studentId = useSelector(state => state?.data?.data?._id);
 
-  const {data, isLoading} = useQuery(['NewFee', formatDate(date)], async () => {
+  const {data, isLoading} = useQuery(['NewFee', months], async () => {
     const ID = await AsyncStorage.getItem('studentId');
     let updatestudenID;
     if (ID) {
@@ -62,9 +64,7 @@ const HocPhi = ({navigation}) => {
     } else {
       updatestudenID = studentId;
     }
-    console.log('asdasads: ', updatestudenID);
-
-    const feeData = await FetchApi.getFee(updatestudenID, formatDate(date));
+    const feeData = await FetchApi.getFee(updatestudenID, months);
     return feeData;
   });
   if (isLoading) {
@@ -83,11 +83,11 @@ const HocPhi = ({navigation}) => {
     data4 = data_info.danop;
     data5 = data_info.hoantra;
   } else {
-    data1 = '';
-    data2 = '';
-    data3 = '';
-    data4 = '';
-    data5 = '';
+    data1 = 'null';
+    data2 = 'null';
+    data3 = 'null';
+    data4 = 'null';
+    data5 = 'null';
   }
 
   const tableDatas = [
@@ -113,17 +113,46 @@ const HocPhi = ({navigation}) => {
       'Tổng thanh toán: ',
       'Đã thanh toán: ',
     ],
-    tableData: [
-      data1 + ' vnđ',
-      data2 + ' vnđ',
-      data5 + ' vnđ',
-      data3 + ' vnđ',
-      data4 + ' vnđ',
-    ],
+    tableData: [data1, data2, data5, data3, data4],
   };
   const formatCurrencyVND = number => {
     return new Intl.NumberFormat('vi-VN').format(number);
   };
+
+  const month = [
+    'Tháng 1',
+    'Tháng 2',
+    'Tháng 3',
+    'Tháng 4',
+    'Tháng 5',
+    'Tháng 6',
+    'Tháng 7',
+    'Tháng 8',
+    'Tháng 9',
+    'Tháng 10',
+    'Tháng 11',
+    'Tháng 12',
+  ];
+  const valueMapping = {
+    'Tháng 1': '012023',
+    'Tháng 2': '022023',
+    'Tháng 3': '032023',
+    'Tháng 4': '042023',
+    'Tháng 5': '052023',
+    'Tháng 6': '062023',
+    'Tháng 7': '072023',
+    'Tháng 8': '082023',
+    'Tháng 9': '092023',
+    'Tháng 10': '102023',
+    'Tháng 11': '112023',
+    'Tháng 12': '122023',
+  };
+  const onSelect = (selectedItem, index) => {
+    setSelectedItem(selectedItem);
+    const selectedValue = valueMapping[selectedItem]; // Lấy giá trị tương ứng
+    setMonths(selectedValue);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -142,7 +171,7 @@ const HocPhi = ({navigation}) => {
             <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
           </TouchableOpacity>
           <Text style={{color: 'black', fontSize: 20}}>HỌC PHÍ</Text>
-          <Ionicons name={'add-circle-sharp'} size={30} color={'#FCEEEE'} />
+          <Ionicons name={'add-circle-sharp'} size={30} color={'#F5F5F5'} />
         </View>
         <View
           style={{
@@ -166,41 +195,45 @@ const HocPhi = ({navigation}) => {
           </Text>
         </View>
 
-        <TouchableOpacity onPress={() => showMode('date')}>
-          <View style={styles.date}>
-            <Text style={styles.text1}>
-              {date.toLocaleDateString('vi-VN', options)}
-            </Text>
-          </View>
-        </TouchableOpacity>
-        {show && (
+        <View style={styles.date}>
+          <SelectDropdown
+            data={month}
+            buttonStyle={{backgroundColor: '#48E958'}}
+            style={{borderWidth: 1}}
+            defaultButtonText="Chọn tháng"
+            onSelect={onSelect}
+            defaultValueByIndex={month.indexOf(selectedItem)}
+          />
+        </View>
+
+        {/* {show && (
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
             mode={mode}
             is24Hour={true}
-            display="default"
+            display="spinner"
             onChange={onChange}
           />
-        )}
+        )} */}
 
         <Table style={styles.table}>
           <Row
             data={state.tableHead}
-            flexArr={[1, 1, 1]}
+            flexArr={[3.5, 2, 3]}
             style={styles.head}
             textStyle={styles.text}
           />
           {(data._data.fee || []).map((rowData, index) => (
             <TableWrapper key={index} style={styles.wrapper}>
-              <Cell data={rowData.se} textStyle={{...styles.text}} />
+              <Cell data={rowData.se} textStyle={{...styles.text3}} />
               <Cell
                 data={formatCurrencyVND(rowData.by_number)}
-                textStyle={{...styles.text}}
+                textStyle={{...styles.text1}}
               />
               <Cell
                 data={formatCurrencyVND(rowData.unit_price)}
-                textStyle={{...styles.text}}
+                textStyle={{...styles.text2}}
               />
             </TableWrapper>
           ))}
@@ -216,7 +249,7 @@ const HocPhi = ({navigation}) => {
             <Col
               data={state2.tableData}
               heightArr={[30, 30, 30, 30, 30]}
-              textStyle={styles.text}
+              textStyle={styles.text2}
             />
           </TableWrapper>
         </Table>
@@ -227,7 +260,7 @@ const HocPhi = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCEEEE',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
   },
   itemContainer: {
@@ -243,7 +276,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#48E958',
     height: 50,
-    marginHorizontal: 50,
+    marginHorizontal: 80,
     borderRadius: 15,
     alignItems: 'center',
     marginBottom: 20,
@@ -290,7 +323,10 @@ const styles = StyleSheet.create({
   },
   title: {flex: 1, backgroundColor: '#f6f8fa', marginHorizontal: 15},
   row: {height: 28},
-  text: {textAlign: 'center', color: 'black'},
+  text: {color: 'black', fontSize: 15},
+  text1: {textAlign: 'center', color: 'black', fontSize: 14},
+  text2: {textAlign: 'right', color: 'black', fontSize: 14},
+  text3: {color: 'black', fontSize: 14},
   titleText: {color: 'black'},
 });
 export default HocPhi;

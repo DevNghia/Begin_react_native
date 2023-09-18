@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   TextInput,
   Alert,
+  Animated,
 } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,7 +17,8 @@ import {AppButton} from '../../elements';
 import {AccountService} from '../../utils/Account';
 import {ResetFunction} from '../../utils/modules';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {green} from 'react-native-reanimated';
+import {SvgUri} from 'react-native-svg';
+import {Easing} from 'react-native-reanimated';
 const Login = ({navigation}) => {
   const {handleSubmit, control, setValue} = useForm();
   const [submiting, setSubmiting] = useState(false);
@@ -67,7 +69,6 @@ const Login = ({navigation}) => {
         password: password,
         appcode: 'R',
       });
-      console.log('result: ', result);
 
       if (result._msg_code === 3) {
         const data_account = {...result._data, ...{password: password}};
@@ -85,7 +86,7 @@ const Login = ({navigation}) => {
         saveToken(result._data.api_token);
         saveCredentials(username, password);
         const token = await AsyncStorage.getItem('fcmtoken');
-        console.log('asdasjkdfhjkasdhfglkjsdfglksjd: ', token);
+
         const deviceNoti = await FetchApi.registerNotificationToken({
           notification_token: token,
         });
@@ -112,11 +113,11 @@ const Login = ({navigation}) => {
       <View>
         <Icon
           size={20}
-          color="green"
+          color="#1C7D1C"
           style={{
             position: 'absolute',
             right: '-35%',
-            bottom: 20,
+            bottom: 25,
           }}
           name={hidePass ? 'eye' : 'eye-slash'}
           onPress={() => setHidePass(!hidePass)}
@@ -134,15 +135,30 @@ const Login = ({navigation}) => {
     };
     fetchSavedCredentials();
   }, []);
+  const topMotion = useRef(new Animated.Value(300)).current;
+  useEffect(() => {
+    Animated.timing(topMotion, {
+      toValue: -60,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
           style={styles.tinyLogo}
-          source={require('../../utils/Images/favicon.png')}
+          source={require('../../utils/Images/KIDKUN_final.png')}
         />
       </View>
-      <View style={styles.content}>
+      <Animated.View
+        style={{
+          flex: 1,
+          // width: '100%',
+          alignItems: 'center',
+          alignContent: 'center',
+          marginTop: topMotion,
+        }}>
         <SafeAreaView style={{width: '100%', alignItems: 'center'}}>
           <Controller
             control={control}
@@ -199,12 +215,7 @@ const Login = ({navigation}) => {
           title="Đăng nhập"
           size="sm"
         />
-      </View>
-      <View style={styles.footer}>
-        <Text style={{color: 'gray', fontSize: 15}}>
-          2023 © Copyright Newwaytech
-        </Text>
-      </View>
+      </Animated.View>
     </View>
   );
 };
@@ -220,11 +231,12 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-
+    borderWidth: 2,
     // width: '100%',
     alignItems: 'center',
     alignContent: 'center',
-    justifyContent: 'center',
+    // marginTop: topMotion,
+    // justifyContent: 'center',
   },
   text1: {
     fontSize: 30,
@@ -264,11 +276,11 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '80%',
-    height: 40,
+    height: 50,
     margin: 12,
     borderWidth: 0.5,
     padding: 10,
-    color: 'green',
+    color: '#1C7D1C',
     borderRadius: 10,
     borderColor: 'green',
   },

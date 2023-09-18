@@ -89,7 +89,7 @@ const DichVu = ({navigation}) => {
             <Ionicons name={'arrow-back-outline'} size={30} color={'black'} />
           </TouchableOpacity>
           <Text style={{color: 'black', fontSize: 20}}>Dịch Vụ</Text>
-          <Ionicons name={'add-circle-sharp'} size={30} color={'#FCEEEE'} />
+          <Ionicons name={'add-circle-sharp'} size={30} color={'#F5F5F5'} />
         </View>
         <View
           style={{
@@ -132,17 +132,17 @@ const DichVu = ({navigation}) => {
         <Table style={styles.table}>
           <Row
             data={state.tableHead}
-            flexArr={[1, 1, 1]}
+            flexArr={[3.2, 2.5, 2]}
             style={styles.head}
-            textStyle={styles.text}
+            textStyle={styles.text1}
           />
           {(data._data.data_info || []).map((rowData, index) => (
             <TableWrapper key={index} style={styles.wrapper}>
-              <Cell data={rowData.title} textStyle={styles.text} />
+              <Cell data={rowData.title} textStyle={styles.text1} />
               <Cell data={rowData.status} textStyle={styles.text} />
               <Cell
                 data={formatCurrencyVND(rowData.price)}
-                textStyle={styles.text}
+                textStyle={styles.text2}
               />
             </TableWrapper>
           ))}
@@ -169,7 +169,7 @@ const DichVu = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCEEEE',
+    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
   },
   itemContainer: {
@@ -227,6 +227,8 @@ const styles = StyleSheet.create({
   title: {flex: 1, backgroundColor: '#f6f8fa'},
   row: {height: 28},
   text: {textAlign: 'center', color: 'black'},
+  text1: {color: 'black'},
+  text2: {textAlign: 'right', color: 'black'},
   titleText: {color: 'black'},
 });
 export default DichVu;

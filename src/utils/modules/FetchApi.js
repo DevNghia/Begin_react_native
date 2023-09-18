@@ -4,14 +4,14 @@ import {AccountService} from '../Account';
 import {ResetFunction} from './ResetFunction';
 
 const CommonCall = async (api, header) => {
-  console.log('api', api);
+  // console.log('api', api);
   // const Strings = LanguageService.get();
   // const networkState = await NetInfo.fetch();
   // if (!networkState.isConnected) {
   //   throw new Error(CheckLogic.No_internet);
   // }
   const account = AccountService.get();
-  console.log('account', account);
+  // console.log('account', account);
   try {
     let headers = {
       'Content-Type': 'application/json',
@@ -32,10 +32,10 @@ const CommonCall = async (api, header) => {
       };
     }
     let head = {...header, headers};
-    console.log('head', head);
+    // console.log('head', head);
     let response = await fetch(api, head);
 
-    console.log('response', response);
+    // console.log('response', response);
 
     if (
       response.status === 500 ||
@@ -72,14 +72,14 @@ const CommonCall = async (api, header) => {
   }
 };
 const CommonCallWithoutUseQuery = async (api, header) => {
-  console.log('api', api);
+  // console.log('api', api);
   // const Strings = LanguageService.get();
   // const networkState = await NetInfo.fetch();
   // if (!networkState.isConnected) {
   //   throw new Error(CheckLogic.No_internet);
   // }
   const account = AccountService.get();
-  console.log('account', account);
+  // console.log('account', account);
   try {
     let headers = {
       'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ const CommonCallWithoutUseQuery = async (api, header) => {
     let head = {...header, headers};
     let response = await fetch(api, head);
 
-    console.log('response', response);
+    // console.log('response', response);
 
     if (
       response.status === 500 ||
@@ -117,7 +117,7 @@ const CommonCallWithoutUseQuery = async (api, header) => {
     }
 
     const result = await response.json();
-    console.log('result', result);
+    // console.log('result', result);
 
     if (result.message === 'Phiên làm việc đã hết. Bạn cần đăng nhập lại.') {
       ModalBase.error({

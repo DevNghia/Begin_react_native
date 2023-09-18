@@ -160,7 +160,6 @@ const ThucDon = ({navigation}) => {
               </Text>
               {/* Lặp qua thuộc tính của "food_op" */}
               {Object.keys(item.food_op || {}).map(foodKey => {
-                // console.log('test thực đơn: ', item.food_op[foodKey].title);
                 return (
                   <View style={styles.blockList} key={foodKey}>
                     <Image

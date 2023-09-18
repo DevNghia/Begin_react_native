@@ -151,12 +151,12 @@ const HeaderApp = ({navigation}) => {
         onPress={() => {
           navigation.toggleDrawer();
         }}>
-        <Ionicons name={'menu'} size={33} color={'green'} />
+        <Ionicons name={'menu'} size={33} color={'#33CC33'} />
       </TouchableCo>
       <TouchableCo onPress={() => navigation.navigate('Home')}>
         <Image
-          style={{width: 100, height: 45, borderColor: 'black'}}
-          source={require('./utils/Images/favicon.png')}
+          style={{width: 68, height: 45, borderColor: 'black'}}
+          source={require('./utils/Images/KIDKUN_final.png')}
         />
       </TouchableCo>
       <TouchableCo onPress={() => navigation.navigate('Notification')}>

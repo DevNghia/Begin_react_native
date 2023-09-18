@@ -17,7 +17,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const NotificationDetail = ({navigation, route}) => {
   const contentWidth = useWindowDimensions().width;
   const datas = route.params?.dataProps;
-  console.log('laskdfjlaksjfdlkjafdalk:   ', datas);
   const {data, isLoading} = useQuery(['NewNotificationDetail'], () =>
     FetchApi.getNotificationDetail(datas.notification_id),
   );

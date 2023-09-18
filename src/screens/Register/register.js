@@ -34,7 +34,7 @@ const Register = ({navigation}) => {
       setSubmiting(true);
       const result = await FetchApi.register(data);
       setSubmiting(false);
-      console.log('NghiaNC', result);
+
       if (result._msg_code == 1) {
         console.log('Đăng ký thành công');
         onLogin();
@@ -146,7 +146,6 @@ const Register = ({navigation}) => {
                           selectedDate ? selectedDate.toISOString() : '',
                         );
                         setShow(false);
-                        console.log('sdfsdfsdf', selectedDate);
                       }}
                     />
                   )}

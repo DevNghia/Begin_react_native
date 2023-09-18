@@ -4,8 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
-  TouchableHighlight,
+  SafeAreaView,
   ScrollView,
 } from 'react-native';
 import {Sizes} from '../../../utils/resource';
@@ -26,6 +25,7 @@ import {useSelector} from 'react-redux';
 import {FetchApi} from '../../../utils/modules';
 import {Loading} from '../../../elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {FloatingAction} from 'react-native-floating-action';
 const HomeScreen = ({navigation}) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
@@ -90,7 +90,6 @@ const HomeScreen = ({navigation}) => {
       } else {
         updatestudenID = studentId;
       }
-      console.log('lại test: ', updatestudenID);
       const active = await FetchApi.getActive(updatestudenID, formatDate(date));
       return active;
     },
@@ -124,8 +123,31 @@ const HomeScreen = ({navigation}) => {
       setExpandedSections([...expandedSections, sectionId]);
     }
   };
+  const actions = [
+    {
+      text: 'Điểm danh',
+      icon: <Icon name="comment" size={30} color="white" />,
+      name: 'DiemDanh',
+      position: 3,
+      color: '#33CC33',
+    },
+    {
+      text: 'Lời nhắn',
+      icon: <Icon name="comment" size={30} color="white" />,
+      name: 'LoiNhan',
+      position: 2,
+      color: '#33CC33',
+    },
+    {
+      text: 'Xin nghỉ',
+      icon: <Ionicons name={'newspaper-sharp'} size={30} color={'white'} />,
+      name: 'XinNghi',
+      position: 1,
+      color: '#33CC33',
+    },
+  ];
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.menu}>
         <View
           style={{
@@ -159,8 +181,13 @@ const HomeScreen = ({navigation}) => {
             borderRadius: 11,
             width: '45%',
           }}>
-          <TouchableOpacity onPress={() => navigation.navigate('XinNghi')}>
-            <Icon name="email" size={30} color="#FEBE10" style={styles.icon} />
+          <TouchableOpacity onPress={() => navigation.navigate('Albums')}>
+            <Icon
+              name="photo-album"
+              size={30}
+              color="#EF0606"
+              style={styles.icon}
+            />
             <Text
               style={{
                 color: 'black',
@@ -169,7 +196,7 @@ const HomeScreen = ({navigation}) => {
                 fontSize: 16,
                 marginTop: -2,
               }}>
-              Xin nghỉ
+              Albums
             </Text>
           </TouchableOpacity>
         </View>
@@ -231,29 +258,19 @@ const HomeScreen = ({navigation}) => {
         <View
           style={{
             height: Sizes.device_width < Sizes.device_height,
-            width: '72%',
+            width: '60%',
             paddingHorizontal: 15,
             paddingVertical: 10,
-            borderRadius: 20,
-            backgroundColor: 'green',
+            borderRadius: 15,
+            backgroundColor: '#00FF00',
             marginVertical: 20,
             // marginHorizontal: 30,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          {/* <Image
-            style={{
-              width: 38,
-              height: 30,
-              borderColor: 'black',
-              tintColor: 'white',
-            }}
-            source={require('../../../utils/Icons/child_care.png')}
-          /> */}
-          <Ionicons name={'alarm-outline'} size={40} color={'white'} />
-          <Text style={{color: 'white'}}>
-            {' '}
+          <Ionicons name={'alarm-outline'} size={30} color={'black'} />
+          <Text style={{color: 'black'}}>
             {date.toLocaleDateString('vi-VN', options)}
           </Text>
         </View>
@@ -270,68 +287,38 @@ const HomeScreen = ({navigation}) => {
       )}
       <View
         style={{
-          // height: Sizes.device_width < Sizes.device_height,
           height: '50%',
           width: '100%',
 
-          paddingHorizontal: 15,
-          paddingVertical: 20,
+          paddingHorizontal: 5,
+
           borderRadius: 15,
-          backgroundColor: '#D9D9D9',
+          backgroundColor: 'white',
 
           marginVertical: -10,
           marginHorizontal: 15,
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{color: '#686CDE', fontSize: 17, fontWeight: 'bold'}}>
+        <Text style={{color: '#686CDE', fontSize: 20, fontWeight: 'bold'}}>
           HOẠT ĐỘNG TRONG NGÀY
         </Text>
 
         <View
           style={{
-            // height: Sizes.device_width < Sizes.device_height,
             height: '100%',
-
             width: '100%',
-
-            paddingHorizontal: 15,
-            paddingVertical: 20,
+            paddingHorizontal: 10,
+            paddingVertical: 5,
             borderRadius: 15,
             backgroundColor: 'white',
-            // marginVertical: 0,
-            // marginHorizontal: 30,
-            // flexDirection: "row",
-            // alignItems: "center",
             justifyContent: 'space-between',
           }}>
           <ScrollView>
-            {/* <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-              <Row
-                data={state.tableHead}
-                flexArr={[2, 3]}
-                style={styles.head}
-                textStyle={{textAlign: 'center', color: 'black'}}
-              />
-              <TableWrapper style={styles.wrapper}>
-                <Col
-                  data={state.tableTitle}
-                  style={styles.title}
-                  heightArr={[28, 28]}
-                  textStyle={{textAlign: 'center', color: 'black'}}
-                />
-                <Rows
-                  data={state.tableData}
-                  flexArr={[2, 3]}
-                  style={{height: rowHeights}}
-                  textStyle={{textAlign: 'center', color: 'black'}}
-                />
-              </TableWrapper>
-            </Table> */}
             {!data?._data?.data_info || data._data.data_info.length === 0 ? (
               <Text
                 style={{
-                  color: 'gray',
+                  color: 'black',
                   textAlign: 'center',
                 }}>
                 Bé Chưa có hoạt động
@@ -340,14 +327,14 @@ const HomeScreen = ({navigation}) => {
               data._data.data_info.map(section => (
                 <View
                   style={{
-                    borderColor: 'green',
+                    borderColor: '#00FF00',
                     flexDirection: 'row',
                   }}
                   key={section.id}>
                   <View
                     style={{
                       borderWidth: 1,
-                      borderColor: 'green',
+                      borderColor: '#00FF00',
                       width: '100%',
                       marginVertical: 5,
                       borderRadius: 10,
@@ -387,14 +374,38 @@ const HomeScreen = ({navigation}) => {
           </ScrollView>
         </View>
       </View>
-    </View>
+      <FloatingAction
+        actions={actions}
+        onPressItem={name => {
+          console.log(`Action ${name} được nhấn`);
+          if (name === 'LoiNhan') {
+            navigation.navigate('LoiNhan');
+          } else if (name === 'XinNghi') {
+            navigation.navigate('XinNghi');
+          } else if (name === 'DiemDanh') {
+            navigation.navigate('DiemDanh');
+          }
+        }}
+        buttonSize={45}
+        color="#33CC33"
+        overlayColor="rgba(238, 238, 238, 0.8)
+        "
+        // distanceToEdge={150}
+        position="right" // Đặt vị trí của FloatingAction
+        overlayShape={{
+          borderRadius: 20, // Điều chỉnh hình dạng của overlay nếu cần
+        }}
+        // Các thuộc tính khác cho FloatingAction
+        // Đặt style cho nút FloatingAction
+      />
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#F5F5F5',
   },
   menu: {
     flexDirection: 'row',
@@ -405,7 +416,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   header: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFCC',
     borderRadius: 10,
     padding: 15,
     flexDirection: 'row',
@@ -421,7 +432,7 @@ const styles = StyleSheet.create({
   content: {
     borderRadius: 10,
     padding: 20,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: '#FFFFCC',
   },
   icon: {
     width: '35%',
