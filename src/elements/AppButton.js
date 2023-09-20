@@ -11,7 +11,7 @@ const AppButton = ({onPress, title}) => {
     setIsHovered(false);
   };
 
-  const buttonBackgroundColor = isHovered ? '#5F00D6' : '#fff';
+  const buttonBackgroundColor = isHovered ? '#FFDE59' : '#FFDE59';
 
   return (
     <TouchableOpacity
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   appButtonText: {
     fontSize: 18,
-    color: '#1C7D1C',
+    color: 'black',
     fontWeight: 'bold',
     alignSelf: 'center',
 

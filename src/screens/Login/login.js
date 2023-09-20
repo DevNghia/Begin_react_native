@@ -113,7 +113,7 @@ const Login = ({navigation}) => {
       <View>
         <Icon
           size={20}
-          color="#1C7D1C"
+          color="#FFDE59"
           style={{
             position: 'absolute',
             right: '-35%',
@@ -138,7 +138,7 @@ const Login = ({navigation}) => {
   const topMotion = useRef(new Animated.Value(300)).current;
   useEffect(() => {
     Animated.timing(topMotion, {
-      toValue: -60,
+      toValue: -40,
       duration: 1000,
       useNativeDriver: false,
     }).start();
@@ -148,7 +148,7 @@ const Login = ({navigation}) => {
       <View style={styles.header}>
         <Image
           style={styles.tinyLogo}
-          source={require('../../utils/Images/KIDKUN_final.png')}
+          source={require('../../utils/Images/sschool.jpg')}
         />
       </View>
       <Animated.View
@@ -172,7 +172,7 @@ const Login = ({navigation}) => {
                   underlineColorAndroid="transparent"
                   value={value}
                   placeholder="Tên đăng nhập"
-                  placeholderTextColor="green"
+                  placeholderTextColor="#FFDE59"
                   autoCapitalize="none"
                   onChangeText={onChange}
                 />
@@ -197,7 +197,7 @@ const Login = ({navigation}) => {
                   underlineColorAndroid="transparent"
                   value={value}
                   placeholder="Mật khẩu"
-                  placeholderTextColor="green"
+                  placeholderTextColor="#FFDE59"
                   autoCapitalize="none"
                   secureTextEntry={hidePass ? true : false}
                   onChangeText={onChange}
@@ -222,7 +222,7 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#423A9F',
   },
   header: {
     flex: 1,
@@ -278,11 +278,11 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 50,
     margin: 12,
-    borderWidth: 0.5,
+    borderWidth: 1,
     padding: 10,
-    color: '#1C7D1C',
+    color: '#FFDE59',
     borderRadius: 10,
-    borderColor: 'green',
+    borderColor: '#FFDE59',
   },
   errorText: {
     color: 'red',

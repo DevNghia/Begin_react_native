@@ -10,10 +10,15 @@ const ChonCon = ({navigation}) => {
     return <Loading />;
   }
   return (
-    <View style={{flex: 1, alignItems: 'center', marginVertical: 100}}>
+    <View
+      style={{
+        backgroundColor: '#423A9F',
+        flex: 1,
+        alignItems: 'center',
+      }}>
       <View style={styles.image}>
         <Image
-          source={require('../../utils/Images/KIDKUN_final.png')}
+          source={require('../../utils/Images/sschool.jpg')}
           style={styles.avatar}
         />
       </View>
@@ -43,15 +48,15 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#FFDE59',
     paddingBottom: 20,
   },
   image: {
     overflow: 'hidden', // Giữ cho hình ảnh không bị tràn ra khỏi khung
   },
   avatar: {
-    width: 250,
-    height: 170,
+    width: 220,
+    height: 220,
   },
   choose: {
     justifyContent: 'center',

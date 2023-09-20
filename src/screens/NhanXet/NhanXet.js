@@ -55,7 +55,7 @@ const NhanXet = ({navigation}) => {
               height: 'auto',
             }}>
             <Image
-              source={require('../../utils/Images/favicon.png')}
+              source={require('../../utils/Images/sschool.jpg')}
               style={styles.image}
             />
             <View style={styles.content}>
@@ -107,7 +107,7 @@ const NhanXet = ({navigation}) => {
               height: 'auto',
             }}>
             <Image
-              source={require('../../utils/Images/favicon.png')}
+              source={require('../../utils/Images/sschool.jpg')}
               style={styles.image}
             />
             <View style={styles.content}>
@@ -159,7 +159,7 @@ const NhanXet = ({navigation}) => {
               height: 'auto',
             }}>
             <Image
-              source={require('../../utils/Images/favicon.png')}
+              source={require('../../utils/Images/sschool.jpg')}
               style={styles.image}
             />
             <View style={styles.content}>

@@ -141,7 +141,7 @@ const HeaderApp = ({navigation}) => {
         height: Sizes.device_width < Sizes.device_height ? 50 : 70,
         paddingHorizontal: 10,
         paddingVertical: 5,
-        backgroundColor: 'white',
+        backgroundColor: '#423A9F',
         marginTop: insets.top,
         flexDirection: 'row',
         alignItems: 'center',
@@ -151,12 +151,12 @@ const HeaderApp = ({navigation}) => {
         onPress={() => {
           navigation.toggleDrawer();
         }}>
-        <Ionicons name={'menu'} size={33} color={'#33CC33'} />
+        <Ionicons name={'menu'} size={33} color={'#FFDE59'} />
       </TouchableCo>
       <TouchableCo onPress={() => navigation.navigate('Home')}>
         <Image
-          style={{width: 68, height: 45, borderColor: 'black'}}
-          source={require('./utils/Images/KIDKUN_final.png')}
+          style={{width: 57, height: 57, borderColor: 'black'}}
+          source={require('./utils/Images/sschool.jpg')}
         />
       </TouchableCo>
       <TouchableCo onPress={() => navigation.navigate('Notification')}>

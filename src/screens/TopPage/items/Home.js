@@ -125,25 +125,11 @@ const HomeScreen = ({navigation}) => {
   };
   const actions = [
     {
-      text: 'Điểm danh',
-      icon: <Icon name="comment" size={30} color="white" />,
-      name: 'DiemDanh',
-      position: 3,
-      color: '#33CC33',
-    },
-    {
-      text: 'Lời nhắn',
-      icon: <Icon name="comment" size={30} color="white" />,
-      name: 'LoiNhan',
-      position: 2,
-      color: '#33CC33',
-    },
-    {
       text: 'Xin nghỉ',
       icon: <Ionicons name={'newspaper-sharp'} size={30} color={'white'} />,
       name: 'XinNghi',
       position: 1,
-      color: '#33CC33',
+      color: '#423A9F',
     },
   ];
   return (
@@ -151,7 +137,7 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.menu}>
         <View
           style={{
-            backgroundColor: '#FFFF99',
+            backgroundColor: '#FF9966',
             borderRadius: 11,
             width: '45%',
           }}>
@@ -159,7 +145,7 @@ const HomeScreen = ({navigation}) => {
             <Icon
               name="payments"
               size={30}
-              color="#04962D"
+              color="#423A9F"
               style={styles.icon}
             />
             <Text
@@ -181,12 +167,12 @@ const HomeScreen = ({navigation}) => {
             borderRadius: 11,
             width: '45%',
           }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Albums')}>
-            <Icon
-              name="photo-album"
-              size={30}
-              color="#EF0606"
+          <TouchableOpacity onPress={() => navigation.navigate('NhanXet')}>
+            <Ionicons
               style={styles.icon}
+              name={'newspaper-sharp'}
+              size={30}
+              color={'#423A9F'}
             />
             <Text
               style={{
@@ -196,15 +182,15 @@ const HomeScreen = ({navigation}) => {
                 fontSize: 16,
                 marginTop: -2,
               }}>
-              Albums
+              Nhận xét
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.menu}>
+      <View style={styles.menu1}>
         <View
           style={{
-            backgroundColor: '#CCFFFF',
+            backgroundColor: '#33CCFF',
             borderRadius: 11,
             width: '45%',
           }}>
@@ -212,7 +198,7 @@ const HomeScreen = ({navigation}) => {
             <Icon
               name="article"
               size={30}
-              color="#08DCEA"
+              color="#423A9F"
               style={styles.icon}
             />
             <Text
@@ -230,7 +216,7 @@ const HomeScreen = ({navigation}) => {
 
         <View
           style={{
-            backgroundColor: '#FFCCFF',
+            backgroundColor: '#FF99FF',
             borderRadius: 11,
             width: '45%',
           }}>
@@ -238,7 +224,7 @@ const HomeScreen = ({navigation}) => {
             <Icon
               name="home-repair-service"
               size={30}
-              color="#e01039"
+              color="#423A9F"
               style={styles.icon}
             />
             <Text
@@ -262,15 +248,15 @@ const HomeScreen = ({navigation}) => {
             paddingHorizontal: 15,
             paddingVertical: 10,
             borderRadius: 15,
-            backgroundColor: '#00FF00',
+            backgroundColor: '#423A9F',
             marginVertical: 20,
             // marginHorizontal: 30,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-          <Ionicons name={'alarm-outline'} size={30} color={'black'} />
-          <Text style={{color: 'black'}}>
+          <Ionicons name={'alarm-outline'} size={30} color={'white'} />
+          <Text style={{color: 'white'}}>
             {date.toLocaleDateString('vi-VN', options)}
           </Text>
         </View>
@@ -289,12 +275,9 @@ const HomeScreen = ({navigation}) => {
         style={{
           height: '50%',
           width: '100%',
-
           paddingHorizontal: 5,
-
           borderRadius: 15,
           backgroundColor: 'white',
-
           marginVertical: -10,
           marginHorizontal: 15,
           alignItems: 'center',
@@ -378,16 +361,12 @@ const HomeScreen = ({navigation}) => {
         actions={actions}
         onPressItem={name => {
           console.log(`Action ${name} được nhấn`);
-          if (name === 'LoiNhan') {
-            navigation.navigate('LoiNhan');
-          } else if (name === 'XinNghi') {
+          if (name === 'XinNghi') {
             navigation.navigate('XinNghi');
-          } else if (name === 'DiemDanh') {
-            navigation.navigate('DiemDanh');
           }
         }}
         buttonSize={45}
-        color="#33CC33"
+        color="#423A9F"
         overlayColor="rgba(238, 238, 238, 0.8)
         "
         // distanceToEdge={150}
@@ -411,6 +390,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 7,
     paddingVertical: 7,
+    marginTop: 10,
+    width: '100%',
+    height: '17%',
+    justifyContent: 'space-around',
+  },
+  menu1: {
+    flexDirection: 'row',
+    paddingHorizontal: 7,
+    paddingVertical: 7,
+
     width: '100%',
     height: '17%',
     justifyContent: 'space-around',
