@@ -7,8 +7,7 @@ export function navigate(name, params) {
   navigationRef.current?.navigate(name, params);
 }
 export function reset(config) {
-
-    console.log("config:", config);
+  console.log('config:', config);
   navigationRef.current?.reset(config);
 }
 export function push(config) {
