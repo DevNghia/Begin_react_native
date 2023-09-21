@@ -12,14 +12,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {
-  Table,
-  TableWrapper,
-  Row,
-  Rows,
-  Col,
-  Cell,
-} from 'react-native-table-component';
 import {useQuery} from 'react-query';
 import {useSelector} from 'react-redux';
 import {FetchApi} from '../../../utils/modules';
@@ -167,7 +159,7 @@ const HomeScreen = ({navigation}) => {
             borderRadius: 11,
             width: '45%',
           }}>
-          <TouchableOpacity onPress={() => navigation.navigate('NhanXet')}>
+          <TouchableOpacity onPress={() => navigation.navigate('XinNghi')}>
             <Ionicons
               style={styles.icon}
               name={'newspaper-sharp'}
@@ -182,7 +174,7 @@ const HomeScreen = ({navigation}) => {
                 fontSize: 16,
                 marginTop: -2,
               }}>
-              Nhận xét
+              Xin nghỉ
             </Text>
           </TouchableOpacity>
         </View>
@@ -248,7 +240,7 @@ const HomeScreen = ({navigation}) => {
             paddingHorizontal: 15,
             paddingVertical: 10,
             borderRadius: 15,
-            backgroundColor: '#423A9F',
+            backgroundColor: '#96CD49',
             marginVertical: 20,
             // marginHorizontal: 30,
             flexDirection: 'row',
@@ -283,7 +275,7 @@ const HomeScreen = ({navigation}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{color: '#686CDE', fontSize: 20, fontWeight: 'bold'}}>
+        <Text style={{color: '#96CD49', fontSize: 20, fontWeight: 'bold'}}>
           HOẠT ĐỘNG TRONG NGÀY
         </Text>
 
@@ -357,26 +349,6 @@ const HomeScreen = ({navigation}) => {
           </ScrollView>
         </View>
       </View>
-      <FloatingAction
-        actions={actions}
-        onPressItem={name => {
-          console.log(`Action ${name} được nhấn`);
-          if (name === 'XinNghi') {
-            navigation.navigate('XinNghi');
-          }
-        }}
-        buttonSize={45}
-        color="#423A9F"
-        overlayColor="rgba(238, 238, 238, 0.8)
-        "
-        // distanceToEdge={150}
-        position="right" // Đặt vị trí của FloatingAction
-        overlayShape={{
-          borderRadius: 20, // Điều chỉnh hình dạng của overlay nếu cần
-        }}
-        // Các thuộc tính khác cho FloatingAction
-        // Đặt style cho nút FloatingAction
-      />
     </SafeAreaView>
   );
 };

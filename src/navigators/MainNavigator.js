@@ -17,7 +17,7 @@ const MainNavigator = () => {
       initialRouteName="TabHome"
       screenOptions={({route}) => ({
         tabBarStyle: {
-          backgroundColor: '#423A9F',
+          backgroundColor: '#9DD646',
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           height: 50,
@@ -43,8 +43,8 @@ const MainNavigator = () => {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={35} color={color} />;
         },
-        tabBarActiveTintColor: '#FFDE59',
-        tabBarInactiveTintColor: '#FFDE59',
+        tabBarActiveTintColor: 'white',
+        tabBarInactiveTintColor: 'white',
       })}>
       {/* <Tab.Screen name="Hoạt động" component={HoatDong} /> */}
 
@@ -53,7 +53,7 @@ const MainNavigator = () => {
         component={AllStackNavigator}
         options={{
           tabBarLabel: 'Trang chủ',
-          tabBarLabelStyle: {color: '#FFDE59'},
+          tabBarLabelStyle: {color: 'black', fontSize: 11},
         }}
         initialParams={{
           initialRouteName: 'Home',
@@ -64,7 +64,7 @@ const MainNavigator = () => {
         component={AllStackNavigator}
         options={{
           tabBarLabel: 'Sức khỏe',
-          tabBarLabelStyle: {color: '#FFDE59'},
+          tabBarLabelStyle: {color: 'black', fontSize: 11},
         }}
         initialParams={{
           initialRouteName: 'SucKhoe',
@@ -114,7 +114,7 @@ const MainNavigator = () => {
         component={AllStackNavigator}
         options={{
           tabBarLabel: 'Thực đơn',
-          tabBarLabelStyle: {color: '#FFDE59'},
+          tabBarLabelStyle: {color: 'black', fontSize: 11},
         }}
         initialParams={{
           initialRouteName: 'ThucDon',
@@ -125,7 +125,7 @@ const MainNavigator = () => {
         component={AllStackNavigator}
         options={{
           tabBarLabel: 'Lời nhắn',
-          tabBarLabelStyle: {color: '#FFDE59'},
+          tabBarLabelStyle: {color: 'black', fontSize: 11},
         }}
         initialParams={{
           initialRouteName: 'LoiNhan',

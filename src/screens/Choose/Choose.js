@@ -12,13 +12,13 @@ const ChonCon = ({navigation}) => {
   return (
     <View
       style={{
-        backgroundColor: '#423A9F',
+        backgroundColor: '#9DD646',
         flex: 1,
         alignItems: 'center',
       }}>
       <View style={styles.image}>
         <Image
-          source={require('../../utils/Images/sschool.jpg')}
+          source={require('../../utils/Images/2.png')}
           style={styles.avatar}
         />
       </View>
@@ -48,11 +48,12 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#FFDE59',
+    color: 'white',
     paddingBottom: 20,
   },
   image: {
     overflow: 'hidden', // Giữ cho hình ảnh không bị tràn ra khỏi khung
+    marginTop: 50,
   },
   avatar: {
     width: 220,
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   },
   choose: {
     justifyContent: 'center',
-    backgroundColor: '#48E958',
+    backgroundColor: 'white',
     height: 80,
     width: 270,
 

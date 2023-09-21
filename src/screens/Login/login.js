@@ -148,7 +148,7 @@ const Login = ({navigation}) => {
       <View style={styles.header}>
         <Image
           style={styles.tinyLogo}
-          source={require('../../utils/Images/sschool.jpg')}
+          source={require('../../utils/Images/2.png')}
         />
       </View>
       <Animated.View
@@ -172,7 +172,7 @@ const Login = ({navigation}) => {
                   underlineColorAndroid="transparent"
                   value={value}
                   placeholder="Tên đăng nhập"
-                  placeholderTextColor="#FFDE59"
+                  placeholderTextColor="white"
                   autoCapitalize="none"
                   onChangeText={onChange}
                 />
@@ -197,7 +197,7 @@ const Login = ({navigation}) => {
                   underlineColorAndroid="transparent"
                   value={value}
                   placeholder="Mật khẩu"
-                  placeholderTextColor="#FFDE59"
+                  placeholderTextColor="white"
                   autoCapitalize="none"
                   secureTextEntry={hidePass ? true : false}
                   onChangeText={onChange}
@@ -222,7 +222,7 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#423A9F',
+    backgroundColor: '#9DD646',
   },
   header: {
     flex: 1,
@@ -249,14 +249,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tinyLogo: {
-    width: '80%',
+    width: '81%',
     height: '80%',
   },
   footer: {
     flex: 1,
     justifyContent: 'flex-end',
-    // marginTop,
-
     alignItems: 'center',
   },
   appButtonContainer: {
@@ -278,11 +276,11 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 50,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 1.8,
     padding: 10,
-    color: '#FFDE59',
+    color: 'white',
     borderRadius: 10,
-    borderColor: '#FFDE59',
+    borderColor: 'white',
   },
   errorText: {
     color: 'red',

@@ -33,7 +33,7 @@ const AppIntro = ({navigation}) => {
       <View style={styles.header}>
         <Image
           style={styles.tinyLogo}
-          source={require('../../utils/Images/sschool.jpg')}
+          source={require('../../utils/Images/2.png')}
         />
       </View>
     </View>
@@ -42,7 +42,7 @@ const AppIntro = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#423A9F',
+    backgroundColor: '#9DD646',
   },
   header: {
     flex: 1,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   tinyLogo: {
     width: '100%',
-    height: '50%',
+    height: '52%',
   },
   footer: {
     flex: 1,
