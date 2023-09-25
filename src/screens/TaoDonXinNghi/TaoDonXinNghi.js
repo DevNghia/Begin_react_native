@@ -143,7 +143,7 @@ const TaoDonXinNghi = ({navigation}) => {
                   marginHorizontal: 30,
                   marginVertical: 10,
                   borderRadius: 10,
-                  backgroundColor: '#FFE8E8',
+                  backgroundColor: 'white',
                   // marginTop: insets.top,
                   flexDirection: 'row',
                   // alignItems: 'center',
@@ -201,7 +201,7 @@ const TaoDonXinNghi = ({navigation}) => {
                   marginHorizontal: 30,
                   marginVertical: 10,
                   borderRadius: 10,
-                  backgroundColor: '#FFE8E8',
+                  backgroundColor: 'white',
                   // marginTop: insets.top,
                   flexDirection: 'row',
                   // alignItems: 'center',
@@ -332,7 +332,7 @@ const TaoDonXinNghi = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EEC8C8',
+    backgroundColor: '#DDDDDD',
     justifyContent: 'flex-start',
   },
   drop: {

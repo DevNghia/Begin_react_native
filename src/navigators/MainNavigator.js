@@ -18,9 +18,9 @@ const MainNavigator = () => {
       screenOptions={({route}) => ({
         tabBarStyle: {
           backgroundColor: '#9DD646',
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
+
           height: 50,
+          position: 'relative',
         },
         headerShown: false,
         tabBarIcon: ({focused, color, size}) => {
@@ -134,14 +134,5 @@ const MainNavigator = () => {
     </Tab.Navigator>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  floatingAction: {
-    position: 'absolute',
-    zIndex: 999,
-    top: 100,
-  },
-});
+
 export default MainNavigator;

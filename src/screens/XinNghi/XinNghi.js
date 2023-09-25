@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,20 +15,11 @@ import {Loading} from '../../elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const XinNghi = ({navigation}) => {
   const studentId = useSelector(state => state?.data?.data?._id);
-  const {data, isLoading} = useQuery(['NewListOffSchool'], async () => {
-    const ID = await AsyncStorage.getItem('studentId');
-    let updatestudenID;
-    if (ID) {
-      updatestudenID = ID;
-    } else {
-      updatestudenID = studentId;
-    }
-    const offschool = await FetchApi.getOffSchool(updatestudenID);
-    return offschool;
-  });
-  const {data: cd, isLoading: loadcd} = useQuery(
-    ['NewListOffSchoolcd'],
-    async () => {
+  const [data, setData] = useState(null);
+  const [cd, setCd] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const fetchData = async () => {
+    try {
       const ID = await AsyncStorage.getItem('studentId');
       let updatestudenID;
       if (ID) {
@@ -36,12 +27,30 @@ const XinNghi = ({navigation}) => {
       } else {
         updatestudenID = studentId;
       }
+      const offschool = await FetchApi.getOffSchool(updatestudenID);
       const offschoolcd = await FetchApi.getOffSchoolcd(updatestudenID);
-      return offschoolcd;
-    },
-  );
+      const newData = offschool;
+      const newCd = offschoolcd;
+      setData(newData);
+      setCd(newCd);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData(); // Gọi fetchData khi component được tạo
+    const interval = setInterval(() => {
+      fetchData(); // Gọi fetchData mỗi 5 giây
+    }, 5000);
+    // Clear interval khi component unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
-  if (isLoading && loadcd) {
+  if (isLoading) {
     return <Loading />;
   }
   return (
@@ -167,7 +176,7 @@ const XinNghi = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#DDDDDD',
     justifyContent: 'flex-start',
   },
   blockList: {

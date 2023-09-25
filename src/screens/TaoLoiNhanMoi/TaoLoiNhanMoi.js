@@ -346,7 +346,7 @@ const TaoLoiNhanMoi = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EEC8C8',
+    backgroundColor: '#DDDDDD',
     justifyContent: 'flex-start',
   },
   drop: {

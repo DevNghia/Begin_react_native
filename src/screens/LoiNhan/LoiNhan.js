@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,29 +16,42 @@ import {Loading} from '../../elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoiNhan = ({navigation}) => {
   const studentId = useSelector(state => state?.data?.data?._id);
-  const {data, isLoading} = useQuery(['NewListAdvice'], async () => {
-    const ID = await AsyncStorage.getItem('studentId');
-    let updatestudenID;
-    if (ID) {
-      updatestudenID = ID;
-    } else {
-      updatestudenID = studentId;
+  const [data, setData] = useState(null);
+  const [cd, setCd] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const fetchData = async () => {
+    try {
+      const ID = await AsyncStorage.getItem('studentId');
+      let updatestudenID;
+      if (ID) {
+        updatestudenID = ID;
+      } else {
+        updatestudenID = studentId;
+      }
+      const advice = await FetchApi.getAdvice(updatestudenID);
+      const advicecd = await FetchApi.getAdvicecd(updatestudenID);
+      const newData = advice;
+      const newCd = advicecd;
+      setData(newData);
+      setCd(newCd);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
     }
-    const advice = await FetchApi.getAdvice(updatestudenID);
-    return advice;
-  });
-  const {data: cd, isLoadingcd} = useQuery(['NewListAdvicecd'], async () => {
-    const ID = await AsyncStorage.getItem('studentId');
-    let updatestudenID;
-    if (ID) {
-      updatestudenID = ID;
-    } else {
-      updatestudenID = studentId;
-    }
-    const advicecd = await FetchApi.getAdvicecd(updatestudenID);
-    return advicecd;
-  });
-  if (isLoading && isLoadingcd) {
+  };
+  useEffect(() => {
+    fetchData(); // Gọi fetchData khi component được tạo
+    const interval = setInterval(() => {
+      fetchData(); // Gọi fetchData mỗi 5 giây
+    }, 5000);
+    // Clear interval khi component unmount
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (isLoading) {
     return <Loading />;
   }
 
@@ -155,7 +168,7 @@ const LoiNhan = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#DDDDDD',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
