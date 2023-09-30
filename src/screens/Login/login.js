@@ -113,7 +113,7 @@ const Login = ({navigation}) => {
       <View>
         <Icon
           size={20}
-          color="#FFDE59"
+          color="white"
           style={{
             position: 'absolute',
             right: '-35%',

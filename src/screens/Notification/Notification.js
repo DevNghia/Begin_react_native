@@ -92,8 +92,8 @@ const Notification = ({navigation}) => {
               }>
               <View style={blockListStyle}>
                 <Image
-                  style={{width: 80, height: 35}}
-                  source={require('../Main/banner_kidsschool.png')}
+                  style={{width: 60, height: 60}}
+                  source={require('../../utils/Images/2.png')}
                 />
                 <View>
                   <Text style={{color: 'black'}}>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     // marginHorizontal: 20,
     // marginVertical: 5,
     borderRadius: 10,
-    backgroundColor: '#FFE8E8',
+    backgroundColor: '#9DD646',
     flexDirection: 'row',
   },
   unreadBlockList: {

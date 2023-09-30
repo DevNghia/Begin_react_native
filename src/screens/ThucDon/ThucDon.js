@@ -163,11 +163,11 @@ const ThucDon = ({navigation}) => {
                 return (
                   <View style={styles.blockList} key={foodKey}>
                     <Image
-                      style={{width: '35%', height: 75, borderRadius: 10}}
+                      style={{width: '30%', height: 75, borderRadius: 10}}
                       source={{
                         uri:
                           item?.food_op[foodKey]?.image ??
-                          'https://media.istockphoto.com/id/1256285832/vi/vec-to/th%E1%BB%B1c-%C4%91%C6%A1n-ch%E1%BB%AF-c%C3%A1i-v%E1%BB%9Bi-n%C4%A9a-%C4%91%C4%A9a-v%C3%A0-%C3%A1p-ph%C3%ADch-v%E1%BA%BD-tay-mu%E1%BB%97ng-cho-th%E1%BB%B1c-%C4%91%C6%A1n-qu%C3%A1n-c%C3%A0-ph%C3%AA-ho%E1%BA%B7c-nh%C3%A0-h%C3%A0ng.jpg?s=1024x1024&w=is&k=20&c=CdZ_2zVAMRBL5Bf51L-tSS1y3yifebUGtM6sRFj326o=',
+                          'http://cdn.onlinewebfonts.com/svg/img_481205.png',
                       }}
                     />
                     <View

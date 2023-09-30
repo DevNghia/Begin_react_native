@@ -106,14 +106,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   blockList: {
-    height: Sizes.device_width < Sizes.device_height,
+    height: 'auto',
     width: 320,
     paddingHorizontal: 15,
     paddingVertical: 10,
     marginHorizontal: 20,
     marginVertical: 10,
     borderRadius: 10,
-    backgroundColor: '#FFE8E8',
+    backgroundColor: '#9DD646',
     flexDirection: 'row',
   },
 });
