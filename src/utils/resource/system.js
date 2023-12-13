@@ -8,7 +8,7 @@ const appVersion = isIOS ? '1.0.2' : '1.0.2';
  */
 
 const host = {
-  api_mamnon: 'https://api.nvoting.com',
+  api_mamnon: 'https://quanly.nvoting.com/api',
 }; //dev
 
 //dev

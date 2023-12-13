@@ -552,12 +552,13 @@ const FetchApi = {
       return {message: error.message};
     }
   },
-  getListNotification: async () => {
+  getListNotification: async page => {
     try {
       const header = {
         method: 'GET',
       };
-      const api = Apis.getListNotification;
+      const api = Apis.getListNotification(page);
+      console.log('test api', api);
       const result = await CommonCall(api, header);
       return result;
     } catch (error) {

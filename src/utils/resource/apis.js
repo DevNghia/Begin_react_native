@@ -46,7 +46,8 @@ const Apis = {
     `${host.api_mamnon}/ps_student/${student_id}/services_used`,
   getActive: ({student_id, date}) =>
     `${host.api_mamnon}/ps_student/${student_id}/active/${date}`,
-  getListNotification: `${host.api_mamnon}/ps_cms/notifications/sent`,
+  getListNotification: page =>
+    `${host.api_mamnon}/ps_cms/notifications/sent?page=${page}`,
   getNotificationDetail: id =>
     `${host.api_mamnon}/ps_cms/notifications/show/sent/${id}`,
   getCountNotification: `${host.api_mamnon}/ps_cms/notread`,
